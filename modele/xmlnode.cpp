@@ -7,9 +7,33 @@ nodeType(TEXT_NODE)
 }
 
 XMLNode::XMLNode(vector<XMLNode*> childrenList)
-children(childrenList),
+:children(childrenList),
 nodeType(ELEMENT_NODE)
 {
+}
+
+
+string XMLNode::Affiche()
+{
+	if ( this.isTextNode() )
+	{
+		return textContent;
+	}
+	else
+	{
+		string result = "<"+getFullName;
+		for (map<string, string>::const_iterator it = getAttibutes().begin() ; it != getAttibutes().end() ; it++)
+		{
+			result = result + " " + *it.first() + "=\"" + *it.second() + "\"";
+		
+		}
+		result += ">\n";
+		
+		// blbla contenu + insertion tabz      
+	
+		result += "</" + getNodeName() + ">\n";
+	}
+		
 }
 
 XMLNode::~XMLNode()

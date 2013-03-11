@@ -20,7 +20,10 @@ class XMLNode
 //METHODS
 public:
     XMLNode();
+	XMLNode(vector<XMLNode*> childrenList);
     virtual ~XMLNode();
+	
+	string Affiche();
 	
 	/**
 	 * \return namespace du noeud. vide si TEXT_NODE ou pas de namespace.
