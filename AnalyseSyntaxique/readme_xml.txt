@@ -1,14 +1,17 @@
 Le fichier xml.l contient l'analyseur lexical d'un fichier XML. Ce fichier vous est
-fourni, normalement, peu de modifications devront y être apportées.
+fourni, normalement, peu de modifications devront y être apportées (la personnalisation
+du préfixe nécessitera tout de même sa modification). 
 
 Le fichier xml.y contient l'analyseur syntaxique associé. Cet analyseur est incomplet.
 En outre, il ne traite pas les attributs. 
 
 Le fichier makefile permet d'éxécuter les commandes flex, bison et de compiler l'analyseur
 de base du fichier XML. Commencez par taper make puis exécutez ./analyseXML avec un fichier
-XML en entrée standard. L'option de bison  --debug est activée par défaut générant ainsi un
+XML en *entrée standard*. L'option de bison  --debug est activée par défaut générant ainsi un
 fichier xml.output contenant le détail de l'analyseur LALR. Lorsque des conflits apparaîtront
-dans votre grammaire, vous pourrez aller voir directement dans ce fichier.
+dans votre grammaire, vous pourrez aller voir directement dans ce fichier. Deux exemples de 
+fichier xml vous sont fournis, rap1.xml qui sera reconnu par l'analyseur et rap2.xml qui ne 
+le sera pas car il contient des attributs.
 
 Par défaut, l'exécution de l'analyseur syntaxique sera détaillée, avec la liste des jetons
 envoyés par flex ainsi que les actions associées. Pour enlever cet affichage, il faut commenter

@@ -2,10 +2,22 @@
 %option noyywrap
 
 %{
+#include <stdio.h>
+#include <ctype.h>
+#include <string.h>
+#include <stdlib.h>
 #include "commun.h"
 #include "yy.tab.h"
 
-static char* skipSpace(char *s) {
+// si vous activez l'option -P de flex, changez les deux lignes suivantes
+#define YYTEXT yytext
+#define YYLVAL yylval
+// exemple avec -Pxml
+//#define YYTEXT xmltext
+//#define YYLVAL xmllval
+
+// supprime les espaces en début et fin de chaine
+static char* supprimeEspaces(char *s) {
   char *buf;
   int i,lastnonspace;
   for (buf=s;isspace(*buf);buf++) ;
@@ -18,29 +30,31 @@ static char* skipSpace(char *s) {
 }
 
 // enlève les " au début et à la fin
-static char * getString(char *s) {
+static char * enleveGuillemets(char *s) {
    s++;
    s[strlen(s)-1] = '\0';
    return s;
 }
 
-static char* word(char *s)
+// extrait le mot
+static char* mot(char *s)
 {
   char *buf;
   int i, k;
-  for (k = 0; isspace(s[k]) || s[k] == '<'; k++) ;
-  for (i = k; s[i] && ! isspace(s[i]); i++) ;
+  for (k = 0; !isalpha(s[k]); k++) ;
+  for (i = k; isalpha(s[i])||s[i]=='-'; i++) ;
   buf = (char *) malloc((i - k + 1) * sizeof(char));
   strncpy(buf, &s[k], i - k);
   buf[i - k] = '\0';
   return buf;
 }
 
-static char * nameSpace(char *s)  /* extrait la première partie, l'espace de nom */
+/* extrait la première partie, l'espace de nom */
+static char * espaceDeNom(char *s)  
 {
    char *name;
    int i,k;
-   for (k = 0; isspace(s[k]) || s[k] == '<'; k++) ;
+   for (k = 0; isspace(s[k]) || s[k]=='<' || s[k]=='/'; k++) ;
    for (i=k;s[i]!=':';i++) ;
    name = (char*) malloc((i-k+1)*sizeof(char));
    strncpy(name,s+k,i-k);
@@ -48,7 +62,9 @@ static char * nameSpace(char *s)  /* extrait la première partie, l'espace de no
    return name;
 }
 
-static char *split_namespace(char *s) { /* extrait la deuxième partie après l'espace de nom */
+/* extrait la deuxième partie après l'espace de nom */
+static char * separeNom(char *s) 
+{ 
    char *name;
    int i,k;
    for (i=0;s[i]!=':';i++) ;
@@ -58,57 +74,54 @@ static char *split_namespace(char *s) { /* extrait la deuxième partie après l'
    return name;
 }
 
+
 %}
 
 nl		(\r\n|\r|\n)
-ws		[ \t\r\n]+
-open		{ws}?"<"
-close		">"{nl}?
-namestart	[A-Za-z\200-\377_]
-namechar	[A-Za-z\200-\377_0-9.-]
+esp		[ \t\r\n]+
+inf		{esp}?"<"
+sup		">"{nl}?
+debutnom	[A-Za-z\200-\377_]
+caracnom	[A-Za-z\200-\377_0-9.-]
 esc		"&#"[0-9]+";"|"&#x"[0-9a-fA-F]+";"
-name		{namestart}{namechar}*
-nsname		{namestart}{namechar}*":"{namestart}{namechar}*
+nom		{debutnom}{caracnom}*
+ennom		{debutnom}{caracnom}*":"{debutnom}{caracnom}*
 data		([^<\n&]|\n[^<&]|\n{esc}|{esc})+
 pcdata		[^<]+
-comment		{open}"!--"([^-]|"-"[^-])*"--"{close}
-string		\"([^"&]|{esc})*\"|\'([^'&]|{esc})*\'
-xmlversion   {ws}?"<?xml"{ws}"version="{string}{ws}"encoding="{string}"?>"{nl}?
-doctype     {ws}?"<!DOCTYPE"{ws}
-openspecial {ws}?"<?"
-closespecial "?>"{nl}?
+comment		{inf}"!--"([^-]|"-"[^-])*"--"{sup}
+chaine		\"([^"&]|{esc})*\"|\'([^'&]|{esc})*\'
+xmlversion   {esp}?"<?xml"{esp}"version="{chaine}{esp}"encoding="{chaine}"?>"{nl}?
+doctype     {esp}?"<!DOCTYPE"{esp}
+infspecial {esp}?"<?"
+supspecial "?>"{nl}?
 
 /*
- * Le mode CONTENT est utilse pour le contenu des elements, c a d
- *  entre le ">" et le "<" des balises 
- *  Le mode INITIAL est utlise en dehors de l'element RACINE 
- * et a l'interieur des balises
+ * Le mode CONTENU est utilisé entre les balises ouvrantes et fermantes
+ * Le mode INITIAL est utilisé en dehors de la balise racine ou entre les < >
  */
 
-%s CONTENT
-
+%s CONTENU
 
 %%
 
-<INITIAL>{ws}		{ /* skip */}
-<INITIAL>{xmlversion} { /* skip */}
-<INITIAL>{doctype} { return DOCTYPE;}
-<INITIAL>"/"		{ return SLASH;}
-<INITIAL>"="		{ return EQ;}
-<INITIAL>{close}	{ BEGIN(CONTENT); return CLOSE;}
-<INITIAL>{closespecial}	{ return CLOSESPECIAL;}
-<INITIAL>{name}		{ yylval.s = strdup(yytext); return IDENT;}
-<INITIAL>{nsname}		{ yylval.s = strdup(yytext); return NSIDENT;}
-<INITIAL>{string}	{ yylval.s = strdup(getString(yytext)); return STRING;}
+<INITIAL>{esp}		{/* skip */}
+<INITIAL>{xmlversion} {/* skip */}
+<INITIAL>{doctype} {return DOCTYPE;}
+<INITIAL>"/"		{return SLASH;}
+<INITIAL>"="		{return EGAL;}
+<INITIAL>{sup}	{BEGIN(CONTENU); return SUP;}
+<INITIAL>{supspecial}	{ return SUPSPECIAL;}
+<INITIAL>{nom}		{YYLVAL.s = strdup(YYTEXT); return NOM;}
+<INITIAL>{ennom}		{YYLVAL.s = strdup(YYTEXT); return ENNOM;}
+<INITIAL>{chaine}	{YYLVAL.s = strdup(enleveGuillemets(YYTEXT)); return VALEUR;}
 
-{openspecial}{ws}?{name}	{ BEGIN(INITIAL); char * tmp = word(yytext); yylval.en = new ElementName("",tmp); free(tmp); return STARTSPECIAL;}
-{open}{ws}?{name}	{ BEGIN(INITIAL); char * tmp = word(yytext); yylval.en = new ElementName("",tmp); free(tmp); return START;}
-{open}{ws}?{nsname}	{ BEGIN(INITIAL); char *tmp1 = nameSpace(yytext); char * tmp2 = split_namespace(yytext); yylval.en = new ElementName(tmp1,tmp2); free(tmp1); free(tmp2); return NSSTART;}
-{open}"/"{name}		{BEGIN(INITIAL); char * tmp = word(yytext); yylval.en = new ElementName("",tmp); free(tmp); return END;}
-{open}"/"{nsname}		{BEGIN(INITIAL); char *tmp1 = nameSpace(yytext); char * tmp2 = split_namespace(yytext); yylval.en = new ElementName(tmp1,tmp2); free(tmp1); free(tmp2); return NSEND;}
-{comment}		{ yylval.s = strdup(yytext); return COMMENT;}
+{infspecial}{esp}?{nom}	{BEGIN(INITIAL); char * tmp = mot(YYTEXT); YYLVAL.en = new ElementName("",tmp); free(tmp); return OBALISESPECIALE;}
+{inf}{esp}?{nom}	{BEGIN(INITIAL); char * tmp = mot(YYTEXT); YYLVAL.en = new ElementName("",tmp); free(tmp); return OBALISE;}
+{inf}{esp}?{ennom}	{BEGIN(INITIAL); char *tmp1 = espaceDeNom(YYTEXT); char * tmp2 = separeNom(YYTEXT); YYLVAL.en = new ElementName(tmp1,tmp2); free(tmp1); free(tmp2); return OBALISEEN;}
+{inf}"/"{nom}		{BEGIN(INITIAL); char * tmp = mot(YYTEXT); YYLVAL.en = new ElementName("",tmp); free(tmp); return FBALISE;}
+{inf}"/"{ennom}		{BEGIN(INITIAL); char *tmp1 = espaceDeNom(YYTEXT); char * tmp2 = separeNom(YYTEXT); YYLVAL.en = new ElementName(tmp1,tmp2); free(tmp1); free(tmp2); return FBALISEEN;}
+{comment}		{YYLVAL.s = strdup(YYTEXT); return COMMENT;}
 
-<CONTENT>{ws}?{pcdata}		{ yylval.s = strdup(skipSpace(yytext)); return DATA;}
+<CONTENU>{esp}?{pcdata}		{YYLVAL.s = strdup(supprimeEspaces(YYTEXT)); return DONNEES;}
 
-.			{ fprintf(stderr, "!ERROR(%c)\n", *yytext);}
-
+.			{fprintf(stderr, "!ERROR(%c)\n", *YYTEXT);}

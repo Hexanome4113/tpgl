@@ -1,8 +1,13 @@
 %{
 
 using namespace std;
+#include <cstring>
+#include <cstdio>
+#include <cstdlib>
 #include "commun.h"
+#include "yy.tab.h"
 
+// ces trois fonctions devront changer de nom dans le cas où l'otion -p est utilisée
 int yywrap(void);
 void yyerror(char *msg);
 int yylex(void);
@@ -11,55 +16,56 @@ int yylex(void);
 
 %union {
    char * s;
-   ElementName * en;  /* le nom d'un element avec son namespace */
+   ElementName * en;  /* le nom d'un element avec son namespace, cf commun.h */
 }
 
-%token EQ SLASH CLOSE CLOSESPECIAL DOCTYPE
-%token <s> ENCODING STRING DATA COMMENT IDENT NSIDENT
-%token <en> NSSTART START STARTSPECIAL END NSEND
+%token EGAL SLASH SUP SUPSPECIAL DOCTYPE
+%token <s> ENCODING VALEUR DONNEES COMMENT NOM ENNOM
+%token <en> OBALISEEN OBALISE OBALISESPECIALE FBALISE FBALISEEN
 
 %%
 
 document
- : declarations_opt xml_element misc_seq_opt 
+ : declarations element misc_seq_opt
  ;
 misc_seq_opt
- : misc_seq_opt comment
- | /*empty*/
+ : misc_seq_opt misc
+ | /*vide*/
  ;
-comment
+misc
  : COMMENT
  ;
 
-declarations_opt
- : declaration
- | /*empty*/
- ;
- 
-declaration
- : DOCTYPE IDENT IDENT STRING CLOSE 
+declarations
+ : declarations declaration
+ | /*vide*/
  ;
 
-xml_element
- : start empty_or_content 
+declaration
+ : DOCTYPE NOM NOM VALEUR SUP
  ;
-start
- : START		
- | NSSTART	
+
+element
+ : ouvre vide_ou_contenu
  ;
-empty_or_content
- : SLASH CLOSE	
- | close_content_and_end CLOSE 
+ouvre
+ : OBALISE
+ | OBALISEEN
  ;
-close_content_and_end
- : CLOSE	content_opt END 
+vide_ou_contenu
+ : SLASH SUP
+ | ferme_contenu_et_fin SUP
  ;
-content_opt 
- : content_opt DATA		
- | content_opt comment        
- | content_opt xml_element      
- | /*empty*/         
+ferme_contenu_et_fin
+ : SUP contenu_opt FBALISE
  ;
+contenu_opt
+ : contenu_opt DONNEES
+ | contenu_opt misc
+ | contenu_opt element
+ | /*vide*/
+ ;
+
 %%
 
 int main(int argc, char **argv)
@@ -70,7 +76,7 @@ int main(int argc, char **argv)
 
   err = yyparse();
   if (err != 0) printf("Parse ended with %d error(s)\n", err);
-  	else  printf("Parse ended with success\n", err);
+  else  printf("Parse ended with success\n", err);
   return 0;
 }
 int yywrap(void)
@@ -82,4 +88,3 @@ void yyerror(char *msg)
 {
   fprintf(stderr, "%s\n", msg);
 }
-

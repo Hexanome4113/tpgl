@@ -6,8 +6,6 @@ using namespace std;
 #include <utility>
 #include <string>
 
-typedef pair<string,string> Attribut;
-typedef list<Attribut> AttList;
 typedef pair<string,string> ElementName;
 
 #ifdef DEBUG
@@ -15,6 +13,5 @@ typedef pair<string,string> ElementName;
 #else
 #define debug(x) ((void) 0)
 #endif
-
 
 #endif
