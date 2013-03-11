@@ -1,8 +1,15 @@
 #include "xmlnode.h"
 
-XMLNode::XMLNode()
+XMLNode::XMLNode(string textContent)
+:textContent(textContent),
+nodeType(TEXT_NODE)
 {
-	
+}
+
+XMLNode::XMLNode(vector<XMLNode*> childrenList)
+children(childrenList),
+nodeType(ELEMENT_NODE)
+{
 }
 
 XMLNode::~XMLNode()
