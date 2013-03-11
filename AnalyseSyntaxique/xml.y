@@ -46,11 +46,18 @@ declaration
  ;
 
 element
- : ouvre vide_ou_contenu
+ : ouvre attributs_opt vide_ou_contenu
  ;
 ouvre
  : OBALISE
  | OBALISEEN
+ ;
+attributs_opt
+ : attributs_opt attribut
+ | /*vide*/
+ ;
+attribut
+ : NOM EGAL VALEUR
  ;
 vide_ou_contenu
  : SLASH SUP
@@ -72,7 +79,7 @@ int main(int argc, char **argv)
 {
   int err;
 
-  yydebug = 1; // pour enlever l'affichage de l'éxécution du parser, commenter cette ligne
+  yydebug = 1; // pour enlever l'affichage de l'exécution du parser, commenter cette ligne
 
   err = yyparse();
   if (err != 0) printf("Parse ended with %d error(s)\n", err);
