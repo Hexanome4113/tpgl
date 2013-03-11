@@ -58,13 +58,18 @@ attributs_opt
  ;
 attribut
  : NOM EGAL VALEUR
+ | ENNOM EGAL VALEUR
  ;
 vide_ou_contenu
  : SLASH SUP
  | ferme_contenu_et_fin SUP
  ;
 ferme_contenu_et_fin
- : SUP contenu_opt FBALISE
+ : SUP contenu_opt ferme
+ ;
+ferme
+ : FBALISE
+ | FBALISEEN
  ;
 contenu_opt
  : contenu_opt DONNEES
