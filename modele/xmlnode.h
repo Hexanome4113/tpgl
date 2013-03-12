@@ -19,9 +19,34 @@ class XMLNode
 	
 //METHODS
 public:
-    XMLNode();
-	XMLNode(vector<XMLNode*> childrenList);
+	
+	
+	/**
+	 * \brief constructeur pour feuille contenant des données #PCDATA.
+	 * \param textContent texte contenu. Est supposé contenir au moins un retour à la ligne!
+	 */
+	XMLNode(string textContent);
+	
+	/**
+	 * \brief constructeur pour balises uniques (type "<balise/>").
+	 * \param nodeName nom de la balise.
+	 * \param attributeList liste des attributs. Peut être vide.
+	 */
+    XMLNode(string nodeName, map<string, string> attributeList);
+	
+	/**
+	 * \brief constructeur pour balises standard.
+	 * \param nodeName nom de la balise.
+	 * \param childrenList liste des noeuds fils. Si vide, les balises ouvrantes/fermantes seront quand même générées lors de l'appel à Affiche(). Voir le constructeur pour balises uniques.
+	 * \param attributeList liste des attributs. Peut être vide.
+	 */
+	XMLNode(string nodeName, map<string, string> attributeList, vector<XMLNode*> childrenList);
+	
+	
     virtual ~XMLNode();
+	
+	
+	string regexSerialize();
 	
 	string Affiche();
 	
@@ -98,6 +123,7 @@ protected:
 	string elementNamespace;
 	string elementName;
 	string textContent;
+	bool lonely;
 	map<string, string> attributes;
 	XMLNodeType nodeType;
 	XMLNode* documentRoot;

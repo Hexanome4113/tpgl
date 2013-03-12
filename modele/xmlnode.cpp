@@ -1,37 +1,85 @@
 #include "xmlnode.h"
 
+
+XMLNode::XMLNode(string nodeName, map<string, string> attributeList)
+:elementName(nodeName),
+attributes(attributeList),
+nodeType(ELEMENT_NODE),
+lonely(true)
+{
+}
+
 XMLNode::XMLNode(string textContent)
 :textContent(textContent),
-nodeType(TEXT_NODE)
+nodeType(TEXT_NODE),
+lonely(false)
 {
 }
 
-XMLNode::XMLNode(vector<XMLNode*> childrenList)
-:children(childrenList),
-nodeType(ELEMENT_NODE)
+XMLNode::XMLNode(string nodeName, map<string, string> attributeList, vector<XMLNode*> childrenList)
+:elementName(nodeName),
+children(childrenList),
+attributes(attributeList),
+nodeType(ELEMENT_NODE),
+lonely(false)
 {
 }
 
+
+string XMLNode::regexSerialize()
+{
+	string returned;
+	bool firstspace = true;
+	
+	for (vector<XMLNode*>::iterator it = children.begin() ; it != children.end() ; it++)
+	{
+		if (firstspace)
+			firstspace = false;
+		else
+			returned += " ";
+			
+			
+		if ((*it)->isTextNode())
+			returned += "#PCDATA";
+		else
+			returned += (*it)->getNodeName();
+		
+		
+	}
+}
 
 string XMLNode::Affiche()
 {
-	if ( this.isTextNode() )
+	if ( isTextNode() )
 	{
 		return textContent;
 	}
 	else
 	{
-		string result = "<"+getFullName;
-		for (map<string, string>::const_iterator it = getAttibutes().begin() ; it != getAttibutes().end() ; it++)
+
+		string result = "<"+elementName;
+		for (map<string, string>::const_iterator it = attributes.begin() ; it != attributes.end() ; it++)
 		{
-			result = result + " " + *it.first() + "=\"" + *it.second() + "\"";
+			result = result + " " + it->first + "=\"" + it->second + "\"";
 		
 		}
-		result += ">\n";
 		
-		// blbla contenu + insertion tabz      
+		if (lonely)
+		{
+			result += "/>\n";
+		}
+		else
+		{
+			result += ">\n";
+			for (vector<XMLNode*>::iterator it = children.begin() ; it != children.end() ; it++)
+			{
+				result += (*it)->Affiche();
+			}
 	
-		result += "</" + getNodeName() + ">\n";
+			result += "</" + elementName + ">\n";
+		}
+		return result;
+		
 	}
 		
 }
@@ -70,10 +118,10 @@ bool XMLNode::hasMixedContent()
 	}
 	else
 	{
-		bool compareValue = (*children.begin()).isTextNode();
-		for (map<string, string>::iterator it = attributes.begin() ; it != attributes.end() ; it++)
+		bool compareValue = (*children.begin())->isTextNode();
+		for (vector<XMLNode*>::iterator it = children.begin() ; it != children.end() ; it++)
 		{
-			if (*it.isTextNode() != compareValue)
+			if ((*it)->isTextNode() != compareValue)
 				return true;
 		}
 		return false;
