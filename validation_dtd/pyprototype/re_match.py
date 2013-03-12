@@ -11,7 +11,7 @@ def stuff(x):
             x = x[:-1]
         else:
             quantifier = ''
-        return "(" + x + " )" + quantifier
+        return "(?:" + x + " )" + quantifier
     elif isinstance(x, dict):
         strings = [stuff(e) for e in x['elems']]
         if x['type'] == 'sequence':
@@ -19,7 +19,7 @@ def stuff(x):
         elif x['type'] == 'choice':
             s = '|'.join(strings)
         quantifier = x.get('quantifier', '')
-        return "(" + s + ")" + quantifier
+        return "(?:" + s + ")" + quantifier
 
 
 def regex_from_dtd(dtd):
@@ -51,7 +51,7 @@ def main():
             <!ELEMENT elem (p, q)>
             # <!ELEMENT complex (front, (p | lite | note)*, author+, back?)*>
     """
-    xml = ['front', 'note', 'note', 'z', 'author', 'author', 'front', 'author', 'back']  # === xml à examiner
+    xml = ['front', 'note', 'note', 'lite', 'author', 'author', 'front', 'author', 'back']  # === xml à examiner
     # dtd = "(p, q)"  # === simili-regex utilisée pour cela
     # Non en fait on va partir d'une DTD déjà parsée :
     dtd = {
