@@ -1,1 +1,1 @@
-gcc pcre_ex.c pcre/libpcre.a -o c_pcre
+g++ main.cpp regex.cpp pcre/libpcre.a -o exe
