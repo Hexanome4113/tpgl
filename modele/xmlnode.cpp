@@ -42,6 +42,26 @@ string XMLNode::regexSerialize()
 	}
 }
 
+string XMLNode::indent(string strToIndent)
+{
+    bool first_indent = true;
+    size_t lastPos = strToIndent.size();
+    while ( (lastPos = strToIndent.rfind("\n", lastPos)) != string::npos )
+	{
+        if (first_indent)
+		{
+            first_indent = false;
+            lastPos -=1;
+        }
+        else
+		{
+            strToIndent.replace(lastPos, 1, "\n\t");
+            lastPos -=1;
+        }
+    }
+    return strToIndent;
+}
+
 string XMLNode::Affiche()
 {
 	if ( isTextNode() )
@@ -50,7 +70,6 @@ string XMLNode::Affiche()
 	}
 	else
 	{
-
 		string result = "<"+elementName;
 		for (map<string, string>::const_iterator it = attributes.begin() ; it != attributes.end() ; it++)
 		{
@@ -69,13 +88,11 @@ string XMLNode::Affiche()
 			{
 				result += (*it)->Affiche();
 			}
-	
+			result=indent(result);
 			result += "</" + elementName + ">\n";
 		}
 		return result;
-		
 	}
-		
 }
 
 XMLNode::~XMLNode()

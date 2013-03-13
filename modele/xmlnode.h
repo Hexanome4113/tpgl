@@ -113,13 +113,13 @@ public:
 	 */
 	vector<XMLNode*> getChildren();
 	
+
+protected:
 	
-	
-		
-//ATRIBUTES
+	string indent(string strToIndent);
 
 	
-protected:
+//ATRIBUTES
 	string elementNamespace;
 	string elementName;
 	string textContent;
