@@ -10,7 +10,7 @@ using namespace std;
 
 // <!ELEMENT annnuaire (#PCDATA | personne)*>
 // <!ELEMENT personne  (nom,prenom,email+)>
-// <!ATTLIST personne type CDATA #IMPLIED>
+// <!ATTLIST personne xx CDATA #IMPLIED>
 // <!ELEMENT nom       (#PCDATA)>
 // <!ELEMENT prenom    (#PCDATA)>
 // <!ELEMENT email (#PCDATA)>
@@ -18,7 +18,7 @@ using namespace std;
 // <!DOCTYPE annuaire SYSTEM "annuaire.dtd">
 // <annuaire>
 //     Test de texte
-//     <personne type="étudiant">
+//     <personne xx="étudiant">
 //         <nom>HEUTE</nom>
 //         <prenom>Thomas</prenom>
 //         <email>webmaster@xmlfacile.com</email>
