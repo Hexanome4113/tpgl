@@ -157,3 +157,4 @@ bool XMLNode::isElementNode()
 {
     return ( nodeType == ELEMENT_NODE );
 }
+
