@@ -23,3 +23,4 @@ bool regex_match(const string str, const string regex)
     int match_ok = pcre_exec(re, 0, str.c_str(), len, 0, 0, ovector, 100);
     return (match_ok == 1);
 }
+

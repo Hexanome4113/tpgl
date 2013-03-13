@@ -1,0 +1,24 @@
+UML DTD
+=======
+
+DTDRoot:
+ - elements (List<DTDElement>) // ou Map
+ - attlists (List<DTDAttlist>)
+ ---
+ - getAttribute(string balise)
+ - getElement(string balise)
+
+DTDDefinition:
+ - type (SEQ | CHOICE | BALISE)
+ - children (List<DTDDefinition>) (absent si type == BALISE)
+ - quantifier ('?' | '*' | '+' | '')
+ - nom (string) (seulement si type == BALISE)
+
+DTDElement:
+ - contentspec (ANY | EMPTY | MIXED | CHILDREN)
+ - definition (DTDDefinition)
+ - nom (string)
+
+DTDAttlist:
+ - balise (string)
+ - attribute (string)

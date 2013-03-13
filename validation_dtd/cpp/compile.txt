@@ -1,1 +1,1 @@
-g++ main.cpp regex.cpp pcre/libpcre.a -o exe
+g++ main.cpp regex.cpp pcre/libpcre.a algo_validation.cpp DTDElement.cpp DTDDefinition.cpp -o exe
