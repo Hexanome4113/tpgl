@@ -1,0 +1,1 @@
+g++ main.cpp regex.cpp pcre/libpcre.a -o exe
