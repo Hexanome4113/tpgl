@@ -29,22 +29,16 @@ lonely(false)
 string XMLNode::regexSerialize()
 {
 	string returned;
-	bool firstspace = true;
 	
 	for (vector<XMLNode*>::iterator it = children.begin() ; it != children.end() ; it++)
 	{
-		if (firstspace)
-			firstspace = false;
-		else
-			returned += " ";
-			
 			
 		if ((*it)->isTextNode())
 			returned += "#PCDATA";
 		else
 			returned += (*it)->getNodeName();
 		
-		
+		returned += " ";
 	}
 }
 
