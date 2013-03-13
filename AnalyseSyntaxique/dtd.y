@@ -4,11 +4,7 @@ using namespace std;
 #include <cstring>
 #include <cstdio>
 #include <cstdlib>
-
-
-void dtderror(char *msg);
-int dtdwrap(void);
-int dtdlex(void);
+#include "commun.h"
 
 %}
 

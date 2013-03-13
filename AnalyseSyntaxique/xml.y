@@ -5,14 +5,12 @@ using namespace std;
 #include <cstdio>
 #include <cstdlib>
 #include "commun.h"
-#include "xml.tab.h"
-
-
-int xmlwrap(void);
-void xmlerror(char *msg);
-int xmllex(void);
 
 %}
+
+%parse-param {
+	char **dtd
+}
 
 %union {
 	char *s;
@@ -22,6 +20,7 @@ int xmllex(void);
 %token EGAL SLASH SUP SUPSPECIAL DOCTYPE
 %token <s> ENCODING VALEUR DONNEES COMMENT NOM ENNOM
 %token <en> OBALISEEN OBALISE OBALISESPECIALE FBALISE FBALISEEN
+%type <s> declaration
 
 %%
 
@@ -39,12 +38,12 @@ misc
 ;
 
 declarations
-: declarations declaration
+: declarations declaration  { *dtd = $2; }
 | /*vide*/
 ;
 
 declaration
-: DOCTYPE NOM NOM VALEUR SUP
+: DOCTYPE NOM NOM VALEUR SUP  { $$ = $4; }
 ;
 
 element
@@ -87,6 +86,6 @@ int xmlwrap(void) {
 	return 1;
 }
 
-void xmlerror(char *msg) {
+void xmlerror(char **dtd, char *msg) {
 	fprintf(stderr, "%s\n", msg);
 }
