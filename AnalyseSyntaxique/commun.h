@@ -14,4 +14,11 @@ typedef pair<string,string> ElementName;
 #define debug(x) ((void) 0)
 #endif
 
+
+extern int xmldebug;
+extern int dtddebug;
+
+int xmlparse(void);
+int dtdparse(void);
+
 #endif
