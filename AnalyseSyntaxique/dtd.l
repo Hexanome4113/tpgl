@@ -5,6 +5,12 @@
 #include <ctype.h>
 #include <string.h>
 #include <stdlib.h>
+
+#include "modeldtd/DTDRoot.h"
+#include "modeldtd/DTDDefinition.h"
+#include "modeldtd/DTDElement.h"
+#include "modeldtd/mytypes.h"
+
 #include "dtd.tab.h"
 
 static char* skipSpace(char *s) {

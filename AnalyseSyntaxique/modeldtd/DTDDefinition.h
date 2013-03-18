@@ -43,9 +43,20 @@ class DTDDefinition {
         std::vector<DTDDefinition> getChildren();
         
         /**
+         * \param def sous-définition à ajouter à la définition (à la fin)
+         * \param position inserer apres ou avant "front" ou "back"
+         */
+        void addChild(DTDDefinition def, std::string position);
+        
+        /**
          * \return quantifieur de la définition (* | + | ? | RIEN)
          */
         std::string getQuantifier();
+        
+        /**
+         * \param q quantifieur de la définition (* | + | ? | RIEN)
+         */
+        void setQuantifier(std::string q);
         
         /**
          * \return nom de la balise (seulement si le type == BALISE)
