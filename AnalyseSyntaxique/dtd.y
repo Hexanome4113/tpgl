@@ -32,7 +32,7 @@ using namespace std;
 %token ELEMENT ATTLIST SUP OUVREPAR FERMEPAR VIRGULE BARRE FIXED EMPTY ANY PCDATA AST PTINT PLUS CDATA
 %token <s> NOM TOKENTYPE DECLARATION VALEUR
 
-%type <i> elt_content
+%type <elem> elt_content
 %type <vs> contenu_elt_mixed_opt
 %type <str> ast_elt_mixed_opt cond_elt_children_opt
 %type <vs_str> elt_mixed
@@ -44,33 +44,60 @@ using namespace std;
 %%
 
 main: dtd_list_opt { cout << "main found" << endl; }
-{
-    // DTDRoot = new ...
-}
 ;
 
 dtd_list_opt
 : dtd_list_opt ELEMENT NOM elt_content SUP
     {
-        vector<DTDDefinition> v_vide;
-        DTDDefinition def(BALISE, v_vide, "personne");
-        DTDElement *e = new DTDElement($3, CS_EMPTY, def);
+        $4->setNom($3);
+        dtdroot->addElement(*$4);
+        delete $4;
         cout << "new dtdelement " << $3 << " of cspec " << $4 << endl; 
     }
 | dtd_list_opt ATTLIST NOM att_definition_opt SUP { cout << "attlist found" << endl; }
+    {
+        /*DTDAttlist al;
+        al.elementName = $3;
+        al.list....
+        dtdroot->addAttlist(al);*/
+    }
 | /* vide */
+    {
+        dtdroot = new DTDRoot();
+    }
 ;
 
 elt_content
 : EMPTY { cout << "elt empty found" << endl; }
+    {
+        $$ = new DTDElement();
+        $$->setContentSpec(CS_EMPTY);
+    }
 | ANY { cout << "elt any found" << endl; }
+    {
+        $$ = new DTDElement();
+        $$->setContentSpec(CS_ANY);
+    }
 | elt_mixed { cout << "elt mixed found" << endl; }
     {
-        $$ = 1;
+        $$ = new DTDElement();
+        $$->setContentSpec(CS_MIXED);
+        DTDDefinition def;
+        def.setQuantifier($1->str);
+        def.setType(CHOICE);
+        vector<DTDDefinition> v_vide;
+        for (int i=0 ; i < $1->vs.size() ; i++) {
+            def.addChild(DTDDefinition(BALISE, v_vide, $1->vs[i]), "back");
+        }
+        $$->setDefinition(def);
+        delete $1;
     }
 | elt_children { cout << "elt children found" << endl; }
     {
-        $$ = 2;
+        $$ = new DTDElement();
+        $$->setContentSpec(CS_CHILDREN);
+        $$->setDefinition(*$1);
+        delete $1;
     }
 ;
 
@@ -80,6 +107,8 @@ elt_mixed
         $$ = new VsAndStr();
         $$->vs = *$3;
         $$->str = *$5;
+        delete $3;
+        delete $5;
     }
 ;
 
@@ -110,11 +139,13 @@ elt_children
     {
         $1->setQuantifier(*$2);
         $$ = $1;
+        delete $2;
     }
 | seq_elt_children cond_elt_children_opt
     {
         $1->setQuantifier(*$2);
         $$ = $1;
+        delete $2;
     }
 ;
 
@@ -123,6 +154,7 @@ cp_elt_children
     {
         $1->setQuantifier(*$2);
         $$ = $1;
+        delete $2;
     }
 ;
 
@@ -166,6 +198,7 @@ choice_elt_children
     {
         $3->addChild(*$2, "front");
         $$ = $3;
+        delete $2;
     }
 ;
 
@@ -174,12 +207,14 @@ contenu_choice_elt_children
     {
         $1->addChild(*$3, "back");
         $$ = $1;
+        delete $3;
     }
 | BARRE cp_elt_children
     {
         vector<DTDDefinition> v;
         v.push_back(*$2);
         $$ = new DTDDefinition(CHOICE, v);
+        delete $2;
     }
 ;
 
@@ -188,6 +223,7 @@ seq_elt_children
     {
         $3->addChild(*$2, "front");
         $$ = $3;
+        delete $2;
     }
 ;
 
@@ -196,6 +232,7 @@ contenu_seq_elt_children_opt
     {
         $1->addChild(*$3, "back");
         $$ = $1;
+        delete $3;
     }
 | /* vide */
     {

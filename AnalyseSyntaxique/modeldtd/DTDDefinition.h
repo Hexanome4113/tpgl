@@ -18,6 +18,12 @@ enum DTDDefinitionType {
 
 class DTDDefinition {
     public:
+
+        /**
+         * \brief constructeur DTDElement standard sans parametres
+         */
+        DTDDefinition();
+
         /**
         * \brief constructeur DTDElement standard
         * \param type type de la définition (séquence | choix | balise)
@@ -36,6 +42,11 @@ class DTDDefinition {
          * \return type de la définition (séquence | choix | balise)
          */
         DTDDefinitionType getType();
+
+        /**
+         * \param q quantifieur de la définition (* | + | ? | RIEN)
+         */
+        void setType(DTDDefinitionType t);
         
         /**
          * \return sous-définitions de la définition (seulement si le type != BALISE)
@@ -62,6 +73,11 @@ class DTDDefinition {
          * \return nom de la balise (seulement si le type == BALISE)
          */
         std::string getNom();
+
+        /**
+         * \param n nom de la balise (seulement si le type == BALISE)
+         */
+        void setNom(std::string n);
         
     protected:
         DTDDefinitionType type;

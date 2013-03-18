@@ -16,6 +16,10 @@
 
 using namespace std;
 
+DTDRoot::DTDRoot()
+{
+}
+
 DTDRoot::DTDRoot(vector<DTDElement> elements, vector<DTDAttlist> attlists)
 :elements(elements),
 attlists(attlists)
@@ -25,6 +29,16 @@ attlists(attlists)
 const vector<DTDElement>& DTDRoot::getElements()
 {
 	return elements;
+}
+
+void DTDRoot::addElement(DTDElement element)
+{
+	elements.push_back(element);
+}
+
+void DTDRoot::addAttlist(DTDAttlist attlist)
+{
+	attlists.push_back(attlist);
 }
 
 const vector<DTDAttlist>& DTDRoot::getAttlists()
@@ -49,7 +63,7 @@ string DTDRoot::affiche()
 		buffer << attlistAffiche(attlists.at(i));
 	}
 
-	return buffer;
+	return buffer.str();
 
 }
 

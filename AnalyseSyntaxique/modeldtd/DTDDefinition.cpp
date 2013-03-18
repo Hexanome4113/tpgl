@@ -4,6 +4,9 @@
 
 using namespace std;
 
+DTDDefinition::DTDDefinition() : type(BALISE), nom(""), quantifier("")
+{}
+
 DTDDefinition::DTDDefinition(
     DTDDefinitionType type,
     vector<DTDDefinition> children,
@@ -14,6 +17,11 @@ DTDDefinition::DTDDefinition(
 
 // Getters
 DTDDefinitionType DTDDefinition::getType(){return type;}
+
+void DTDDefinition::setType(DTDDefinitionType t)
+{
+	type = t;
+}
 
 std::vector<DTDDefinition> DTDDefinition::getChildren(){return children;}
 
@@ -31,3 +39,7 @@ void DTDDefinition::setQuantifier(string q){quantifier = q;}
 
 std::string DTDDefinition::getNom(){return nom;}
 
+void DTDDefinition::setNom(string n)
+{
+	nom = n;
+}

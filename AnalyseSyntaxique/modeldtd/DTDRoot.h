@@ -17,10 +17,13 @@ class DTDRoot
 {
 	//METHODS
 public:
+	DTDRoot();
 	DTDRoot(vector<DTDElement> elements, vector<DTDAttlist> attlists);
 	
 	const vector<DTDElement>& getElements();
+	void addElement(DTDElement element);
 	const vector<DTDAttlist>& getAttlists();
+	void addAttlist(DTDAttlist attlist);
 	string affiche();
 	string attlistAffiche(DTDAttlist attlist);
 	

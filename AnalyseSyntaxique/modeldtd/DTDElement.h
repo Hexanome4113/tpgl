@@ -18,6 +18,12 @@ enum ContentSpec {
 
 class DTDElement {
     public:
+
+        /**
+         * \brief constructeur DTDElement standard sans parametres
+         */
+        DTDElement();
+
         /**
         * \brief constructeur DTDElement standard
         * \param nom nom de l'élément xml qu'on va définir
@@ -34,16 +40,31 @@ class DTDElement {
          * \return ContentSpec de l'élément
          */
         ContentSpec getContentSpec();
+
+        /**
+         * \param cs nouveau contentspec
+         */
+        void setContentSpec(ContentSpec cs);
         
         /**
          * \return Définition DTD de l'élément
          */
         DTDDefinition getDefinition();
+
+        /**
+         * \param def nouvelle definition
+         */
+        void setDefinition(DTDDefinition def);
         
         /**
          * \return nom de l'élement
          */
         std::string getNom();
+
+        /**
+         * \param n nouveau nom
+         */
+        void setNom(std::string n);
         
 	/**
 	 * \return affichage de l'élément
