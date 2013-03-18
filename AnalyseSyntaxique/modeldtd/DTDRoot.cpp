@@ -1,8 +1,8 @@
 #include "DTDRoot.h"
 
 #include <sstream> 
-
 #include <vector>
+#include <string>
 #include "DTDElement.h"
 
 #define SPACE " "
@@ -36,9 +36,22 @@ void DTDRoot::addElement(DTDElement element)
 	elements.push_back(element);
 }
 
-void DTDRoot::addAttlist(DTDAttlist attlist)
+void DTDRoot::addAttlist(string nom, string attr)
 {
-	attlists.push_back(attlist);
+	bool found = false;
+	for (int i=0 ; i < attlists.size() ; i++) {
+		if (attlists[i].elementName == nom) {
+			attlists[i].list.push_back(attr);
+			found = true;
+			break;
+		}
+	}
+	if (not found) {
+		DTDAttlist attlist;
+		attlist.elementName = nom;
+		attlist.list.push_back(attr);
+		attlists.push_back(attlist);
+	}
 }
 
 const vector<DTDAttlist>& DTDRoot::getAttlists()

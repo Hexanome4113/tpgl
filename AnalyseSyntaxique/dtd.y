@@ -37,6 +37,7 @@ using namespace std;
 %type <str> ast_elt_mixed_opt cond_elt_children_opt
 %type <vs_str> elt_mixed
 %type <def> name_or_choice_or_seq_elt_children seq_elt_children choice_elt_children cp_elt_children elt_children contenu_seq_elt_children_opt contenu_choice_elt_children
+%type <s> att_definition_opt attribut
 
 /* notre parseur prend en parametre un DTDRoot */
 %parse-param {DTDRoot *dtdroot}
@@ -56,10 +57,7 @@ dtd_list_opt
     }
 | dtd_list_opt ATTLIST NOM att_definition_opt SUP { cout << "attlist found" << endl; }
     {
-        /*DTDAttlist al;
-        al.elementName = $3;
-        al.list....
-        dtdroot->addAttlist(al);*/
+        dtdroot->addAttlist($3, $4);
     }
 | /* vide */
     {
@@ -243,11 +241,17 @@ contenu_seq_elt_children_opt
 
 att_definition_opt
 : att_definition_opt attribut
+    {
+        $$ = $2; // on ecrase les anciens att_definition_opt
+    }
 | /* vide */
 ;
 
 attribut
 : NOM att_type defaut_declaration
+    {
+        $$ = $1; // on oublie att_type & defaut_declaration
+    }
 ;
 
 att_type
