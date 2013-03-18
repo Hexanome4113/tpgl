@@ -1,8 +1,9 @@
 #include "xmlnode.h"
 
 
-XMLNode::XMLNode(string nodeName, map<string, string> attributeList)
-:elementName(nodeName),
+XMLNode::XMLNode(string nodeNamespace, string nodeName, map<string, string> attributeList)
+:elementNamespace(nodeNamespace),
+elementName(nodeName),
 attributes(attributeList),
 nodeType(ELEMENT_NODE),
 lonely(true)
@@ -16,8 +17,9 @@ lonely(false)
 {
 }
 
-XMLNode::XMLNode(string nodeName, map<string, string> attributeList, vector<XMLNode*> childrenList)
-:elementName(nodeName),
+XMLNode::XMLNode(string nodeNamespace, string nodeName, map<string, string> attributeList, vector<XMLNode*> childrenList)
+:elementNamespace(nodeNamespace),
+elementName(nodeName),
 children(childrenList),
 attributes(attributeList),
 nodeType(ELEMENT_NODE),

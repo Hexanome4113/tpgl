@@ -29,18 +29,20 @@ public:
 	
 	/**
 	 * \brief constructeur pour balises uniques (type "<balise/>").
+	 * 	 * \param nodeName namespace de la balise.
 	 * \param nodeName nom de la balise.
 	 * \param attributeList liste des attributs. Peut être vide.
 	 */
-    XMLNode(string nodeName, map<string, string> attributeList);
+    XMLNode(string nodeNamespace, string nodeName, map<string, string> attributeList);
 	
 	/**
 	 * \brief constructeur pour balises standard.
+	 * \param nodeName namespace de la balise.
 	 * \param nodeName nom de la balise.
 	 * \param childrenList liste des noeuds fils. Si vide, les balises ouvrantes/fermantes seront quand même générées lors de l'appel à Affiche(). Voir le constructeur pour balises uniques.
 	 * \param attributeList liste des attributs. Peut être vide.
 	 */
-	XMLNode(string nodeName, map<string, string> attributeList, vector<XMLNode*> childrenList);
+	XMLNode(string nodeNamespace, string nodeName, map<string, string> attributeList, vector<XMLNode*> childrenList);
 	
 	
     virtual ~XMLNode();
