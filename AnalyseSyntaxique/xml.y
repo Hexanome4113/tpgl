@@ -5,98 +5,93 @@ using namespace std;
 #include <cstdio>
 #include <cstdlib>
 #include "commun.h"
-#include "yy.tab.h"
-
-// ces trois fonctions devront changer de nom dans le cas où l'otion -p est utilisée
-int yywrap(void);
-void yyerror(char *msg);
-int yylex(void);
 
 %}
 
+%parse-param {
+	char **dtd
+}
+
 %union {
-   char * s;
-   ElementName * en;  /* le nom d'un element avec son namespace, cf commun.h */
+	char *s;
+	ElementName *en;  // le nom d'un element avec son namespace, cf commun.h
 }
 
 %token EGAL SLASH SUP SUPSPECIAL DOCTYPE
 %token <s> ENCODING VALEUR DONNEES COMMENT NOM ENNOM
 %token <en> OBALISEEN OBALISE OBALISESPECIALE FBALISE FBALISEEN
+%type <s> declaration
 
 %%
 
 document
- : declarations element misc_seq_opt
- ;
+: declarations element misc_seq_opt
+;
+
 misc_seq_opt
- : misc_seq_opt misc
- | /*vide*/
- ;
+: misc_seq_opt misc
+| /*vide*/
+;
+
 misc
- : COMMENT
- ;
+: COMMENT
+;
 
 declarations
- : declarations declaration
- | /*vide*/
- ;
+: declarations declaration  { *dtd = $2; }
+| /*vide*/
+;
 
 declaration
- : DOCTYPE NOM NOM VALEUR SUP
- ;
+: DOCTYPE NOM NOM VALEUR SUP  { $$ = $4; }
+;
 
 element
- : ouvre attributs_opt vide_ou_contenu
- ;
+: ouvre attributs_opt vide_ou_contenu
+;
+
 ouvre
- : OBALISE
- | OBALISEEN
- ;
+: OBALISE
+| OBALISEEN
+;
+
 attributs_opt
- : attributs_opt attribut
- | /*vide*/
- ;
+: attributs_opt attribut
+| /*vide*/
+;
+
 attribut
- : NOM EGAL VALEUR
- | ENNOM EGAL VALEUR
- ;
+: NOM EGAL VALEUR
+| ENNOM EGAL VALEUR
+;
+
 vide_ou_contenu
- : SLASH SUP
- | ferme_contenu_et_fin SUP
- ;
+: SLASH SUP
+| ferme_contenu_et_fin SUP
+;
+
 ferme_contenu_et_fin
- : SUP contenu_opt ferme
- ;
+: SUP contenu_opt ferme
+;
+
 ferme
- : FBALISE
- | FBALISEEN
- ;
+: FBALISE
+| FBALISEEN
+;
+
 contenu_opt
- : contenu_opt DONNEES
- | contenu_opt misc
- | contenu_opt element
- | /*vide*/
- ;
+: contenu_opt DONNEES
+| contenu_opt misc
+| contenu_opt element
+| /*vide*/
+;
 
 %%
 
-int main(int argc, char **argv)
-{
-  int err;
-
-  yydebug = 1; // pour enlever l'affichage de l'exécution du parser, commenter cette ligne
-
-  err = yyparse();
-  if (err != 0) printf("Parse ended with %d error(s)\n", err);
-  else  printf("Parse ended with success\n", err);
-  return 0;
-}
-int yywrap(void)
-{
-  return 1;
+int xmlwrap(void) {
+	return 1;
 }
 
-void yyerror(char *msg)
-{
-  fprintf(stderr, "%s\n", msg);
+void xmlerror(char **dtd, char *msg) {
+	fprintf(stderr, "%s\n", msg);
 }
