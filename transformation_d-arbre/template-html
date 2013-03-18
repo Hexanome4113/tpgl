@@ -1,4 +1,3 @@
-<?xml version="1.0" encoding="ISO-8859-1"?>
 <xsl:stylesheet version="1.0" xmlns:xsl="http://www.w3.org/1999/XSL/Transform">
 
 <xsl:template match="/">
@@ -29,24 +28,22 @@
    <table><xsl:apply-templates/></table>
 </xsl:template>
 
-<xsl:template match="table-header">
+<xsl:template match="table-row">
    <tr>
-	<xsl:for-each>
-        <th>
 	    <xsl:apply-templates/>
-        </th>
-	</xsl:for-each>
    </tr>
 </xsl:template>
 
-<xsl:template match="table-row">
-   <tr>
-	<xsl:for-each>
+<xsl:template match="table-header">
+        <th>
+	    <xsl:apply-templates/>
+        </th>
+</xsl:template>
+
+<xsl:template match="table-cell">
         <td>
 	    <xsl:apply-templates/>
         </td>
-	</xsl:for-each>
-   </tr>
 </xsl:template>
 
 </xsl:stylesheet>
