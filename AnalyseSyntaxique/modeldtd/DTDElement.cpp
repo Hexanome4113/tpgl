@@ -14,3 +14,8 @@ ContentSpec DTDElement::getContentSpec(){return contentSpec;}
 DTDDefinition DTDElement::getDefinition(){return definition;}
 std::string DTDElement::getNom(){return nom;}
 
+std::string DTDElement::affiche()
+{
+	
+}
+
