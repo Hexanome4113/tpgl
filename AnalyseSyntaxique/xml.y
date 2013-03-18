@@ -62,6 +62,7 @@ attributs_opt
 
 attribut
 : NOM EGAL VALEUR
+| ENNOM EGAL VALEUR
 ;
 
 vide_ou_contenu
@@ -70,7 +71,12 @@ vide_ou_contenu
 ;
 
 ferme_contenu_et_fin
-: SUP contenu_opt FBALISE
+: SUP contenu_opt ferme
+;
+
+ferme
+: FBALISE
+| FBALISEEN
 ;
 
 contenu_opt

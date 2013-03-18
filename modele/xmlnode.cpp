@@ -1,15 +1,98 @@
 #include "xmlnode.h"
 
-XMLNode::XMLNode(string textContent)
-:textContent(textContent),
-nodeType(TEXT_NODE)
+
+XMLNode::XMLNode(string nodeName, map<string, string> attributeList)
+:elementName(nodeName),
+attributes(attributeList),
+nodeType(ELEMENT_NODE),
+lonely(true)
 {
 }
 
-XMLNode::XMLNode(vector<XMLNode*> childrenList)
-children(childrenList),
-nodeType(ELEMENT_NODE)
+XMLNode::XMLNode(string textContent)
+:textContent(textContent),
+nodeType(TEXT_NODE),
+lonely(false)
 {
+}
+
+XMLNode::XMLNode(string nodeName, map<string, string> attributeList, vector<XMLNode*> childrenList)
+:elementName(nodeName),
+children(childrenList),
+attributes(attributeList),
+nodeType(ELEMENT_NODE),
+lonely(false)
+{
+}
+
+
+string XMLNode::regexSerialize()
+{
+	string returned;
+	
+	for (vector<XMLNode*>::iterator it = children.begin() ; it != children.end() ; it++)
+	{
+			
+		if ((*it)->isTextNode())
+			returned += "#PCDATA";
+		else
+			returned += (*it)->getNodeName();
+		
+		returned += " ";
+	}
+}
+
+string XMLNode::indent(string strToIndent)
+{
+    bool first_indent = true;
+    size_t lastPos = strToIndent.size();
+    while ( (lastPos = strToIndent.rfind("\n", lastPos)) != string::npos )
+	{
+        if (first_indent)
+		{
+            first_indent = false;
+            lastPos -=1;
+        }
+        else
+		{
+            strToIndent.replace(lastPos, 1, "\n\t");
+            lastPos -=1;
+        }
+    }
+    return strToIndent;
+}
+
+string XMLNode::Affiche()
+{
+	if ( isTextNode() )
+	{
+		return textContent;
+	}
+	else
+	{
+		string result = "<"+elementName;
+		for (map<string, string>::const_iterator it = attributes.begin() ; it != attributes.end() ; it++)
+		{
+			result = result + " " + it->first + "=\"" + it->second + "\"";
+		
+		}
+		
+		if (lonely)
+		{
+			result += "/>\n";
+		}
+		else
+		{
+			result += ">\n";
+			for (vector<XMLNode*>::iterator it = children.begin() ; it != children.end() ; it++)
+			{
+				result += (*it)->Affiche();
+			}
+			result=indent(result);
+			result += "</" + elementName + ">\n";
+		}
+		return result;
+	}
 }
 
 XMLNode::~XMLNode()
@@ -46,10 +129,10 @@ bool XMLNode::hasMixedContent()
 	}
 	else
 	{
-		bool compareValue = (*children.begin()).isTextNode();
-		for (map<string, string>::iterator it = attributes.begin() ; it != attributes.end() ; it++)
+		bool compareValue = (*children.begin())->isTextNode();
+		for (vector<XMLNode*>::iterator it = children.begin() ; it != children.end() ; it++)
 		{
-			if (*it.isTextNode() != compareValue)
+			if ((*it)->isTextNode() != compareValue)
 				return true;
 		}
 		return false;
@@ -91,3 +174,4 @@ bool XMLNode::isElementNode()
 {
     return ( nodeType == ELEMENT_NODE );
 }
+

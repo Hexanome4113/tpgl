@@ -1,12 +1,9 @@
 <?xml version="1.0" encoding="ISO-8859-1"?>
-<!DOCTYPE rapport SYSTEM "rap2.dtd">
-<rapport titre="R�aliser un compilateur">
- <auteur>
-  <nom>Nino</nom>
-  <prenom>Silverio</prenom>
- </auteur>
+<!DOCTYPE rapport SYSTEM "rap1.dtd">
+<rapport titre="R�aliser un compilateur" auteur="Nino Silverio" date="aujourd'hui">
  <resume>Ceci est un extrait du livre "R�aliser un compilateur: 
-	les outils Lex et Yacc" de Nino Silverio</resume>
+	les outils Lex et Yacc" de Nino Silverio
+ </resume>
  <chapitre titre="Introduction: concepts de base">
    <section titre="Fonctions et structure d'un compilateur">
     <p>Tout programme r�dig� dans un langage de programmation de haut 
@@ -15,6 +12,7 @@
 	g�n�ralement des instructions en langage machine. L'ordinateur qui 
 	doit ex�cuter le programme ainsi traduit est appel� machine cible.</p>
    </section>
+   <br/>
    <section titre="R�alisation d'un compilateur">
     <p>Comme l'�criture d'un compilateur est une t�che fort complexe, 
 	le programmateur a tout int�r�t � travailler en utilisant un langage 
