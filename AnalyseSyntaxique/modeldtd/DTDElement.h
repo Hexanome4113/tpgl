@@ -45,6 +45,12 @@ class DTDElement {
          */
         std::string getNom();
         
+	/**
+	 * \return affichage de l'élément
+	 */
+	std::string affiche();
+
+
     protected:
         ContentSpec contentSpec;
         DTDDefinition definition;
