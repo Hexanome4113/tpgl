@@ -3,7 +3,7 @@ all: analyseur
 analyseur: main.cpp analyseXML analyseDTD
 	g++ -g -DXMLDEBUG=1 -DDTDDEBUG=1 -o analyseur main.cpp lex.xml.c xml.tab.c lex.dtd.c dtd.tab.c modeldtd/DTDRoot.cpp modeldtd/DTDDefinition.cpp modeldtd/DTDElement.cpp
 
-analyseXML: xml.l xml.y commun.h
+analyseXML: xml.l xml.y commun.h modelxml/xmlnode.h
 	flex -Pxml xml.l
 	bison -p xml --debug --verbose --defines=xml.tab.h xml.y
 

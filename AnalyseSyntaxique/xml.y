@@ -1,11 +1,12 @@
 %{
 
 using namespace std;
+#include <iostream>
 #include <cstring>
 #include <cstdio>
 #include <cstdlib>
-#include <iostream>
 #include "commun.h"
+#include "modelxml/xmlnode.h"
 
 %}
 
@@ -16,26 +17,34 @@ using namespace std;
 %union {
 	char *s;
 	ElementName *en;  // le nom d'un element avec son namespace, cf commun.h
+	XMLNode *xmlnp;
+	map<string, string> *att_map;
+	vector<XMLNode*> *node_vect;
+
 }
 
 %token EGAL SLASH SUP SUPSPECIAL DOCTYPE
 %token <s> ENCODING VALEUR DONNEES COMMENT NOM ENNOM
 %token <en> OBALISEEN OBALISE OBALISESPECIALE FBALISE FBALISEEN
 %type <s> declaration
+%type <xmlnp> element
+%type <en> ouvre attribut
+%type <att_map> attributs_opt
+%type <node_vect> vide_ou_contenu ferme_contenu_et_fin contenu_opt
 
 %%
 
 document
-	: declarations element misc_seq_opt	{printf("document - declarations element misc_seq_opt\n");}
+: declarations element misc_seq_opt
 ;
 
 misc_seq_opt
-: misc_seq_opt misc	{printf("misc_seq_opt\n");}
-| /*vide*/	{printf("misc_seq_opt\n");}
+: misc_seq_opt misc
+| /*vide*/
 ;
 
 misc
-	: COMMENT	{printf("misc\n");}
+: COMMENT
 ;
 
 declarations
@@ -48,43 +57,51 @@ declaration
 ;
 
 element
-	: ouvre attributs_opt vide_ou_contenu	{printf("element\n");}
+: ouvre attributs_opt vide_ou_contenu	{if ($3 == NULL)
+					{
+						$$ = new XMLNode($1->first, $1->second, *$2);
+					} else
+					{
+						$$ = new XMLNode($1->first, $1->second, *$2, *$3);
+					}
+					cout << "AFFICHE" << endl << $$->Affiche();
+					}
 ;
 
 ouvre
-: OBALISE	{cout <<"ouvre- OBALISE \n " + $1->second;}
-| OBALISEEN	{printf("ouvre- OBALISEEN\n");}
+: OBALISE {$$=$1;}
+| OBALISEEN {$$=$1;}
 ;
 
 attributs_opt
-	: attributs_opt attribut	{printf("attributs_opt\n");}
-| /*vide*/
+: attributs_opt attribut	{$$->insert(*$2);}
+| /*vide*/ 			{$$ = new std::map<string, string>();}
 ;
 
 attribut
-	: NOM EGAL VALEUR	{printf("attribut- NOM EGAL VALEUR\n");}
-| ENNOM EGAL VALEUR	{printf("attribut- ENNOM EGAL VALEUR\n");}
+: NOM EGAL VALEUR		{$$ = new pair<string, string>($1,$3);}
+| ENNOM EGAL VALEUR		{$$ = new pair<string, string>($1,$3);}		//  A REVOIR? OHOH
 ;
 
 vide_ou_contenu
-	: SLASH SUP	{printf("vide_ou_contenu - SLASH SUP\n");}
-| ferme_contenu_et_fin SUP	{printf("vide_ou_contenu - ferme_contenu_et_fin SUP\n");}
+: SLASH SUP			{$$=NULL;}
+| ferme_contenu_et_fin SUP	{$$ = $1;}
 ;
 
 ferme_contenu_et_fin
-	: SUP contenu_opt ferme	{printf("ferme_contenu_et_fin\n");}
+: SUP contenu_opt ferme		{$$ = $2;}
 ;
 
 ferme
-	: FBALISE	{printf("ferme- FBALISE\n");}
-| FBALISEEN	{printf("ferme- FBALISEEN\n");}
+: FBALISE
+| FBALISEEN
 ;
 
 contenu_opt
-	: contenu_opt DONNEES	{printf("contenu_opt- contenu_opt DONNEES\n");}
-| contenu_opt misc	{printf("contenu_opt- contenu_opt misc\n");}
-| contenu_opt element	{printf("contenu_opt- contenu_opt element\n");}
-| /*vide*/	{printf("contenu_opt- vide\n");}
+: contenu_opt DONNEES	{$$->push_back(new XMLNode($2));}		//PUSH_FRONT? -> VECTOR?
+| contenu_opt misc
+| contenu_opt element
+| /*vide*/		{$$=new std::vector<XMLNode*>();}
 ;
 
 %%
