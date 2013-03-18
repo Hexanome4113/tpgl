@@ -6,7 +6,7 @@ using namespace std;
 #include <cstdio>
 #include <cstdlib>
 #include "commun.h"
-#include "../modele/xmlnode.h"
+#include "modelxml/xmlnode.h"
 
 %}
 
