@@ -4,6 +4,7 @@ using namespace std;
 #include <cstring>
 #include <cstdio>
 #include <cstdlib>
+#include <iostream>
 #include "commun.h"
 
 %}
@@ -25,16 +26,16 @@ using namespace std;
 %%
 
 document
-: declarations element misc_seq_opt
+	: declarations element misc_seq_opt	{printf("document - declarations element misc_seq_opt\n");}
 ;
 
 misc_seq_opt
-: misc_seq_opt misc
-| /*vide*/
+: misc_seq_opt misc	{printf("misc_seq_opt\n");}
+| /*vide*/	{printf("misc_seq_opt\n");}
 ;
 
 misc
-: COMMENT
+	: COMMENT	{printf("misc\n");}
 ;
 
 declarations
@@ -47,43 +48,43 @@ declaration
 ;
 
 element
-: ouvre attributs_opt vide_ou_contenu
+	: ouvre attributs_opt vide_ou_contenu	{printf("element\n");}
 ;
 
 ouvre
-: OBALISE
-| OBALISEEN
+: OBALISE	{cout <<"ouvre- OBALISE \n " + $1->second;}
+| OBALISEEN	{printf("ouvre- OBALISEEN\n");}
 ;
 
 attributs_opt
-: attributs_opt attribut
+	: attributs_opt attribut	{printf("attributs_opt\n");}
 | /*vide*/
 ;
 
 attribut
-: NOM EGAL VALEUR
-| ENNOM EGAL VALEUR
+	: NOM EGAL VALEUR	{printf("attribut- NOM EGAL VALEUR\n");}
+| ENNOM EGAL VALEUR	{printf("attribut- ENNOM EGAL VALEUR\n");}
 ;
 
 vide_ou_contenu
-: SLASH SUP
-| ferme_contenu_et_fin SUP
+	: SLASH SUP	{printf("vide_ou_contenu - SLASH SUP\n");}
+| ferme_contenu_et_fin SUP	{printf("vide_ou_contenu - ferme_contenu_et_fin SUP\n");}
 ;
 
 ferme_contenu_et_fin
-: SUP contenu_opt ferme
+	: SUP contenu_opt ferme	{printf("ferme_contenu_et_fin\n");}
 ;
 
 ferme
-: FBALISE
-| FBALISEEN
+	: FBALISE	{printf("ferme- FBALISE\n");}
+| FBALISEEN	{printf("ferme- FBALISEEN\n");}
 ;
 
 contenu_opt
-: contenu_opt DONNEES
-| contenu_opt misc
-| contenu_opt element
-| /*vide*/
+	: contenu_opt DONNEES	{printf("contenu_opt- contenu_opt DONNEES\n");}
+| contenu_opt misc	{printf("contenu_opt- contenu_opt misc\n");}
+| contenu_opt element	{printf("contenu_opt- contenu_opt element\n");}
+| /*vide*/	{printf("contenu_opt- vide\n");}
 ;
 
 %%
