@@ -5,10 +5,19 @@ using namespace std;
 #include <cstdio>
 #include <cstdlib>
 
+#include <iostream>
+#include <string>
+#include <vector>
 
-void yyerror(char *msg);
+#include "modeldtd/DTDRoot.h"
+#include "modeldtd/DTDDefinition.h"
+#include "modeldtd/DTDElement.h"
+
+void yyerror(DTDRoot *dtdroot, char *msg);
 int yywrap(void);
 int yylex(void);
+
+#define AAARGH "AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAARRRRRRRGH"
 
 %}
 
@@ -19,22 +28,35 @@ int yylex(void);
 %token ELEMENT ATTLIST SUP OUVREPAR FERMEPAR VIRGULE BARRE FIXED EMPTY ANY PCDATA AST PTINT PLUS CDATA
 %token <s> NOM TOKENTYPE DECLARATION VALEUR
 
+/* notre parseur prend en parametre un DTDRoot */
+%parse-param {DTDRoot *dtdroot}
+
 %%
 
-main: dtd_list_opt
+main: dtd_list_opt { cout << "main found" << endl; }
+{
+    // DTDRoot = new ...
+}
 ;
 
 dtd_list_opt
-: dtd_list_opt ELEMENT NOM elt_content SUP
-| dtd_list_opt ATTLIST NOM att_definition_opt SUP
+: dtd_list_opt ELEMENT NOM elt_content SUP { cout << "element found" << endl; }
+    {
+        vector<DTDDefinition> v_vide;
+        DTDDefinition def(BALISE, v_vide, "personne");
+        DTDElement *e = new DTDElement($3, CS_EMPTY, def);
+        cout << "new dtdelement " << $3 << endl; 
+    }
+| dtd_list_opt ATTLIST NOM att_definition_opt SUP { cout << "attlist found" << endl; }
 | /* vide */
 ;
 
 elt_content
-: EMPTY
-| ANY
-| elt_mixed
-| elt_children
+: EMPTY { cout << "elt empty found" << endl; }
+
+| ANY { cout << "elt any found" << endl; }
+| elt_mixed { cout << "elt mixed found" << endl; }
+| elt_children { cout << "elt children found" << endl; }
 ;
 
 elt_mixed
@@ -125,21 +147,22 @@ defaut_declaration
 
 int main(int argc, char **argv)
 {
-  int err;
-
-  yydebug = 1; // pour désactiver l'affichage de l'exécution du parser LALR, commenter cette ligne
-
-  err = yyparse();
-  if (err != 0) printf("Parse ended with %d error(s)\n", err);
-        else  printf("Parse ended with success\n", err);
-  return 0;
+    int err;
+    
+    //yydebug = 1; // pour désactiver l'affichage de l'exécution du parser LALR, commenter cette ligne
+    
+    DTDRoot *dtdroot;
+    err = yyparse(dtdroot);
+    if (err != 0) printf("Parse ended with %d error(s)\n", err);
+    else  printf("Parse ended with success\n", err);
+    return 0;
 }
 int yywrap(void)
 {
-  return 1;
+    return 1;
 }
 
-void yyerror(char *msg)
+void yyerror(DTDRoot *dtdroot, char *msg)
 {
-  fprintf(stderr, "%s\n", msg);
+    fprintf(stderr, "%s\n", msg);
 }
