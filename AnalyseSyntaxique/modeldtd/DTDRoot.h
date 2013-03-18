@@ -21,6 +21,8 @@ public:
 	
 	const vector<DTDElement>& getElements();
 	const vector<DTDAttlist>& getAttlists();
+	string affiche();
+	string attlistAffiche(DTDAttlist attlist);
 	
 protected:
 	
