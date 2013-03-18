@@ -6,6 +6,9 @@ using namespace std;
 #include <utility>
 #include <string>
 
+#include "modeldtd/DTDRoot.h"
+
+
 typedef pair<string,string> ElementName;
 typedef list<string> DTDList;
 
@@ -27,9 +30,9 @@ int xmllex(void);
 int xmlparse(char **dtd);
 int xmlwrap(void);
 
-void dtderror(char *msg);
+void dtderror(DTDRoot *dtdroot, char *msg);
 int dtdlex(void);
-int dtdparse(void);
+int dtdparse(DTDRoot *dtdroot);
 int dtdwrap(void);
 
 #endif
