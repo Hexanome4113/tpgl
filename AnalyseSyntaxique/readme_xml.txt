@@ -2,8 +2,7 @@ Le fichier xml.l contient l'analyseur lexical d'un fichier XML. Ce fichier vous 
 fourni, normalement, peu de modifications devront y être apportées (la personnalisation
 du préfixe nécessitera tout de même sa modification). 
 
-Le fichier xml.y contient l'analyseur syntaxique associé. Cet analyseur est incomplet.
-En outre, il ne traite pas les attributs. 
+Le fichier xml.y contient l'analyseur syntaxique associé.
 
 Le fichier makefile permet d'éxécuter les commandes flex, bison et de compiler l'analyseur
 de base du fichier XML. Commencez par taper make puis exécutez ./analyseXML avec un fichier
@@ -19,3 +18,35 @@ la ligne "yydebug = 1;" dans le fichier xml.y.
 
 A terme, le code de la fonction principale (main) devra être sorti de xml.y afin de rendre
 l'analyseur plus modulaire.
+
+
+**Fichiers tests de l'analyseur syntaxique du xml :
+rap1.xml :
+	ligne encodage : aucune
+	attributs : aucun
+	namespace : aucun
+	balise autofermante : aucune
+
+rap2.xml :
+	ligne encodage : oui
+	attributs : 4 (titres)
+	namespace : aucun
+	balise autofermante : aucune
+
+rap3.xml :
+	ligne encodage : oui
+	attributs : 6 dont 3 dans la meme balise
+	namespace : aucun
+	balise autofermante : 1
+
+rap4.xml :
+	ligne encodage : oui
+	attributs : 6 dont 3 dans la meme balise
+	namespace : aucun
+	balise autofermante : 2
+
+rap5.xml :
+	ligne encodage : oui
+	attributs : 6 dont 3 dans la meme balise
+	namespace : oui
+	balise autofermante : 1

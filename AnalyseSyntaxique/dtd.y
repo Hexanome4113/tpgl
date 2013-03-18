@@ -13,16 +13,12 @@ using namespace std;
 #include "modeldtd/DTDDefinition.h"
 #include "modeldtd/DTDElement.h"
 
-void yyerror(DTDRoot *dtdroot, char *msg);
-int yywrap(void);
-int yylex(void);
-
-#define AAARGH "AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAARRRRRRRGH"
+#include "commun.h"
 
 %}
 
-%union { 
-   char *s; 
+%union {
+	char *s;
 }
 
 %token ELEMENT ATTLIST SUP OUVREPAR FERMEPAR VIRGULE BARRE FIXED EMPTY ANY PCDATA AST PTINT PLUS CDATA
@@ -60,12 +56,16 @@ elt_content
 ;
 
 elt_mixed
-: OUVREPAR PCDATA contenu_elt_mixed_opt FERMEPAR AST
-| OUVREPAR PCDATA FERMEPAR
+: OUVREPAR PCDATA contenu_elt_mixed_opt FERMEPAR ast_elt_mixed_opt
 ;
 
 contenu_elt_mixed_opt
 : contenu_elt_mixed_opt BARRE NOM
+| /* vide */
+;
+
+ast_elt_mixed_opt
+: AST
 | /* vide */
 ;
 
@@ -145,24 +145,10 @@ defaut_declaration
 
 %%
 
-int main(int argc, char **argv)
-{
-    int err;
-    
-    //yydebug = 1; // pour désactiver l'affichage de l'exécution du parser LALR, commenter cette ligne
-    
-    DTDRoot *dtdroot;
-    err = yyparse(dtdroot);
-    if (err != 0) printf("Parse ended with %d error(s)\n", err);
-    else  printf("Parse ended with success\n", err);
-    return 0;
-}
-int yywrap(void)
-{
-    return 1;
+int dtdwrap(void) {
+	return 1;
 }
 
-void yyerror(DTDRoot *dtdroot, char *msg)
-{
-    fprintf(stderr, "%s\n", msg);
+void dtderror(DTDRoot *dtdroot, char *msg) {
+	fprintf(stderr, "%s\n", msg);
 }
