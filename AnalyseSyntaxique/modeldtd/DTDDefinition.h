@@ -78,6 +78,8 @@ class DTDDefinition {
          * \param n nom de la balise (seulement si le type == BALISE)
          */
         void setNom(std::string n);
+
+        void affiche(std::string indent="");
         
     protected:
         DTDDefinitionType type;

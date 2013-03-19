@@ -66,10 +66,7 @@ class DTDElement {
          */
         void setNom(std::string n);
         
-	/**
-	 * \return affichage de l'élément
-	 */
-	std::string affiche();
+        void affiche();
 
 
     protected:

@@ -1,12 +1,19 @@
 %{
 
 using namespace std;
-#include <iostream>
+
 #include <cstring>
 #include <cstdio>
 #include <cstdlib>
-#include "commun.h"
+
+#include <string>
+#include <iostream>
+#include <vector>
+
 #include "modelxml/xmlnode.h"
+#include "modelxml/moretypes.h"
+
+#include "commun.h"
 
 %}
 
@@ -59,10 +66,10 @@ declaration
 element
 : ouvre attributs_opt vide_ou_contenu	{if ($3 == NULL)
 					{
-						$$ = new XMLNode($1->first, $1->second, *$2);
+						//$$ = new XMLNode($1->first, $1->second, *$2);
 					} else
 					{
-						$$ = new XMLNode($1->first, $1->second, *$2, *$3);
+						//$$ = new XMLNode($1->first, $1->second, *$2, *$3);
 					}
 					cout << "AFFICHE" << endl << $$->Affiche();
 					}

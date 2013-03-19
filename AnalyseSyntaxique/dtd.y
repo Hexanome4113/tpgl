@@ -1,6 +1,7 @@
 %{
 
 using namespace std;
+
 #include <cstring>
 #include <cstdio>
 #include <cstdlib>
@@ -40,46 +41,54 @@ using namespace std;
 %type <s> att_definition_opt attribut
 
 /* notre parseur prend en parametre un DTDRoot */
-%parse-param {DTDRoot *dtdroot}
+%parse-param {DTDRoot **dtdroot}
 
 %%
 
-main: dtd_list_opt { cout << "main found" << endl; }
+main: dtd_list_opt
 ;
 
 dtd_list_opt
 : dtd_list_opt ELEMENT NOM elt_content SUP
     {
         $4->setNom($3);
-        dtdroot->addElement(*$4);
+        (*dtdroot)->addElement(*$4);
+        // cout << "ajout d'un !element " << $3 << " a root" << endl;
+        // cout << "cet element possède la définition suivante :" << endl;
+        // $4->affiche();
         delete $4;
-        cout << "new dtdelement " << $3 << " of cspec " << $4 << endl; 
     }
 | dtd_list_opt ATTLIST NOM att_definition_opt SUP { cout << "attlist found" << endl; }
     {
-        dtdroot->addAttlist($3, $4);
+        (*dtdroot)->addAttlist($3, $4);
+        // cout << "ajout d'un !attlist " << $3 << "/" << $4 << " a root" << endl;
     }
 | /* vide */
     {
-        dtdroot = new DTDRoot();
+        *dtdroot = new DTDRoot();
+        // cout << "creation de root" << endl;
     }
 ;
 
 elt_content
-: EMPTY { cout << "elt empty found" << endl; }
+: EMPTY
     {
         $$ = new DTDElement();
         $$->setContentSpec(CS_EMPTY);
+        // cout << "creation d'un dtdelement empty" << endl;
     }
-| ANY { cout << "elt any found" << endl; }
+| ANY
     {
         $$ = new DTDElement();
         $$->setContentSpec(CS_ANY);
+        // cout << "creation d'un dtdelement any" << endl;
     }
-| elt_mixed { cout << "elt mixed found" << endl; }
+| elt_mixed
     {
         $$ = new DTDElement();
         $$->setContentSpec(CS_MIXED);
+        // cout << "creation d'un dtdelement mixed" << endl;
+
         DTDDefinition def;
         def.setQuantifier($1->str);
         def.setType(CHOICE);
@@ -88,13 +97,21 @@ elt_content
             def.addChild(DTDDefinition(BALISE, v_vide, $1->vs[i]), "back");
         }
         $$->setDefinition(def);
+        // cout << "voila la definition de cet element mixed :" << endl;
+        // def.affiche();
+
         delete $1;
     }
-| elt_children { cout << "elt children found" << endl; }
+| elt_children
     {
         $$ = new DTDElement();
         $$->setContentSpec(CS_CHILDREN);
+        // cout << "creation d'un dtdelement children" << endl;
+
         $$->setDefinition(*$1);
+        // cout << "voila la definition de cet element children :" << endl;
+        // $$->getDefinition().affiche();
+
         delete $1;
     }
 ;
@@ -245,6 +262,7 @@ att_definition_opt
         $$ = $2; // on ecrase les anciens att_definition_opt
     }
 | /* vide */
+    {/* on ne fait rien. */}
 ;
 
 attribut
@@ -285,6 +303,6 @@ int dtdwrap(void) {
 	return 1;
 }
 
-void dtderror(DTDRoot *dtdroot, char *msg) {
+void dtderror(DTDRoot **dtdroot, char *msg) {
 	fprintf(stderr, "%s\n", msg);
 }

@@ -12,17 +12,31 @@ string dtdToRegex(DTDElement elem)
 {
     switch(elem.getContentSpec()) {
         case CS_ANY:
+        {
             return ".*";
-            break;
+        }
+        break;
             
         case CS_EMPTY:
+        {
             return "^$";
-            break;
+        }
+        break;
             
-        case CS_MIXED:         
+        case CS_MIXED:
+        {
+            DTDDefinition def = elem.getDefinition();
+            DTDDefinition pcdata(BALISE, vector<DTDDefinition>(), "#PCDATA");
+            def.addChild(pcdata, "before");
+            return "^" + dtdDefinitionToRegex(def) + "$";
+        }
+        break;
+
         case CS_CHILDREN:
+        {
             return "^" + dtdDefinitionToRegex(elem.getDefinition()) + "$";
-            break;
+        }
+        break;
     }
 }
 

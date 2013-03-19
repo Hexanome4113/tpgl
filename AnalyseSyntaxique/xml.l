@@ -6,8 +6,8 @@
 #include <ctype.h>
 #include <string.h>
 #include <stdlib.h>
-#include "commun.h"
 #include "modelxml/xmlnode.h"
+#include "modelxml/moretypes.h"
 #include "xml.tab.h"
 
 

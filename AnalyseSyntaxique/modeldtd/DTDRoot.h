@@ -24,6 +24,7 @@ public:
 	void addElement(DTDElement element);
 	const vector<DTDAttlist>& getAttlists();
 	void addAttlist(std::string nom, std::string attr);
+	void enbref();
 	string affiche();
 	string attlistAffiche(DTDAttlist attlist);
 	

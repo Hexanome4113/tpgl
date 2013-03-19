@@ -2,6 +2,9 @@
 
 using namespace std;
 
+#include <string>
+#include <iostream>
+
 DTDElement::DTDElement()
 {}
 
@@ -32,8 +35,13 @@ void DTDElement::setDefinition(DTDDefinition def)
 	definition = def;
 }
 
-std::string DTDElement::affiche()
+void DTDElement::affiche()
 {
-	
+    cout << "====>> Affichage d'un DTDElement" << endl;
+    cout << "  Nom : " << nom << endl;
+    cout << "  ContentSpec : " << contentSpec << endl;
+    cout << "  Définition : " << endl;
+    definition.affiche("  ");
+    cout << "<<==== Affichage d'un DTDElement" << endl;
 }
 

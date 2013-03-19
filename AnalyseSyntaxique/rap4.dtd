@@ -1,5 +1,8 @@
+<!ELEMENT rapport5 (#PCDATA | i | b)*>
+<!ELEMENT rapport4 ANY>
+<!ELEMENT rapport3 EMPTY>
 <!ELEMENT rapport2 (rapport)>
-<!ELEMENT rapport (titre, auteur+, resume, chapitre+)>
+<!ELEMENT rapport (titre, auteur+, (resume|condense|((a|z),b+,c?))*, chapitre+)>
 <!ELEMENT auteur (prenom, nom)>
 <!ELEMENT nom (#PCDATA)>
 <!ELEMENT prenom (#PCDATA)>

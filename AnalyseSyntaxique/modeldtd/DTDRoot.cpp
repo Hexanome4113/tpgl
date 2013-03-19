@@ -3,7 +3,9 @@
 #include <sstream> 
 #include <vector>
 #include <string>
+#include <iostream>
 #include "DTDElement.h"
+#include "algo_validation.h"
 
 #define SPACE " "
 #define CBALISE ">"
@@ -91,3 +93,20 @@ string DTDRoot::attlistAffiche(DTDAttlist attlist)
 	return result;
 }
 
+void DTDRoot::enbref()
+{
+	cout << "==== ELEMENTS ====" << endl;
+	for (int i = 0; i < elements.size(); i++) {
+		cout << "<!ELEMENT "
+			<< elements[i].getNom() << " "
+			<< dtdToRegex(elements[i]) << " "
+			<< elements[i].getContentSpec()
+			<< ">" << endl;
+	}
+
+	cout << "==== ATTLISTS ====" << endl;
+	for (int i = 0; i < attlists.size(); i++) {
+		cout << attlistAffiche(attlists[i]) << endl;
+	}
+
+}
