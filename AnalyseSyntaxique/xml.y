@@ -66,10 +66,10 @@ declaration
 element
 : ouvre attributs_opt vide_ou_contenu	{if ($3 == NULL)
 					{
-						//$$ = new XMLNode($1->first, $1->second, *$2);
+						$$ = new XMLNode($1->first, $1->second, *$2);
 					} else
 					{
-						//$$ = new XMLNode($1->first, $1->second, *$2, *$3);
+						$$ = new XMLNode($1->first, $1->second, *$2, *$3);
 					}
 					cout << "AFFICHE" << endl << $$->Affiche();
 					}
@@ -107,7 +107,7 @@ ferme
 contenu_opt
 : contenu_opt DONNEES	{$$->push_back(new XMLNode($2));}		//PUSH_FRONT? -> VECTOR?
 | contenu_opt misc
-| contenu_opt element
+| contenu_opt element	{$$->push_back($2);}
 | /*vide*/		{$$=new std::vector<XMLNode*>();}
 ;
 

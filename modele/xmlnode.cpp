@@ -11,7 +11,7 @@ lonely(true)
 }
 
 XMLNode::XMLNode(string textContent)
-:textContent(textContent),
+:textContent(textContent+"\n"),
 nodeType(TEXT_NODE),
 lonely(false)
 {
@@ -72,7 +72,12 @@ string XMLNode::Affiche()
 	}
 	else
 	{
-		string result = "<"+elementName;
+		string result = "<";
+		if (elementNamespace != "")
+		{
+			result += elementNamespace + ":";
+		}
+		result += elementName;
 		for (map<string, string>::const_iterator it = attributes.begin() ; it != attributes.end() ; it++)
 		{
 			result = result + " " + it->first + "=\"" + it->second + "\"";
@@ -91,7 +96,12 @@ string XMLNode::Affiche()
 				result += (*it)->Affiche();
 			}
 			result=indent(result);
-			result += "</" + elementName + ">\n";
+			result += "</";
+			if (elementNamespace != "")
+			{
+				result += elementNamespace + ":";
+			}
+			result += elementName + ">\n";
 		}
 		return result;
 	}

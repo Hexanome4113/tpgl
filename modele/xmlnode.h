@@ -23,7 +23,7 @@ public:
 	
 	/**
 	 * \brief constructeur pour feuille contenant des données #PCDATA.
-	 * \param textContent texte contenu. Est supposé contenir au moins un retour à la ligne!
+	 * \param textContent texte contenu. +\\n automatique.
 	 */
 	XMLNode(string textContent);
 	
