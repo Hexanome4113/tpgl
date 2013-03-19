@@ -26,14 +26,14 @@ int main(int argc, char **argv) {
 		return 1;
 	}
 
-	// xmlin = fopen(argv[1], "r");
-	// err = xmlparse(&dtd);
-	// fclose(xmlin);
-	// if (err != 0) printf("XML parse ended with %d error(s)\n", err);
-	// else  printf("XML parse ended with success\n", err);
+	xmlin = fopen(argv[1], "r");
+	err = xmlparse(&dtd);
+	fclose(xmlin);
+	if (err != 0) printf("XML parse ended with %d error(s)\n", err);
+	else  printf("XML parse ended with success\n", err);
 
     DTDRoot *dtdroot;
-	dtdin = fopen(argv[1], "r");//dtd, "r");
+	dtdin = fopen(dtd, "r");
 	err = dtdparse(&dtdroot);
 	fclose(dtdin);
 	if (err != 0) printf("DTD parse ended with %d error(s)\n", err);
