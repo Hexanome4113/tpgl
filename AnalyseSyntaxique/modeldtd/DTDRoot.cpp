@@ -1,15 +1,17 @@
 #include "DTDRoot.h"
 
+#include <iostream>
 #include <sstream> 
 #include <vector>
 #include <string>
-#include <iostream>
+
 #include "DTDElement.h"
-#include "algo_validation.h"
 
 #define SPACE " "
 #define CBALISE ">"
 #define EOL '\n'
+
+#define ELEMENT_OBALISE "<!ELEMENT"
 
 #define ATTLIST_OBALISE "<!ATTLIST"
 #define ATTLIST_OPTIONS "CDATA #IMPLIED"
@@ -61,24 +63,24 @@ const vector<DTDAttlist>& DTDRoot::getAttlists()
 	return attlists;
 }
 
-string DTDRoot::affiche()
+std::string DTDRoot::affiche()
 {
-	std::ostringstream buffer (std::ostringstream::ate); //add at the end of the buffer
- /*
+	std::string buffer;
+ 
 	//write all elements
 	for (int i = 0; i < elements.size(); i++)
 	{
-		buffer << elements.at(i).affiche();
-		buffer << '\n';
+		buffer += elements.at(i).affiche();
+		buffer += EOL;
 	}
-*/
+
 	//write all attributes
 	for (int i = 0; i < attlists.size(); i++)
 	{
-		buffer << attlistAffiche(attlists.at(i));
+		buffer += attlistAffiche(attlists.at(i));
 	}
 
-	return buffer.str();
+	return buffer;
 
 }
 
@@ -97,11 +99,10 @@ void DTDRoot::enbref()
 {
 	cout << "==== ELEMENTS ====" << endl;
 	for (int i = 0; i < elements.size(); i++) {
-		cout << "<!ELEMENT "
-			<< elements[i].getNom() << " "
-			<< dtdToRegex(elements[i]) << " "
-			<< elements[i].getContentSpec()
-			<< ">" << endl;
+		cout << ELEMENT_OBALISE << SPACE
+			<< elements[i].getNom() << SPACE
+			<< elements[i].toRegex()
+			<< CBALISE << endl;
 	}
 
 	cout << "==== ATTLISTS ====" << endl;

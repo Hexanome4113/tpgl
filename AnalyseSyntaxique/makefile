@@ -1,7 +1,7 @@
 all: analyseur
 
 analyseur: main.cpp analyseXML analyseDTD
-	g++ -g -DXMLDEBUG=1 -DDTDDEBUG=1 -o analyseur main.cpp lex.xml.c xml.tab.c lex.dtd.c dtd.tab.c modelxml/xmlnode.cpp modeldtd/algo_validation.cpp modeldtd/DTDRoot.cpp modeldtd/DTDDefinition.cpp modeldtd/DTDElement.cpp
+	g++ -g -DXMLDEBUG=1 -DDTDDEBUG=1 -o analyseur main.cpp lex.xml.c xml.tab.c lex.dtd.c dtd.tab.c modelxml/xmlnode.cpp modeldtd/DTDRoot.cpp modeldtd/DTDDefinition.cpp modeldtd/DTDElement.cpp
 
 analyseXML: xml.l xml.y commun.h modelxml/xmlnode.h
 	flex -Pxml xml.l
@@ -10,6 +10,9 @@ analyseXML: xml.l xml.y commun.h modelxml/xmlnode.h
 analyseDTD: dtd.l dtd.y modeldtd/DTDRoot.h modeldtd/DTDDefinition.h modeldtd/DTDElement.h
 	flex -Pdtd dtd.l
 	bison -p dtd --debug --verbose --defines=dtd.tab.h dtd.y
+
+testAfficheDTD: testAfficheDTD.cpp analyseXML analyseDTD
+	g++ -g -DXMLDEBUG=1 -DDTDDEBUG=1 -o testAfficheDTD testAfficheDTD.cpp lex.xml.c xml.tab.c lex.dtd.c dtd.tab.c modelxml/xmlnode.cpp modeldtd/DTDRoot.cpp modeldtd/DTDDefinition.cpp modeldtd/DTDElement.cpp
 
 clean:
 	-rm -rf xml.tab.c lex.xml.c xml.tab.h xml.output dtd.tab.c lex.dtd.c dtd.tab.h dtd.output analyseur

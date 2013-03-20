@@ -1,1 +1,4 @@
 g++ main.cpp regex.cpp pcre/libpcre.a algo_validation.cpp DTDElement.cpp DTDDefinition.cpp -o exe
+
+//test d'affichage
+g++ testAffiche.cpp regex.cpp pcre/libpcre.a algo_validation.cpp DTDRoot.cpp DTDElement.cpp DTDDefinition.cpp -o test
