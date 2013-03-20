@@ -13,7 +13,7 @@ def call(command):
     c = subprocess.Popen(command.split(' '), stdout=subprocess.PIPE, stderr=subprocess.PIPE)
     code = c.wait()
     out, err = c.communicate()
-    return {'code': code, 'out': out, 'err': err}
+    return {'code': code, 'out': out.strip().split('\n'), 'err': err.strip().split('\n')}
 
 
 def printusage(subcommand, before=None, exit_after=True):
@@ -70,6 +70,9 @@ def parsexml(opt, args):
         print "puis on va le transformer selon le XSLT", xsltfile, "et afficher le résultat sur la sortie"
     if output:
         print "la sortie standard sera redirigée vers", output
+    print "CMD"
+    cmd = call("/home/fmatigot/coutcerr")
+    print repr(cmd)
     
 
 
