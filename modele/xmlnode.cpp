@@ -64,6 +64,7 @@ string XMLNode::indent(string strToIndent)
     return strToIndent;
 }
 
+
 string XMLNode::Affiche()
 {
 	if ( isTextNode() )
