@@ -82,3 +82,26 @@ void DTDDefinition::affiche(string indent)
     cout << indent << "  Quantifieur : " << quantifier << endl;
     cout << indent << "<<==== Affichage d'une DTDDefinition" << endl;
 }
+
+std::string DTDDefinition::afficheDefinition()
+{
+	if (getType() == BALISE)
+	{
+        return getNom() + getQuantifier();
+    }
+    else
+    {
+		string separator;
+        if (getType() == SEQ)
+            separator = ", ";
+        else
+            separator = "|";
+        stringstream ss;
+        for(int i = 0; i < getChildren().size(); ++i) {
+            if(i != 0)
+                ss << separator;
+            ss << getChildren()[i].afficheDefinition();
+        }
+        return "(" + ss.str() + ")" + getQuantifier();
+    }
+}

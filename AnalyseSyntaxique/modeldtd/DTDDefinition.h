@@ -83,6 +83,8 @@ class DTDDefinition {
 
         void affiche(std::string indent="");
         
+        std::string afficheDefinition();
+        
     protected:
         DTDDefinitionType type;
         std::vector<DTDDefinition> children;

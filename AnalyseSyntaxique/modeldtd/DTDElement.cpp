@@ -8,6 +8,10 @@ using namespace std;
 #include "regex.h"
 #include "DTDDefinition.h"
 
+#define SPACE " "
+#define CBALISE ">"
+#define ELEMENT_OBALISE "<!ELEMENT"
+
 DTDElement::DTDElement()
 {}
 
@@ -38,14 +42,12 @@ void DTDElement::setDefinition(DTDDefinition def)
 	definition = def;
 }
 
-void DTDElement::affiche()
+std::string DTDElement::affiche()
 {
-    cout << "====>> Affichage d'un DTDElement" << endl;
-    cout << "  Nom : " << nom << endl;
-    cout << "  ContentSpec : " << contentSpec << endl;
-    cout << "  Définition : " << endl;
-    definition.affiche("  ");
-    cout << "<<==== Affichage d'un DTDElement" << endl;
+	string result = "";
+	result = result + ELEMENT_OBALISE + SPACE + getNom() + SPACE + afficheElement() + CBALISE;
+				
+	return result;
 }
 
 std::string DTDElement::toRegex()
@@ -82,6 +84,33 @@ std::string DTDElement::toRegex()
 
 std::string DTDElement::afficheElement()
 {
-	
+	switch(getContentSpec()) {
+        case CS_ANY:
+        {
+            return "ANY";
+        }
+        break;
+            
+        case CS_EMPTY:
+        {
+            return "";
+        }
+        break;
+            
+        case CS_MIXED:
+        {
+            DTDDefinition def = getDefinition();
+            DTDDefinition pcdata(BALISE, vector<DTDDefinition>(), "#PCDATA");
+            def.addChild(pcdata, "before");
+            return def.afficheDefinition();
+        }
+        break;
+
+        case CS_CHILDREN:
+        {
+            return getDefinition().afficheDefinition();
+        }
+        break;
+    }	
 }
 
