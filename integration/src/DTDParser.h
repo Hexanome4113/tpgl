@@ -1,0 +1,1 @@
+../../AnalyseSyntaxique/modeldtd/DTDParser.h

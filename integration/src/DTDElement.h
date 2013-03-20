@@ -1,0 +1,1 @@
+../../AnalyseSyntaxique/modeldtd/DTDElement.h
