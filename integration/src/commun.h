@@ -1,0 +1,1 @@
+../../AnalyseSyntaxique/commun.h

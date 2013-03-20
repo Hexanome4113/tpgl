@@ -1,0 +1,1 @@
+../../AnalyseSyntaxique/modelxml/moretypes.h
