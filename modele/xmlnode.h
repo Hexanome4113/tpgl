@@ -91,7 +91,7 @@ public:
 	const map<string, string>& getAttributes();
 	
 	/**
-	 * \return vrai si contient des fils TEXT_NODE et ELEMENT_NODE.
+	 * \return vrai si contient des fils de type TEXT_NODE (donc du #PCDATA).
 	 */
 	bool hasMixedContent();
 	
