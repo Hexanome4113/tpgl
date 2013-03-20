@@ -5,7 +5,6 @@
 #include <string>
 #include <iostream>
 #include "DTDElement.h"
-#include "algo_validation.h"
 
 #define SPACE " "
 #define CBALISE ">"
@@ -99,7 +98,7 @@ void DTDRoot::enbref()
 	for (int i = 0; i < elements.size(); i++) {
 		cout << "<!ELEMENT "
 			<< elements[i].getNom() << " "
-			<< dtdToRegex(elements[i]) << " "
+			<< elements[i].toRegex() << " "
 			<< elements[i].getContentSpec()
 			<< ">" << endl;
 	}

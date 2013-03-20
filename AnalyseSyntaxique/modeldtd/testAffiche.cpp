@@ -1,31 +1,41 @@
+#include <cstdio>
+#include <cstdlib>
+
 #include <iostream>
 #include <string>
 #include <vector>
-#include "regex.h"
-#include "DTDElement.h"
-#include "DTDDefinition.h"
-#include "DTDRoot.h"
-#include "algo_validation.h"
 
+#include "DTDRoot.h"
+#include "DTDElement.h"
 
 using namespace std;
 
 /*
-<!ATTLIST ARTICLE EDITOR CDATA #IMPLIED>
-<!ATTLIST ARTICLE DATE CDATA #IMPLIED>
-<!ATTLIST ARTICLE EDITION CDATA #IMPLIED>
+<!ELEMENT rapport (titre, auteur+, resume, chapitre+)>
+<!ELEMENT auteur (prenom, nom)>
+<!ELEMENT nom (#PCDATA)>
+<!ELEMENT prenom (#PCDATA)>
+<!ELEMENT resume (#PCDATA)>
+<!ELEMENT chapitre (titre, (p | section)+)>
+<!ELEMENT section (titre, p+)>
+<!ELEMENT p (#PCDATA)>
+<!ELEMENT titre (#PCDATA)>
+* 
+<!ATTLIST rapport editor CDATA #IMPLIED>
+<!ATTLIST rapport date CDATA #IMPLIED>
+<!ATTLIST rapport edition CDATA #IMPLIED>
 */
 
 int main()
 {
 	DTDElement elementVide;
-	DTDRoot root;
-	root.addElement(elementVide);
-	root.addAttlist("ARTICLE", "EDITOR");
-	root.addAttlist("ARTICLE", "DATE");
-	root.addAttlist("ARTICLE", "EDITION");
+	DTDRoot dtdroot;
+	dtdroot.addElement(elementVide);
+	dtdroot.addAttlist("rapport", "editor");
+	dtdroot.addAttlist("rapport", "date");
+	dtdroot.addAttlist("rapport", "edition");
 
-	cout << root.affiche() << '\n';
+	cout << dtdroot.affiche() << '\n';
 	
 	return 0;
 }

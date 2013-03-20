@@ -3,6 +3,9 @@
 #include <string>
 #include <iostream>
 
+#include <sstream>
+#include "regex.h"
+
 using namespace std;
 
 DTDDefinition::DTDDefinition() : type(BALISE), nom(""), quantifier("")
@@ -43,6 +46,28 @@ std::string DTDDefinition::getNom(){return nom;}
 void DTDDefinition::setNom(string n)
 {
 	nom = n;
+}
+
+std::string DTDDefinition::toRegex()
+{
+    if (getType() == BALISE) {
+        return "(?:" + getNom() + " )" + getQuantifier();
+    } else {
+        // si c'est une sequence ou un choix, on va appliquer récursivement dtdDefinitionToRegex
+        // sur les children, ce qui va nous donner un ensemble de string, jointes ensemble par un séparateur.
+        string separator;
+        if (getType() == SEQ)
+            separator = "";
+        else
+            separator = "|";
+        stringstream ss;
+        for(int i = 0; i < getChildren().size(); ++i) {
+            if(i != 0)
+                ss << separator;
+            ss << getChildren()[i].toRegex();
+        }
+        return "(?:" + ss.str() + ")" + getQuantifier();
+    }
 }
 
 void DTDDefinition::affiche(string indent)
