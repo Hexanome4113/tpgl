@@ -31,6 +31,7 @@ $(BIN_DIR)$(PARSEDTD_TARGET): $(addprefix $(SRC_DIR), $(PARSEDTD_HEADERS)) $(add
 	$(CXX) $(LDFLAGS) $(addprefix $(BUILD_DIR), $(filter %.o, $(DTD_OBJS) $(PARSEDTD_OBJECTS))) $(LOADLIBES) $(LDLIBS) -lpcre -o $(BIN_DIR)$(PARSEDTD_TARGET)
 
 ifneq ($(MAKECMDGOALS), clean)
+$(shell mkdir -p $(BIN_DIR) $(BUILD_DIR))
 -include $(addprefix $(BUILD_DIR), $(addsuffix .d, $(basename $(filter %.o, $(DTD_OBJS) $(XML_OBJS) $(PARSEDTD_OBJECTS)))))
 endif
 
