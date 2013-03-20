@@ -20,9 +20,9 @@
 #endif
 
 
-typedef void *XML_BUFFER_STATE;
+typedef struct yy_buffer_state *XML_BUFFER_STATE;
 
-typedef void *DTD_BUFFER_STATE;
+typedef struct yy_buffer_state *DTD_BUFFER_STATE;
 
 extern int xmldebug;
 extern FILE *xmlin;

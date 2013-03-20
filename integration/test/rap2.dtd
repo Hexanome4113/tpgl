@@ -1,1 +1,6 @@
-../../AnalyseSyntaxique/rap2.dtd
+<!ATTLIST chapitre
+        titre CDATA #IMPLIED
+>
+<!ATTLIST section
+        titre CDATA #IMPLIED
+>

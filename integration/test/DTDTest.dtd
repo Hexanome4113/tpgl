@@ -7,3 +7,7 @@
 <!ELEMENT section (titre, p+)>
 <!ELEMENT p (#PCDATA)>
 <!ELEMENT titre (#PCDATA)>
+<!ATTLIST rapport editor CDATA #IMPLIED>
+<!ATTLIST rapport date CDATA #IMPLIED>
+<!ATTLIST rapport edition CDATA #IMPLIED>
+<!ATTLIST auteur age CDATA #IMPLIED>
