@@ -28,8 +28,10 @@ using namespace std;
 
 int main()
 {
-	DTDElement elementVide;
 	DTDRoot dtdroot;
+	
+	DTDElement elementVide;	
+	
 	dtdroot.addElement(elementVide);
 	dtdroot.addAttlist("rapport", "editor");
 	dtdroot.addAttlist("rapport", "date");
