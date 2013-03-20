@@ -66,7 +66,11 @@ class DTDElement {
          */
         void setNom(std::string n);
         
-        void affiche();
+        std::string affiche();
+        
+        std::string toRegex();
+        
+        std::string afficheElement();
 
 
     protected:
