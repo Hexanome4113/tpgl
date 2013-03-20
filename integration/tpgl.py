@@ -6,15 +6,18 @@ from optparse import OptionParser
 import subprocess
 import os
 
-# subprocess wrapper
+# subprocess wrapper :
+
 def call(command):
     """ call a shell command and return its returncode
         and its stdout/err output """
     c = subprocess.Popen(command.split(' '), stdout=subprocess.PIPE, stderr=subprocess.PIPE)
     code = c.wait()
     out, err = c.communicate()
-    return {'code': code, 'out': out, 'err': err}
+    return {'code': code, 'out': out.strip().split('\n'), 'err': err.strip().split('\n')}
 
+
+# utility functions :
 
 def printusage(subcommand, before=None, exit_after=True):
     if before is not None:
@@ -22,6 +25,15 @@ def printusage(subcommand, before=None, exit_after=True):
     print subcommands[subcommand]['usage']
     if exit_after:
         sys.exit(-1)
+
+
+def path_of_exe(exe_name):
+    curdir = os.path.dirname(os.path.abspath(__file__))
+    path = os.path.join(curdir, 'bin', exe_name)
+    if not os.path.isfile(path):
+        print 'Oops, erreur interne.\n  executable manquant: "%s"' % path 
+        sys.exit(-1)
+    return path
 
 
 def file_abspath_or_none(file):
@@ -34,6 +46,7 @@ def file_abspath_or_none(file):
 
 
 # subcommands :
+
 def parsexml(opt, args):
     scname = 'parsexml'
     if len(args) < 1:
@@ -70,6 +83,9 @@ def parsexml(opt, args):
         print "puis on va le transformer selon le XSLT", xsltfile, "et afficher le résultat sur la sortie"
     if output:
         print "la sortie standard sera redirigée vers", output
+    print "CMD"
+    cmd = call("/home/fmatigot/coutcerr")
+    print repr(cmd)
     
 
 
@@ -89,7 +105,10 @@ def parsedtd(opt, args):
 
     restore = opt.restore
     
-    print opt, args
+    command = path_of_exe(scname) + ' ' + dtdfile
+    print command
+    cmd = call(command)
+    print repr(cmd)
 
 
 def validate(opt, args):
