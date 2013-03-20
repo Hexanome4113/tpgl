@@ -7,6 +7,7 @@
 // #include <string>
 
 #include "modeldtd/DTDRoot.h"
+#include "modelxml/xmlnode.h"
 
 
 // typedef pair<string,string> ElementName;
@@ -25,9 +26,9 @@ extern FILE *xmlin;
 extern int dtddebug;
 extern FILE *dtdin;
 
-void xmlerror(char **dtd, char *msg);
+void xmlerror(char **dtd, XMLNode **xmlRoot, char *msg);
 int xmllex(void);
-int xmlparse(char **dtd);
+int xmlparse(char **dtd, XMLNode **xmlRoot);
 int xmlwrap(void);
 
 void dtderror(DTDRoot **dtdroot, char *msg);

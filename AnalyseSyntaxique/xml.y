@@ -17,9 +17,8 @@ using namespace std;
 
 %}
 
-%parse-param {
-	char **dtd
-}
+%parse-param {char **dtd}
+%parse-param {XMLNode **xmlRoot}
 
 %union {
 	char *s;
@@ -27,7 +26,6 @@ using namespace std;
 	XMLNode *xmlnp;
 	map<string, string> *att_map;
 	vector<XMLNode*> *node_vect;
-
 }
 
 %token EGAL SLASH SUP SUPSPECIAL DOCTYPE
@@ -64,15 +62,17 @@ declaration
 ;
 
 element
-: ouvre attributs_opt vide_ou_contenu	{if ($3 == NULL)
-					{
-						$$ = new XMLNode($1->first, $1->second, *$2);
-					} else
-					{
-						$$ = new XMLNode($1->first, $1->second, *$2, *$3);
-					}
-					cout << "AFFICHE" << endl << $$->Affiche();
-					}
+: ouvre attributs_opt vide_ou_contenu	{
+											if ($3 == NULL)
+											{
+												$$ = new XMLNode($1->first, $1->second, *$2);
+											} else
+											{
+												$$ = new XMLNode($1->first, $1->second, *$2, *$3);
+											}
+											*xmlRoot = $$->getDocumentRoot();
+											//cout << "AFFICHE" << endl << $$->Affiche();
+										}
 ;
 
 ouvre
@@ -117,6 +117,6 @@ int xmlwrap(void) {
 	return 1;
 }
 
-void xmlerror(char **dtd, char *msg) {
+void xmlerror(char **dtd, XMLNode **xmlRoot, char *msg) {
 	fprintf(stderr, "%s\n", msg);
 }

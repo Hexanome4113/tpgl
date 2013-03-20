@@ -26,8 +26,9 @@ int main(int argc, char **argv) {
 		return 1;
 	}
 
+	XMLNode *xmlRoot;
 	xmlin = fopen(argv[1], "r");
-	err = xmlparse(&dtd);
+	err = xmlparse(&dtd, &xmlRoot);
 	fclose(xmlin);
 	if (err != 0) printf("XML parse ended with %d error(s)\n", err);
 	else  printf("XML parse ended with success\n", err);
@@ -39,7 +40,9 @@ int main(int argc, char **argv) {
 	if (err != 0) printf("DTD parse ended with %d error(s)\n", err);
 	else  printf("DTD parse ended with success\n", err);
 
-	dtdroot->enbref();	
+	dtdroot->enbref();
+	
+	//cout <<	xmlRoot->Affiche() << endl;
 	delete dtdroot;
 	return 0;
 }
