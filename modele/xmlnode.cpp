@@ -141,6 +141,22 @@ bool XMLNode::hasMixedContent()
 	}
 	else
 	{
+		for (vector<XMLNode*>::iterator it = children.begin() ; it != children.end() ; it++)
+		{
+			if ((*it)->isTextNode())
+				return true;
+		}
+		return false;
+	}
+	
+
+	//ancienne version (contenu mixte balises ET pcdata)
+	/*if (children.empty())
+	{
+		return false;
+	}
+	else
+	{
 		bool compareValue = (*children.begin())->isTextNode();
 		for (vector<XMLNode*>::iterator it = children.begin() ; it != children.end() ; it++)
 		{
@@ -148,7 +164,7 @@ bool XMLNode::hasMixedContent()
 				return true;
 		}
 		return false;
-	}
+	}*/
 }
 
 
