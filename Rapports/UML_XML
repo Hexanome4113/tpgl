@@ -1,0 +1,16 @@
+Un document XML peut être appréhendé comme un arbre. Il est donc facile de le modéliser comme différents noeuds XML reliés entre eux, ainsi une seule classe a été utilisée pour sauvegarder et manipuler les documents xml au cours de ce TP: XMLNode.
+Pour naviger facilement entre les noeuds, on conserve un lien permanent vers la racine du document, elle même un XMLNode, vers le parent direct du noeud, et une liste ordonnée des fils du noeud. Lors du passage à l'implémentation nous avons fait le choix d'utiliser un vector<XMLNode *> pour représenter les fils et permettre une navigation rapide.
+Un noeud XML peut être de deux type: textuel ou être un élément. Ce qui se traduit dans la modélisation par un attribut de la classe renvoyant un de ces deyx types.
+Un élément est caractérisé par son nom et parfois par un espace de nom. Un élément peut aussi posséder des attributs. Pour chaque attribut on a une paire nom d'attribut, valeur. Dans l'implémentation nous avons utilisé une map<string,string> attributes pour représenter les attributs.
+Résumons donc les attributs de notre classe:
+
+string elementNamespace;
+string elementName;
+string textContent;
+map<string, string> attributes;
+XMLNodeType nodeType;
+XMLNode* documentRoot;
+XMLNode* parent;
+vector<XMLNode*> children;
+
+Un dernier attribut a été rajouté par la suite servant pour l'affichage. Pour retranscrire à l'identique des balises auto-fermantes, nous avons ajouté un booleen lonely permettant d'afficher ces balises vides.

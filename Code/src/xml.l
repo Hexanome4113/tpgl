@@ -1,5 +1,6 @@
 %option 8bit nodefault
 %option noyywrap
+%option yylineno
 
 %{
 #include <stdio.h>
@@ -130,4 +131,5 @@ supspecial "?>"{nl}?
 
 <CONTENU>{esp}?{pcdata}		{YYLVAL.s = strdup(supprimeEspaces(YYTEXT)); return DONNEES;}
 
-.			{fprintf(stderr, "!ERROR(%c)\n", *YYTEXT);}
+\n          { ++xmllineno; }
+.           { fprintf(stderr, "lexical xml %d %c\n", xmllineno, *yytext); exit(101); /* 101 == ERR_ANALYSE_LEXICALE */}

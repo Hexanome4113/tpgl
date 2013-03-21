@@ -90,4 +90,4 @@ any         "ANY"
 <DEDANS>{nom}{esp}?          { stringreturn(NOM); }
 {comment}		              { /* les commentaires sont ignorés */ }
 \n          { ++dtdlineno; }
-.			{ fprintf(stderr, "dtd %d %c\n", dtdlineno, *yytext); exit(101); /* 101 == ERR_ANALYSE_LEXICALE */}
+.			{ fprintf(stderr, "lexical dtd %d %c\n", dtdlineno, *yytext); exit(101); /* 101 == ERR_ANALYSE_LEXICALE */}
