@@ -30,7 +30,11 @@ attlists(attlists)
 {
 }
 
+<<<<<<< HEAD
 const vector<DTDElement>& DTDRoot::getElements() const
+=======
+vector<DTDElement>& DTDRoot::getElements()
+>>>>>>> 8581df3982f8d6104b7bb471a8e49b4bf8e9787f
 {
 	return elements;
 }
@@ -58,7 +62,11 @@ void DTDRoot::addAttlist(string nom, string attr)
 	}
 }
 
+<<<<<<< HEAD
 const vector<DTDAttlist>& DTDRoot::getAttlists() const
+=======
+vector<DTDAttlist>& DTDRoot::getAttlists()
+>>>>>>> 8581df3982f8d6104b7bb471a8e49b4bf8e9787f
 {
 	return attlists;
 }
@@ -112,7 +120,11 @@ void DTDRoot::enbref() const
 
 }
 
+<<<<<<< HEAD
 const DTDElement* DTDRoot::getElement(const string elementNom) const
+=======
+DTDElement DTDRoot::getElement(string elementName)
+>>>>>>> 8581df3982f8d6104b7bb471a8e49b4bf8e9787f
 {
 	for (int i = 0; i < getElements().size(); i++)
 	{
@@ -122,6 +134,7 @@ cout << getElements().at(i).getNom() << " fin getelement(nom)" << endl;
 			return &(getElements().at(i));
 		}
 	}
+<<<<<<< HEAD
 	return NULL;
 }
 
@@ -135,4 +148,7 @@ const DTDAttlist* DTDRoot::getAttList(const string elementName) const
 		}
 	}
 	return NULL;
+=======
+	throw 666;
+>>>>>>> 8581df3982f8d6104b7bb471a8e49b4bf8e9787f
 }

@@ -1,4 +1,5 @@
 %option 8bit
+%option yylineno
 
 %{
 #include <stdio.h>
@@ -88,5 +89,5 @@ any         "ANY"
 <DEDANS>{tokentype}{esp}?    { stringreturn(TOKENTYPE); }
 <DEDANS>{nom}{esp}?          { stringreturn(NOM); }
 {comment}		              { /* les commentaires sont ignorés */ }
-
-.			{fprintf(stderr, "!ERROR(%c)\n", *yytext);}
+\n          { ++dtdlineno; }
+.			{ fprintf(stderr, "dtd %d %c\n", dtdlineno, *yytext); exit(101); /* 101 == ERR_ANALYSE_LEXICALE */}

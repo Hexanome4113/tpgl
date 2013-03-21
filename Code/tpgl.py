@@ -84,7 +84,7 @@ def parsexml(opt, args):
     if output:
         print "la sortie standard sera redirigée vers", output
     print "CMD"
-    cmd = call("/home/fmatigot/coutcerr")
+    cmd = call("/home/fmatigot/workspace/tpgl/Code/bin/parsedtd /home/fmatigot/workspace/tpgl/Code/test/err1.dtd")
     print repr(cmd)
     
 
