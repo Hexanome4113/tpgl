@@ -111,3 +111,15 @@ void DTDRoot::enbref()
 	}
 
 }
+
+const DTDElement DTDRoot::getElement(const string elementName)
+{
+	for (int i = 0; i < getElements().size(); i++)
+	{
+		if ( getElements().at(i).getNom().compare(elementName) == 0 )
+		{
+			return getElements().at(i);
+		}
+	}
+	return null;
+}
