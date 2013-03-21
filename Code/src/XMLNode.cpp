@@ -28,11 +28,11 @@ lonely(false)
 }
 
 
-string XMLNode::regexSerialize()
+string XMLNode::regexSerialize() const
 {
 	string returned;
 	
-	for (vector<XMLNode*>::iterator it = children.begin() ; it != children.end() ; it++)
+	for (vector<XMLNode*>::const_iterator it = children.begin() ; it != children.end() ; it++)
 	{
 			
 		if ((*it)->isTextNode())
@@ -44,7 +44,7 @@ string XMLNode::regexSerialize()
 	}
 }
 
-string XMLNode::indent(string strToIndent)
+string XMLNode::indent(string strToIndent) const
 {
     bool first_indent = true;
     size_t lastPos = strToIndent.size();
@@ -65,7 +65,7 @@ string XMLNode::indent(string strToIndent)
 }
 
 
-string XMLNode::Affiche()
+string XMLNode::Affiche() const
 {
 	if ( isTextNode() )
 	{
@@ -92,7 +92,7 @@ string XMLNode::Affiche()
 		else
 		{
 			result += ">\n";
-			for (vector<XMLNode*>::iterator it = children.begin() ; it != children.end() ; it++)
+			for (vector<XMLNode*>::const_iterator it = children.begin() ; it != children.end() ; it++)
 			{
 				result += (*it)->Affiche();
 			}
@@ -113,28 +113,28 @@ XMLNode::~XMLNode()
 
 }
 
-string XMLNode::getNameSpace()
+string XMLNode::getNameSpace() const
 {
 	return elementNamespace;
 }
 
-string XMLNode::getNodeName()
+string XMLNode::getNodeName() const
 {
 	return elementName;
 }
 
-string XMLNode::getFullName()
+string XMLNode::getFullName() const
 {
 	return (elementNamespace+":"+elementName);
 }
 
-bool XMLNode::hasAttribute(string name)
+bool XMLNode::hasAttribute(string name) const
 {
 	return attributes.find(name) != attributes.end();
 }
 
 
-bool XMLNode::hasMixedContent()
+bool XMLNode::hasMixedContent() const
 {
 	if (children.empty())
 	{
@@ -142,7 +142,7 @@ bool XMLNode::hasMixedContent()
 	}
 	else
 	{
-		for (vector<XMLNode*>::iterator it = children.begin() ; it != children.end() ; it++)
+		for (vector<XMLNode*>::const_iterator it = children.begin() ; it != children.end() ; it++)
 		{
 			if ((*it)->isTextNode())
 				return true;
@@ -169,37 +169,37 @@ bool XMLNode::hasMixedContent()
 }
 
 
-vector<XMLNode*> XMLNode::getChildren()
+vector<XMLNode*> XMLNode::getChildren() const
 {
     return children;
 }
 
-XMLNode* XMLNode::getParent()
+XMLNode* XMLNode::getParent() const
 {
     return parent;
 }
 
-string XMLNode::getTextContent()
+string XMLNode::getTextContent() const
 {
     return textContent;
 }
 
-XMLNode* XMLNode::getDocumentRoot()
+XMLNode* XMLNode::getDocumentRoot() const
 {
     return documentRoot;
 }
 
-const map<string, string>& XMLNode::getAttributes()
+const map<string, string>& XMLNode::getAttributes() const
 {
     return attributes;
 }
 
-bool XMLNode::isTextNode()
+bool XMLNode::isTextNode() const
 {
     return ( nodeType == TEXT_NODE );
 }
 
-bool XMLNode::isElementNode()
+bool XMLNode::isElementNode() const
 {
     return ( nodeType == ELEMENT_NODE );
 }

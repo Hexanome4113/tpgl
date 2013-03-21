@@ -7,7 +7,10 @@
 
 bool regex_match(const std::string str, const std::string regex);
 
-bool match_xml_dtd (XMLNode *xmlRoot, DTDRoot *dtdRoot);
+bool test_regex (const XMLNode *xmlNode, const DTDRoot *dtdRoot);
+
+bool match_xml_dtd (const XMLNode *xmlRoot, const DTDRoot *dtdRoot);
+
 
 #endif
 

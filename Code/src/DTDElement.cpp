@@ -23,9 +23,9 @@ DTDElement::DTDElement(
 {}
 
 // Getters
-ContentSpec DTDElement::getContentSpec(){return contentSpec;}
-DTDDefinition DTDElement::getDefinition(){return definition;}
-std::string DTDElement::getNom(){return nom;}
+ContentSpec DTDElement::getContentSpec() const{return contentSpec;}
+DTDDefinition DTDElement::getDefinition() const{return definition;}
+std::string DTDElement::getNom() const {return nom;}
 
 void DTDElement::setNom(string n)
 {
@@ -42,7 +42,7 @@ void DTDElement::setDefinition(DTDDefinition def)
 	definition = def;
 }
 
-std::string DTDElement::affiche()
+std::string DTDElement::affiche() const
 {
 	string result = "";
 	result = result + ELEMENT_OBALISE + SPACE + getNom() + SPACE + afficheElement() + CBALISE;
@@ -50,7 +50,7 @@ std::string DTDElement::affiche()
 	return result;
 }
 
-std::string DTDElement::toRegex()
+std::string DTDElement::toRegex() const
 {
     switch(getContentSpec()) {
         case CS_ANY:
@@ -82,7 +82,7 @@ std::string DTDElement::toRegex()
     }
 }
 
-std::string DTDElement::afficheElement()
+std::string DTDElement::afficheElement() const
 {
 	switch(getContentSpec()) {
         case CS_ANY:
