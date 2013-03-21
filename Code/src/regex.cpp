@@ -7,6 +7,8 @@ using namespace std;
 
 bool regex_match(const string str, const string regex)
 {
+cout << "xml : " << str << endl;
+cout << "dtd : " << regex << endl; 
     // pcre_compile :
     const char *err;
     int errOffset;
@@ -20,39 +22,84 @@ bool regex_match(const string str, const string regex)
     // pcre_exec :
     int ovector[100];
     unsigned int len = str.length();
+cout << "bouh" << endl;
     int match_ok = pcre_exec(re, 0, str.c_str(), len, 0, 0, ovector, 100);
+cout << "fin regexmatch" << endl;
     return (match_ok == 1);
+}
+
+bool test_regex (const XMLNode *xmlNode, const DTDRoot *dtdRoot)
+{
+	const DTDElement *goodWay;
+	goodWay = dtdRoot->getElement(xmlNode->getNodeName());
+cout << goodWay->getNom() << " goodWay name" << endl;
+	if ( goodWay )
+	{
+		if (!(regex_match(xmlNode->regexSerialize(), goodWay->toRegex())))
+		{
+cout << "faux regex" << endl;
+			return false;
+		}
+	}
+	else
+	{
+cout << "goodWay null" << endl;
+		return false;
+	}
+cout << "test regex ok" << endl;
+	return true;
+
+/*
+				//attributs du noeud xml
+				if ( (xmlNode->getAttributes()).size() != 0 )
+				{
+					for(xmlNode->getAttributes()::iterator it=xmlNode->getAttributes().begin() ; it!=xmlNode->getAttributes().end() ; ++it)
+					{
+						bool findAtt = false;
+						for (std::list<string>::iterator itList = dtdRoot->getAttlist(xmlNode->getNodeName())->list.begin(); itList != dtdRoot->getAttlist(xmlNode->getNodeName())->list.end(); itList++)
+						{
+							if (*itList.compare(it->first) == 0)
+							{
+								findAtt = true;
+							}
+						}
+						if (!findAtt)
+						{
+							match = false;
+						}
+					}
+				}
+				*/
+
 }
 
 bool match_xml_dtd (const XMLNode *xmlNode, const DTDRoot *dtdRoot)
 {
-	bool match = true;
+	if (!(test_regex (xmlNode, dtdRoot)))
+	{
+cout << "test himself" << endl;
+		return false;
+	}
 	int nbChildren = (xmlNode->getChildren()).size();
+cout << (xmlNode->getChildren()).size() << endl;
 	for (int i = 0; i < nbChildren; i++)
 	{
 		if ( (((xmlNode->getChildren()).at(i))->getChildren()).size() == 0)
 		{
 			if(!(match_xml_dtd((xmlNode->getChildren()).at(i), dtdRoot)))
 			{
-				match = false;
+cout << "test child of child" << endl;
+				return false;
 			}
 		}
 		else
 		{
-			DTDElement goodWay;
-			goodWay = dtdRoot->getElement(xmlNode->getNodeName());
-			if ( goodWay != null )
+			if (!(test_regex ((xmlNode->getChildren()).at(i), dtdRoot)))
 			{
-				if (!(regex_match(xmlNode->regexSerialize(), goodWay->toRegex())))
-				{
-					match = false;
-				}
-			}
-			else
-			{
-				match = false;
+cout << "test child" << endl;
+				return false;
 			}
 		}
 	}
-	return match;
+	return true;
 }

@@ -40,7 +40,7 @@ using namespace std;
 %%
 
 document
-: declarations element misc_seq_opt
+: declarations element misc_seq_opt { *xmlRoot = $2; }
 ;
 
 misc_seq_opt
@@ -70,7 +70,6 @@ element
 											{
 												$$ = new XMLNode($1->first, $1->second, *$2, *$3);
 											}
-											*xmlRoot = $$->getDocumentRoot();
 											//cout << "AFFICHE" << endl << $$->Affiche();
 										}
 ;

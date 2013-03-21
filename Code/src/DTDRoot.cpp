@@ -30,7 +30,7 @@ attlists(attlists)
 {
 }
 
-const vector<DTDElement>& DTDRoot::getElements()
+const vector<DTDElement>& DTDRoot::getElements() const
 {
 	return elements;
 }
@@ -58,12 +58,12 @@ void DTDRoot::addAttlist(string nom, string attr)
 	}
 }
 
-const vector<DTDAttlist>& DTDRoot::getAttlists()
+const vector<DTDAttlist>& DTDRoot::getAttlists() const
 {
 	return attlists;
 }
 
-std::string DTDRoot::affiche()
+std::string DTDRoot::affiche() const
 {
 	std::string buffer;
  
@@ -84,7 +84,7 @@ std::string DTDRoot::affiche()
 
 }
 
-string DTDRoot::attlistAffiche(DTDAttlist attlist)
+string DTDRoot::attlistAffiche(DTDAttlist attlist) const
 {
 	string result = "";
 	for (int i = 0; i < attlist.list.size(); i++)
@@ -95,7 +95,7 @@ string DTDRoot::attlistAffiche(DTDAttlist attlist)
 	return result;
 }
 
-void DTDRoot::enbref()
+void DTDRoot::enbref() const
 {
 	cout << "==== ELEMENTS ====" << endl;
 	for (int i = 0; i < elements.size(); i++) {
@@ -112,14 +112,27 @@ void DTDRoot::enbref()
 
 }
 
-const DTDElement DTDRoot::getElement(const string elementName)
+const DTDElement* DTDRoot::getElement(const string elementNom) const
 {
 	for (int i = 0; i < getElements().size(); i++)
 	{
-		if ( getElements().at(i).getNom().compare(elementName) == 0 )
+		if ( getElements().at(i).getNom().compare(elementNom) == 0 )
 		{
-			return getElements().at(i);
+cout << getElements().at(i).getNom() << " fin getelement(nom)" << endl;
+			return &(getElements().at(i));
 		}
 	}
-	return null;
+	return NULL;
+}
+
+const DTDAttlist* DTDRoot::getAttList(const string elementName) const
+{
+	for (int i = 0; i < getAttlists().size(); i++)
+	{
+		if ( getAttlists().at(i).elementName.compare(elementName) == 0 )
+		{
+			return &(getAttlists().at(i));
+		}
+	}
+	return NULL;
 }
