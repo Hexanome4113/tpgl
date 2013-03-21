@@ -28,7 +28,6 @@ cout << "fin regexmatch" << endl;
     return (match_ok == 1);
 }
 
-<<<<<<< HEAD
 bool test_regex (const XMLNode *xmlNode, const DTDRoot *dtdRoot)
 {
 	const DTDElement *goodWay;
@@ -83,12 +82,6 @@ cout << "test himself" << endl;
 	}
 	int nbChildren = (xmlNode->getChildren()).size();
 cout << (xmlNode->getChildren()).size() << endl;
-=======
-bool match_xml_dtd (XMLNode *xmlNode, DTDRoot *dtdRoot)
-{
-	bool match = true;
-	int nbChildren = xmlNode->getChildren().size();
->>>>>>> 8581df3982f8d6104b7bb471a8e49b4bf8e9787f
 	for (int i = 0; i < nbChildren; i++)
 	{
 		if ( (((xmlNode->getChildren()).at(i))->getChildren()).size() == 0)
@@ -101,25 +94,10 @@ cout << "test child of child" << endl;
 		}
 		else
 		{
-<<<<<<< HEAD
 			if (!(test_regex ((xmlNode->getChildren()).at(i), dtdRoot)))
 			{
 cout << "test child" << endl;
 				return false;
-=======
-			DTDElement goodWay;
-			try
-			{
-				goodWay = dtdRoot->getElement(xmlNode->getNodeName());
-				if (!(regex_match(xmlNode->regexSerialize(), goodWay.toRegex())))
-				{
-					match = false;
-				}
-			} 
-			catch (int e) 
-			{
-				match = false;
->>>>>>> 8581df3982f8d6104b7bb471a8e49b4bf8e9787f
 			}
 		}
 	}

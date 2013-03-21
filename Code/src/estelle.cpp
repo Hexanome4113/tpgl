@@ -34,12 +34,12 @@ int main(int argc, char **argv) {
 	
 	DTDRoot *dtdroot;
 	dtdin = fopen(dtd, "r");
-	err = dtdparse(&dtdroot);
+	err = dtdparse(&dtdroot, new string() );
 	fclose(dtdin);
 	if (err != 0) printf("DTD parse ended with %d error(s)\n", err);
 	else printf("DTD parse ended with success\n", err);
 	
-	//cout << xmlRoot->Affiche() << endl;
+	cout << xmlRoot->Affiche() << endl;
 	bool match = match_xml_dtd (xmlRoot, dtdroot);
 	cout << boolalpha << match << endl;
 	delete dtdroot;
