@@ -1,49 +1,6 @@
 #include <iostream>
-#include "../modele/xmlnode.h"
+#include "../Code/src/XMLNode.h"
 
-/*
-XMLNode *transmormationArbre(XMLNode *xmlTree, XMLNode *xslTree)
-{
-	for(	vector<XMLNode *>::iterator itXsl = xslTree->getChildren().begin() ;
-		itXsl != xslTree->getChildren().end();
-		itXsl++	)
-	{
-		if ( (*itXsl)->getAttributes().find("match")->second() == xmlTree->getNodeName())
-		{
-			itXsl = (*itXsl)->getChildren().begin();
-
-			while ((*itXsl)->getNodeName() != "apply-templates")
-			{
-				
-				//Ecrire le texte se trouvant AVANT la balise <apply-templates/>
-				itXsl++;
-			}
-			if ( xmlTree->isTextNode() ) 
-			{
-				result += xmlTree->getTextContent() +"\n";
-			}
-			else
-			{
-				transmormationArbre(xmlTree, xslTree);//???
-			}
-			while( itXsl->hasNext() )
-			{
-				//Ecrire le texte se trouvant APRES la balise <apply-templates/>
-				itXsl++;
-			}
-		
-		else{
-			if ( xmlTree->isTextNode() ) 
-			{
-				result += xmlTree->getTextContent() +"\n";
-			}
-			else
-			{
-				transmormationArbre(xmlTree, xslTree);
-			}
-		}
-	}
-}*/
 XMLNode* matchTemplates(XMLNode *xmlNode, XMLNode *xslRoot);
 
 vector<XMLNode*> applyTemplate(XMLNode *xmlNode, XMLNode *xslTemplate, XMLNode *xslRoot)
@@ -64,8 +21,28 @@ vector<XMLNode*> applyTemplate(XMLNode *xmlNode, XMLNode *xslTemplate, XMLNode *
 		{
 			childrenVect.push_back(matchTemplates(xmlNode, xslRoot));
 		}
-		/*else if ((*itXsl)->getFullName() == "xsl:value-of")
-		{
+		/*else if ((*itXsl)->getFullName() == "xsl:value-of")		On ne fait pas value of?? :'(
+		{	
+			string value_of =(*itXsl)->getAttributes().find("select")->second;
+			if (value_of.at(0) == "@")
+			//si c'est un attribut, recherche de l'att correspondant
+			{
+				string textValue = xmlNode->getAttributes().find(value_of.substr(1,(value_of.size()-1))->second;
+				childrenVect.push_back( new XmlNode* (textValue) );
+			}
+			else
+			//sinon il faut récupérér les fils de la balise fille portant le nom "value_of"
+			{
+				for (vector<XMLNode *>::iterator itXml = xmlNode->getChildren().begin() ;
+				itXml != xmlNode->getChildren().end();
+				itXml++	)
+				{
+					if (*itXml->getNodeName == value_of)
+					{
+						
+					}
+				}
+			}
 		}*/
 		else
 		// sinon, c'est une balise
@@ -82,11 +59,15 @@ XMLNode* matchTemplates(XMLNode *xmlNode, XMLNode *xslRoot)
 {
 	XMLNode* returned;
 	xmlNode->Affiche();
+
+	vector<XMLNode*> childVect;
+
 	for (vector<XMLNode *>::iterator itXml = xmlNode->getChildren().begin() ;
 		itXml != xmlNode->getChildren().end();
 		itXml++	)
 	//pour tous les fils du noeud xml
-	{
+	{	
+		bool matchTemplate = false;
 		for(	vector<XMLNode *>::iterator itXsl = xslRoot->getChildren().begin() ;
 				itXsl != xslRoot->getChildren().end();
 				itXsl++	)
@@ -95,20 +76,24 @@ XMLNode* matchTemplates(XMLNode *xmlNode, XMLNode *xslRoot)
                     if ( (*itXsl)->getFullName() == "xsl:template" && (*itXsl)->getAttributes().find("match")->second == (*itXml)->getNodeName())
 			//est ce que un xml et un xsl matchent
 			{
-				vector<XMLNode*> formatedChildren = applyTemplate(xmlNode,(*itXsl),xslRoot);
-				if (formatedChildren.size()==1)
-				{
-					returned->getChildren().push_back(formatedChildren[0]);
-				}
-				else
-				{
-					returned->getChildren().insert( returned->getChildren().end(),
-						 formatedChildren.begin(), formatedChildren.end() ); //concat les 2 vect
-				}
+				matchTemplate = true;
+
+				vector<XMLNode*> returnedVect = applyTemplate(xmlNode,(*itXsl),xslRoot);
+				childVect.insert( childVect.end(), returnedVect.begin(), returnedVect.end() );
+						
 			}
 		}
 		// END pour tous les templates du xsl
+
+		if (matchTemplate == false) 
+		// Si le noeud xml ne match avec aucun xsl template on le recopie sans modif
+		{
+			childVect.push_back( matchTemplates(*itXml, xslRoot) );
+		}
 	}
+
+	return new XMLNode(xmlNode->getNameSpace(),xmlNode->getNodeName(), xmlNode->getAttributes(), childVect);
+
 	// END pour tous les fils du noeud xml		
 }
 
