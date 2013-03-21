@@ -1,0 +1,6 @@
+
+<!ELEMENT rapport6 ANY>
+<!ELEMENT rapport5 ANY>
+<!ELEMENT rapport4 ANI>
+<!ELEMENT rapport3 EMPTI>
+<!ELEMENT rapport2 (rapport)>

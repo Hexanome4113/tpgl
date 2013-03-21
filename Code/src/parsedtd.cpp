@@ -8,7 +8,7 @@ int main(int argc, char *argv[]) {
 
 	DTDRoot *dtd;
 	if (!(dtd = DTDParser::loadFromFile(argv[1]))) {
-		return 2;
+        return 102; // 102 == ERR_ANALYSE_SYNTAXIQUE
 	} else {
 		delete dtd;
 		return 0;
