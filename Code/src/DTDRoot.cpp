@@ -30,7 +30,7 @@ attlists(attlists)
 {
 }
 
-const vector<DTDElement>& DTDRoot::getElements()
+vector<DTDElement>& DTDRoot::getElements()
 {
 	return elements;
 }
@@ -58,7 +58,7 @@ void DTDRoot::addAttlist(string nom, string attr)
 	}
 }
 
-const vector<DTDAttlist>& DTDRoot::getAttlists()
+vector<DTDAttlist>& DTDRoot::getAttlists()
 {
 	return attlists;
 }
@@ -112,7 +112,7 @@ void DTDRoot::enbref()
 
 }
 
-const DTDElement DTDRoot::getElement(const string elementName)
+DTDElement DTDRoot::getElement(string elementName)
 {
 	for (int i = 0; i < getElements().size(); i++)
 	{
@@ -121,5 +121,5 @@ const DTDElement DTDRoot::getElement(const string elementName)
 			return getElements().at(i);
 		}
 	}
-	return null;
+	throw 666;
 }

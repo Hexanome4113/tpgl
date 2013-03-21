@@ -24,10 +24,10 @@ bool regex_match(const string str, const string regex)
     return (match_ok == 1);
 }
 
-bool match_xml_dtd (const XMLNode *xmlNode, const DTDRoot *dtdRoot)
+bool match_xml_dtd (XMLNode *xmlNode, DTDRoot *dtdRoot)
 {
 	bool match = true;
-	int nbChildren = (xmlNode->getChildren()).size();
+	int nbChildren = xmlNode->getChildren().size();
 	for (int i = 0; i < nbChildren; i++)
 	{
 		if ( (((xmlNode->getChildren()).at(i))->getChildren()).size() == 0)
@@ -40,15 +40,15 @@ bool match_xml_dtd (const XMLNode *xmlNode, const DTDRoot *dtdRoot)
 		else
 		{
 			DTDElement goodWay;
-			goodWay = dtdRoot->getElement(xmlNode->getNodeName());
-			if ( goodWay != null )
+			try
 			{
-				if (!(regex_match(xmlNode->regexSerialize(), goodWay->toRegex())))
+				goodWay = dtdRoot->getElement(xmlNode->getNodeName());
+				if (!(regex_match(xmlNode->regexSerialize(), goodWay.toRegex())))
 				{
 					match = false;
 				}
-			}
-			else
+			} 
+			catch (int e) 
 			{
 				match = false;
 			}

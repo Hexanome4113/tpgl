@@ -20,14 +20,14 @@ public:
 	DTDRoot();
 	DTDRoot(vector<DTDElement> elements, vector<DTDAttlist> attlists);
 	
-	const vector<DTDElement>& getElements();
+	vector<DTDElement>& getElements();
 	void addElement(DTDElement element);
-	const vector<DTDAttlist>& getAttlists();
+	vector<DTDAttlist>& getAttlists();
 	void addAttlist(std::string nom, std::string attr);
 	void enbref();
 	string affiche();
 	string attlistAffiche(DTDAttlist attlist);
-	const DTDElement getElement(const string elementName);
+	DTDElement getElement(string elementName);
 	
 protected:
 	

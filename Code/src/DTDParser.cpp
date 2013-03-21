@@ -3,6 +3,8 @@
 
 #include "commun.h"
 
+#include <cstdio>
+
 using namespace std;
 
 
