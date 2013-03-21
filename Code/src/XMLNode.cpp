@@ -42,6 +42,7 @@ string XMLNode::regexSerialize() const
 		
 		returned += " ";
 	}
+	return returned;
 }
 
 string XMLNode::indent(string strToIndent) const
