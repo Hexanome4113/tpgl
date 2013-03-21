@@ -48,77 +48,77 @@ public:
     virtual ~XMLNode();
 	
 	
-	string regexSerialize();
+	string regexSerialize() const;
 	
-	string Affiche();
+	string Affiche() const;
 	
 	/**
 	 * \return namespace du noeud. vide si TEXT_NODE ou pas de namespace.
 	 */
-	string getNameSpace();
+	string getNameSpace() const;
 
 	/**
 	 * \return nom du noeud. vide si TEXT_NODE.
 	 */
-	string getNodeName();
+	string getNodeName() const;
 	
 	/**
 	 * \return renvoie nom et namespace au format "namespace:nom". vide si TEXT_NODE.
 	 */
-	string getFullName();
+	string getFullName() const;
 	
 	/**
 	 * \return vrai si le noeud contient un attribut de nom name.
 	 * \param name nom de l'attribut recherché.
 	 */
-	bool hasAttribute(string name);
+	bool hasAttribute(string name) const;
 	
 	/**
 	 * \return vrai si nodeType == TEXT_NODE.
 	 */
-	bool isTextNode();
+	bool isTextNode() const;
 	
 	/**
 	 * \return vrai si nodeType == ELEMENT_NODE.
 	 */
-	bool isElementNode();
+	bool isElementNode() const;
 	
 	//string getAttribute(string name);
 	
 	/**
 	 * \return référence constante sur une map<nom, valeur> des attributs du noeud.
 	 */
-	const map<string, string>& getAttributes();
+	const map<string, string>& getAttributes() const;
 	
 	/**
 	 * \return vrai si contient des fils de type TEXT_NODE (donc du #PCDATA).
 	 */
-	bool hasMixedContent();
+	bool hasMixedContent() const;
 	
 	/**
 	 * \return node racine du document XML représenté.
 	 */
-	XMLNode* getDocumentRoot();
+	XMLNode* getDocumentRoot() const;
 	
 	/**
 	 * \return contenu texte d'un TEXT_NODE. vide si ELEMENT_NODE.
 	 */
-	string getTextContent();
+	string getTextContent() const;
 	
 	/**
 	 * \return parent du noeud.
 	 */
-	XMLNode* getParent();
+	XMLNode* getParent() const;
 	
 	/**
 	 * \return vecteur des noeuds fils.
 	 */
-	vector<XMLNode*> getChildren();
+	vector<XMLNode*> getChildren() const;
 	
 
 protected:
 	
-	string indent(string strToIndent);
+	string indent(string strToIndent) const;
 
 	
 //ATRIBUTES

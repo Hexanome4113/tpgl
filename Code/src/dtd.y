@@ -41,6 +41,7 @@ using namespace std;
 
 /* notre parseur prend en parametre un DTDRoot */
 %parse-param {DTDRoot **dtdroot}
+%parse-param {string *info}
 
 %%
 
@@ -302,6 +303,6 @@ int dtdwrap(void) {
 	return 1;
 }
 
-void dtderror(DTDRoot **dtdroot, char *msg) {
-	fprintf(stderr, "%s\n", msg);
+void dtderror(DTDRoot **dtdroot, string *info, char *msg) {
+    fprintf(stderr, "syntax dtd %s\n", msg);
 }
