@@ -117,5 +117,5 @@ int xmlwrap(void) {
 }
 
 void xmlerror(char **dtd, XMLNode **xmlRoot, char *msg) {
-	fprintf(stderr, "%s\n", msg);
+	fprintf(stderr, "syntax xml %s\n", msg);
 }

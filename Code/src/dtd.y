@@ -56,7 +56,6 @@ dtd_list_opt
         // cout << "ajout d'un !element " << $3 << " a root" << endl;
         // cout << "cet element possède la définition suivante :" << endl;
         // $4->affiche();
-        *info = "erreur lors de l'ajout de l'element " + string($3) + " a root";
         delete $4;
     }
 | dtd_list_opt ATTLIST NOM att_definition_opt SUP { cout << "attlist found" << endl; }
@@ -305,5 +304,5 @@ int dtdwrap(void) {
 }
 
 void dtderror(DTDRoot **dtdroot, string *info, char *msg) {
-    fprintf(stderr, "dtd#%s#%s\n", msg, info->c_str()); // msg must not contains '#'
+    fprintf(stderr, "syntax dtd %s\n", msg);
 }

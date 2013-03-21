@@ -6,7 +6,13 @@ from optparse import OptionParser
 import subprocess
 import os
 
-EXE_NAME = "tpglcpp"
+EXE_NAME = "tpgl"
+
+# codes d'erreurs
+ERR_ANALYSE_LEXICALE = 101
+ERR_ANALYSE_SYNTAXIQUE = 102
+ECHEC_VALIDATION_DTD = 103
+ERR_XSLT = 104
 
 # subprocess wrapper :
 
@@ -48,6 +54,10 @@ def file_abspath_or_none(file):
 
 
 def option_or_nooption(name, presence, after_if_presence=""):
+    if not after_if_presence:
+        after_if_presence = ""
+    else:
+        after_if_presence = '=' + after_if_presence
     if presence:
         return name + after_if_presence
     else:
@@ -77,13 +87,45 @@ def parsexml(opt, args):
     
     restore = option_or_nooption("restore", opt.restore)
     validate = option_or_nooption("validate", opt.validate)
-    applyxslt = option_or_nooption("applyxslt", xsltfile, '=' + xsltfile)
+    applyxslt = option_or_nooption("applyxslt", xsltfile, xsltfile)
 
     command = path_of_exe(EXE_NAME) + ' ' + scname + ' ' + xmlfile + ' ' +\
         restore + ' ' + validate + ' ' + applyxslt
     print command
     cmd = call(command)
-    print repr(cmd)
+
+    if output is not None:
+        sys.stdout = open(output, "w")
+
+    if cmd['code'] in (ERR_ANALYSE_LEXICALE, ERR_ANALYSE_SYNTAXIQUE):
+        lex_errs = [l.strip() for l in cmd['err'] if l.startswith('lexical')]
+        syn_errs = [l.strip() for l in cmd['err'] if l.startswith('syntax')]
+
+        if lex_errs:
+            print "Erreur lors de l'analyse lexicale."
+            print "Détail :"
+            for line in lex_errs:
+                _, ext, lineno, char = line.split(' ', 3)
+            print "  - Fichier au format %s, ligne %d, caractère rencontré : %s" % (ext, lineno, char)
+
+        if syn_errs:
+            print "Erreur lors de l'analyse syntaxique."
+            print "Détail : "
+            for line in syn_errs:
+                _, ext, msg = line.split(' ', 2)
+            print "  - Fichier au format %s : %s" % (ext, msg)
+
+    elif cmd['code'] == ECHEC_VALIDATION_DTD:
+        print "Échec de la validation de conformité selon la DTD du fichier %s" % args[0]
+        print "Détail :"
+        print '  ', '\n  '.join((l.strip() for l in cmd['err']))
+    elif cmd['code'] == ERR_XSLT:
+        print "Erreur avec le fichier XSLT %s." % xsltfile
+        print "Détail :"
+        print '  ', '\n  '.join((l.strip() for l in cmd['err']))
+    else:  # tout va bien
+        print ''.join(cmd['out'])
+    # print repr(cmd)
     
 
 def parsedtd(opt, args):
@@ -104,7 +146,30 @@ def parsedtd(opt, args):
     command = path_of_exe(EXE_NAME) + ' ' + scname + ' ' + dtdfile + ' ' + restore
     print command
     cmd = call(command)
-    print repr(cmd)
+
+    if output is not None:
+        sys.stdout = open(output, "w")
+
+    if cmd['code'] in (ERR_ANALYSE_LEXICALE, ERR_ANALYSE_SYNTAXIQUE):
+        lex_errs = [l.strip() for l in cmd['err'] if l.startswith('lexical')]
+        syn_errs = [l.strip() for l in cmd['err'] if l.startswith('syntax')]
+
+        if lex_errs:
+            print "Erreur lors de l'analyse lexicale."
+            print "Détail :"
+            for line in lex_errs:
+                _, ext, lineno, char = line.split(' ', 3)
+            print "  - Fichier %s (format %s), ligne %d, caractère rencontré : %s" % (args[0], ext, lineno, char)
+
+        if syn_errs:
+            print "Erreur lors de l'analyse syntaxique."
+            print "Détail : "
+            for line in syn_errs:
+                _, ext, msg = line.split(' ', 2)
+            print "  - Fichier %s (format %s) : %s" % (args[0], ext, msg)
+    else:  # tout va bien
+        print ''.join(cmd['out'])
+    # print repr(cmd)
 
 
 def validate(opt, args):
@@ -123,7 +188,35 @@ def validate(opt, args):
     command = path_of_exe(EXE_NAME) + ' ' + scname + ' ' + xmlfile
     print command
     cmd = call(command)
-    print repr(cmd)
+
+    if output is not None:
+        sys.stdout = open(output, "w")
+
+    if cmd['code'] in (ERR_ANALYSE_LEXICALE, ERR_ANALYSE_SYNTAXIQUE):
+        lex_errs = [l.strip() for l in cmd['err'] if l.startswith('lexical')]
+        syn_errs = [l.strip() for l in cmd['err'] if l.startswith('syntax')]
+
+        if lex_errs:
+            print "Erreur lors de l'analyse lexicale."
+            print "Détail :"
+            for line in lex_errs:
+                _, ext, lineno, char = line.split(' ', 3)
+            print "  - Fichier au format %s, ligne %d, caractère rencontré : %s" % (ext, lineno, char)
+
+        if syn_errs:
+            print "Erreur lors de l'analyse syntaxique."
+            print "Détail : "
+            for line in syn_errs:
+                _, ext, msg = line.split(' ', 2)
+            print "  - Fichier au format %s : %s" % (ext, msg)
+
+    elif cmd['code'] == ECHEC_VALIDATION_DTD:
+        print "Échec de la validation de conformité selon la DTD du fichier %s" % args[0]
+        print "Détail :"
+        print '  ', '\n  '.join((l.strip() for l in cmd['err']))
+    else:  # tout va bien
+        print ''.join(cmd['out'])
+    # print repr(cmd)
 
 
 def applyxslt(opt, args):
@@ -147,7 +240,35 @@ def applyxslt(opt, args):
     command = path_of_exe(EXE_NAME) + ' ' + scname + ' ' + xmlfile + ' ' + xsltfile
     print command
     cmd = call(command)
-    print repr(cmd)
+
+    if output is not None:
+        sys.stdout = open(output, "w")
+
+    if cmd['code'] in (ERR_ANALYSE_LEXICALE, ERR_ANALYSE_SYNTAXIQUE):
+        lex_errs = [l.strip() for l in cmd['err'] if l.startswith('lexical')]
+        syn_errs = [l.strip() for l in cmd['err'] if l.startswith('syntax')]
+
+        if lex_errs:
+            print "Erreur lors de l'analyse lexicale."
+            print "Détail :"
+            for line in lex_errs:
+                _, ext, lineno, char = line.split(' ', 3)
+            print "  - Fichier au format %s, ligne %d, caractère rencontré : %s" % (ext, lineno, char)
+
+        if syn_errs:
+            print "Erreur lors de l'analyse syntaxique."
+            print "Détail : "
+            for line in syn_errs:
+                _, ext, msg = line.split(' ', 2)
+            print "  - Fichier au format %s : %s" % (ext, msg)
+
+    elif cmd['code'] == ERR_XSLT:
+        print "Erreur avec le fichier XSLT %s." % args[1]
+        print "Détail :"
+        print '  ', '\n  '.join((l.strip() for l in cmd['err']))
+    else:  # tout va bien
+        print ''.join(cmd['out'])
+    # print repr(cmd)
 
 
 subcommands = {
