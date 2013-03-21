@@ -6,6 +6,8 @@ from optparse import OptionParser
 import subprocess
 import os
 
+EXE_NAME = "tpglcpp"
+
 # subprocess wrapper :
 
 def call(command):
@@ -31,7 +33,7 @@ def path_of_exe(exe_name):
     curdir = os.path.dirname(os.path.abspath(__file__))
     path = os.path.join(curdir, 'bin', exe_name)
     if not os.path.isfile(path):
-        print 'Oops, erreur interne.\n  executable manquant: "%s"' % path 
+        print 'Oops, erreur interne.\n  executable manquant: "%s"' % path
         sys.exit(-1)
     return path
 
@@ -45,6 +47,13 @@ def file_abspath_or_none(file):
     return None
 
 
+def option_or_nooption(name, presence, after_if_presence=""):
+    if presence:
+        return name + after_if_presence
+    else:
+        return "no" + name
+
+
 # subcommands :
 
 def parsexml(opt, args):
@@ -56,12 +65,6 @@ def parsexml(opt, args):
     if xmlfile is None:
         printusage(scname, 'fichier "%s" inexistant' % args[0])
 
-    dtdfile = None
-    if opt.dtdfile is not None:
-        dtdfile = file_abspath_or_none(opt.dtdfile)
-        if dtdfile is None:
-            printusage(scname, 'fichier "%s" inexistant' % opt.dtdfile)
-
     xsltfile = None
     if opt.xsltfile is not None:
         xsltfile = file_abspath_or_none(opt.xsltfile)
@@ -72,28 +75,21 @@ def parsexml(opt, args):
     if opt.output is not None:
         output = os.path.abspath(opt.output)
     
-    restore = opt.restore
-    
-    print "On va parser le fichier XML", xmlfile
-    if restore:
-        print "puis le regénérer à partir de l'objet en mémoire et l'envoyer sur la sortie"
-    if dtdfile:
-        print "puis on va vérifier qu'il respecte la DTD", dtdfile
-    if xsltfile:
-        print "puis on va le transformer selon le XSLT", xsltfile, "et afficher le résultat sur la sortie"
-    if output:
-        print "la sortie standard sera redirigée vers", output
-    print "CMD"
-    cmd = call("/home/fmatigot/workspace/tpgl/Code/bin/parsedtd /home/fmatigot/workspace/tpgl/Code/test/err1.dtd")
+    restore = option_or_nooption("restore", opt.restore)
+    validate = option_or_nooption("validate", opt.validate)
+    applyxslt = option_or_nooption("applyxslt", xsltfile, '=' + xsltfile)
+
+    command = path_of_exe(EXE_NAME) + ' ' + scname + ' ' + xmlfile + ' ' +\
+        restore + ' ' + validate + ' ' + applyxslt
+    print command
+    cmd = call(command)
     print repr(cmd)
     
-
 
 def parsedtd(opt, args):
     scname = 'parsedtd'
     if len(args) < 1:
         printusage(scname, 'nom du fichier dtd manquant')
-    print 'parsing dtd'
     
     dtdfile = file_abspath_or_none(args[0])
     if dtdfile is None:
@@ -103,9 +99,9 @@ def parsedtd(opt, args):
     if opt.output is not None:
         output = os.path.abspath(opt.output)
 
-    restore = opt.restore
-    
-    command = path_of_exe(scname) + ' ' + dtdfile
+    restore = option_or_nooption("restore", opt.restore)
+
+    command = path_of_exe(EXE_NAME) + ' ' + scname + ' ' + dtdfile + ' ' + restore
     print command
     cmd = call(command)
     print repr(cmd)
@@ -113,23 +109,21 @@ def parsedtd(opt, args):
 
 def validate(opt, args):
     scname = 'validate'
-    if len(args) < 2:
-        printusage(scname, 'nom du fichier xml ou dtd manquant')
-    print 'validating xml'
+    if len(args) < 1:
+        printusage(scname, 'nom du fichier xml manquant')
     
     xmlfile = file_abspath_or_none(args[0])
     if xmlfile is None:
         printusage(scname, 'fichier "%s" inexistant' % args[0])
     
-    dtdfile = file_abspath_or_none(args[1])
-    if dtdfile is None:
-        printusage(scname, 'fichier "%s" inexistant' % args[1])
-    
     output = None
     if opt.output is not None:
         output = os.path.abspath(opt.output)
-    
-    print opt, args
+
+    command = path_of_exe(EXE_NAME) + ' ' + scname + ' ' + xmlfile
+    print command
+    cmd = call(command)
+    print repr(cmd)
 
 
 def applyxslt(opt, args):
@@ -150,7 +144,10 @@ def applyxslt(opt, args):
     if opt.output is not None:
         output = os.path.abspath(opt.output)
         
-    print opt, args
+    command = path_of_exe(EXE_NAME) + ' ' + scname + ' ' + xmlfile + ' ' + xsltfile
+    print command
+    cmd = call(command)
+    print repr(cmd)
 
 
 subcommands = {
@@ -161,15 +158,15 @@ subcommands = {
         'options': [
             {
                 'args': ['-r', '--restore'],
-                'kwargs': dict(action="store_true", dest="restore", default=False, help="Restitue le fichier parsé sur la sortie")
+                'kwargs': dict(action="store_true", dest="restore", default=False, help="Restitue le fichier parse sur la sortie")
             },
             {
                 'args': ['-v', '--validate'],
-                'kwargs': dict(dest="dtdfile", default=None, help='Valide la conformité du fichier parsé avec le fichier DTD DTDFILE', metavar="DTDFILE")
+                'kwargs': dict(action="store_true", dest="validate", default=False, help='Valide la conformite du fichier parse avec le fichier DTD qu il declare.')
             },
             {
                 'args': ['-a', '--applyxslt'],
-                'kwargs': dict(dest="xsltfile", default=None, help='Transforme le fichier parsé à l\'aide du fichier XSLT XSLTFILE', metavar="XSLTFILE")
+                'kwargs': dict(dest="xsltfile", default=None, help='Transforme le fichier parse a l\'aide du fichier XSLT XSLTFILE', metavar="XSLTFILE")
             },
             {
                 'args': ['-o', '--output'],
@@ -185,7 +182,7 @@ subcommands = {
         'options': [
             {
                 'args': ['-r', '--restore'],
-                'kwargs': dict(action="store_true", dest="restore", default=False, help="Restitue le fichier parsé sur la sortie")
+                'kwargs': dict(action="store_true", dest="restore", default=False, help="Restitue le fichier parse sur la sortie")
             },
             {
                 'args': ['-o', '--output'],
@@ -196,8 +193,8 @@ subcommands = {
     
     'validate': {
         'func': validate,
-        'usage': 'usage: tpgl validate xmlfile dtdfile [options]\n  ' +
-                 'Valide la conformité du fichier XML "xmlfile" avec le fichier DTD "dtdfile".',
+        'usage': 'usage: tpgl validate xmlfile [options]\n  ' +
+                 'Valide la conformite du fichier XML "xmlfile" avec le fichier DTD qu\'il declare.',
         'options': [
             {
                 'args': ['-o', '--output'],
@@ -209,7 +206,7 @@ subcommands = {
     'applyxslt': {
         'func': applyxslt,
         'usage': 'usage: tpgl applyxslt xmlfile xsltfile [options]\n  ' +
-                 'Transforme le fichier XML "xmlfile" à l\'aide du fichier XSLT "xsltfile".',
+                 'Transforme le fichier XML "xmlfile" a l\'aide du fichier XSLT "xsltfile".',
         'options': [
             {
                 'args': ['-o', '--output'],
