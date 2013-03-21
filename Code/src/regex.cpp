@@ -24,3 +24,35 @@ bool regex_match(const string str, const string regex)
     return (match_ok == 1);
 }
 
+bool match_xml_dtd (const XMLNode *xmlNode, const DTDRoot *dtdRoot)
+{
+	bool match = true;
+	int nbChildren = (xmlNode->getChildren()).size();
+	for (int i = 0; i < nbChildren; i++)
+	{
+		if ( (((xmlNode->getChildren()).at(i))->getChildren()).size() == 0)
+		{
+			if(!(match_xml_dtd((xmlNode->getChildren()).at(i), dtdRoot)))
+			{
+				match = false;
+			}
+		}
+		else
+		{
+			DTDElement goodWay;
+			goodWay = dtdRoot->getElement(xmlNode->getNodeName());
+			if ( goodWay != null )
+			{
+				if (!(regex_match(xmlNode->regexSerialize(), goodWay->toRegex())))
+				{
+					match = false;
+				}
+			}
+			else
+			{
+				match = false;
+			}
+		}
+	}
+	return match;
+}

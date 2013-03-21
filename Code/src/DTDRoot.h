@@ -27,6 +27,7 @@ public:
 	void enbref();
 	string affiche();
 	string attlistAffiche(DTDAttlist attlist);
+	const DTDElement getElement(const string elementName);
 	
 protected:
 	
