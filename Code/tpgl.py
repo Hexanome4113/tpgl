@@ -220,7 +220,7 @@ def validate(opt, args):
         print '  ', '\n  '.join((l.strip() for l in cmd['err']))
     else:  # tout va bien
         if cmd['out'] not in ([], ['']):
-            print '\n'.join(cmd['out'])
+            #print '\n'.join(cmd['out'])
     # print repr(cmd)
 
 
