@@ -28,7 +28,7 @@ void parsexml(string xmlfile, bool restore) {
 
 	if (p) {
 		if (p->first && restore) {
-			p->first->Affiche();
+			cout << p->first->Affiche() << endl;
 		}
 		XMLParser::destroy(p);
     } else {
