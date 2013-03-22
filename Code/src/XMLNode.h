@@ -51,7 +51,7 @@ public:
     virtual ~XMLNode();
 	
 	
-	string regexSerialize() const;
+	const string regexSerialize() const;
 	
 	string Affiche() const;
 	
@@ -63,7 +63,7 @@ public:
 	/**
 	 * \return nom du noeud. vide si TEXT_NODE.
 	 */
-	string getNodeName() const;
+	const string getNodeName() const;
 	
 	/**
 	 * \return renvoie nom et namespace au format "namespace:nom". vide si TEXT_NODE.

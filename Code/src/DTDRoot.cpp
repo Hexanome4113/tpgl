@@ -118,7 +118,6 @@ const DTDElement* DTDRoot::getElement(const string elementNom) const
 	{
 		if ( getElements().at(i).getNom().compare(elementNom) == 0 )
 		{
-cout << getElements().at(i).getNom() << " fin getelement(nom)" << endl;
 			return &(getElements().at(i));
 		}
 	}
