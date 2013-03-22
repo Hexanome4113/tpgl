@@ -2,14 +2,15 @@
 #include "DTDParser.h"
 #include "XMLNode.h"
 #include "XMLParser.h"
+#include "applyxslt.h"
 
 using namespace std;
 
 #include <iostream>
 #include <string>
 
-void parsedtd(string xmlfile, bool restore) {
-	DTDRoot *dtd(DTDParser::loadFromFile(xmlfile));
+void parsedtd(string dtdfile, bool restore) {
+	DTDRoot *dtd(DTDParser::loadFromFile(dtdfile));
 
 	if (dtd) {
 		if (restore) {
@@ -29,15 +30,49 @@ void parsexml(string xmlfile, bool restore) {
 			p->first->Affiche();
 		}
 		XMLParser::destroy(p);
-	}
+    } else {
+        exit(102);
+    }
 }
 
 void validate(string xmlfile) {
-	
-//	bool match = match_xml_dtd(xmlRoot, dtdroot);
+	pair<XMLNode *, string*> *p(XMLParser::loadFromFile(xmlfile));
+
+	if (!p) {
+		exit(102);
+    }
+
+	DTDRoot *dtd(DTDParser::loadFromFile(*(p->second)));
+
+	if (!dtd) {
+		XMLParser::destroy(p);
+		exit(102);
+    }
+
+	bool match(match_xml_dtd(p->first, dtd));
+
+	XMLParser::destroy(p);
+	DTDParser::destroy(dtd);
+
+	if (!match) {
+		exit(103);
+	}
 }
 
 void applyxslt(string xmlfile, string xsltfile) {
+	pair<XMLNode *, string*> *pXml(XMLParser::loadFromFile(xmlfile));
+
+	if (!pXml) {
+		exit(102);
+    }
+
+	pair<XMLNode *, string*> *pXslt(XMLParser::loadFromFile(xsltfile));
+	if (!pXml) {
+		XMLParser::destroy(pXml);
+		exit(102);
+    }
+
+	
 }
 
 int main(int argc, char *argv[])
