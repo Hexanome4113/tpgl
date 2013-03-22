@@ -1,8 +1,9 @@
 #include <iostream>
 #include "XMLNode.h"
+#include "applyxslt.h"
 
-XMLNode* matchTemplates(XMLNode *xmlNode, XMLNode *xslRoot);
 
+//Wrapper a appeller pour lancer l'algorithme récursif
 XMLNode* applyXSLT(XMLNode *xmlDocumentRoot, XMLNode *xslStylesheetRoot)
 {
     vector<XMLNode*> content;
