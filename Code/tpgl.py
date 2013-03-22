@@ -91,7 +91,6 @@ def parsexml(opt, args):
 
     command = path_of_exe(EXE_NAME) + ' ' + scname + ' ' + xmlfile + ' ' +\
         restore + ' ' + validate + ' ' + applyxslt
-    print command
     cmd = call(command)
 
     if output is not None:
@@ -106,7 +105,7 @@ def parsexml(opt, args):
             print "Détail :"
             for line in lex_errs:
                 _, ext, lineno, char = line.split(' ', 3)
-            print "  - Fichier au format %s, ligne %d, caractère rencontré : %s" % (ext, lineno, char)
+            print "  - Fichier au format %s, ligne %s, caractère rencontré : %s" % (ext, lineno, char)
 
         if syn_errs:
             print "Erreur lors de l'analyse syntaxique."
@@ -159,7 +158,7 @@ def parsedtd(opt, args):
             print "Détail :"
             for line in lex_errs:
                 _, ext, lineno, char = line.split(' ', 3)
-            print "  - Fichier %s (format %s), ligne %d, caractère rencontré : %s" % (args[0], ext, lineno, char)
+            print "  - Fichier %s (format %s), ligne %s, caractère rencontré : %s" % (args[0], ext, lineno, char)
 
         if syn_errs:
             print "Erreur lors de l'analyse syntaxique."
@@ -168,7 +167,8 @@ def parsedtd(opt, args):
                 _, ext, msg = line.split(' ', 2)
             print "  - Fichier %s (format %s) : %s" % (args[0], ext, msg)
     else:  # tout va bien
-        print ''.join(cmd['out'])
+        if cmd['out'] not in ([], ['']):
+            print ''.join(cmd['out'])
     # print repr(cmd)
 
 
@@ -186,7 +186,6 @@ def validate(opt, args):
         output = os.path.abspath(opt.output)
 
     command = path_of_exe(EXE_NAME) + ' ' + scname + ' ' + xmlfile
-    print command
     cmd = call(command)
 
     if output is not None:
@@ -201,7 +200,7 @@ def validate(opt, args):
             print "Détail :"
             for line in lex_errs:
                 _, ext, lineno, char = line.split(' ', 3)
-            print "  - Fichier au format %s, ligne %d, caractère rencontré : %s" % (ext, lineno, char)
+            print "  - Fichier au format %s, ligne %s, caractère rencontré : %s" % (ext, lineno, char)
 
         if syn_errs:
             print "Erreur lors de l'analyse syntaxique."
@@ -238,7 +237,6 @@ def applyxslt(opt, args):
         output = os.path.abspath(opt.output)
         
     command = path_of_exe(EXE_NAME) + ' ' + scname + ' ' + xmlfile + ' ' + xsltfile
-    print command
     cmd = call(command)
 
     if output is not None:
@@ -253,7 +251,7 @@ def applyxslt(opt, args):
             print "Détail :"
             for line in lex_errs:
                 _, ext, lineno, char = line.split(' ', 3)
-            print "  - Fichier au format %s, ligne %d, caractère rencontré : %s" % (ext, lineno, char)
+            print "  - Fichier au format %s, ligne %s, caractère rencontré : %s" % (ext, lineno, char)
 
         if syn_errs:
             print "Erreur lors de l'analyse syntaxique."

@@ -3,15 +3,22 @@
 #include "XMLNode.h"
 #include "XMLParser.h"
 
+using namespace std;
+
+#include <iostream>
+#include <string>
+
 void parsedtd(string xmlfile, bool restore) {
 	DTDRoot *dtd(DTDParser::loadFromFile(xmlfile));
 
 	if (dtd) {
 		if (restore) {
-			dtd->affiche();
+			cout << dtd->affiche() << endl;
 		}
 		DTDParser::destroy(dtd);
-	}
+    } else {
+        exit(102);
+    }
 }
 
 void parsexml(string xmlfile, bool restore) {
