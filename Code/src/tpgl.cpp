@@ -75,9 +75,9 @@ void applyxslt(string xmlfile, string xsltfile) {
 
 	XMLNode* xmlTransfo(applyXSLT(pXml->first, pXslt->first));
 
-	bool result = !(xmlTransfo);
+	bool result = (xmlTransfo != NULL);
 	if (result) {
-		xmlTransfo->Affiche();
+		cout << xmlTransfo->Affiche() << endl;
 	}
 
 	XMLParser::destroy(pXml);

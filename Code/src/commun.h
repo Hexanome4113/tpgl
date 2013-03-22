@@ -36,6 +36,7 @@ int xmlparse(char **dtd, XMLNode **xmlRoot);
 XML_BUFFER_STATE xml_scan_string(const char *str);
 void xml_delete_buffer(DTD_BUFFER_STATE buffer);
 int xmlwrap(void);
+void xmlrestart(FILE *fichier);
 
 void dtderror(DTDRoot **dtdroot, std::string *info, char *msg);
 int dtdlex(void);
@@ -43,5 +44,6 @@ int dtdparse(DTDRoot **dtdroot, std::string *info);
 DTD_BUFFER_STATE dtd_scan_string(const char *str);
 void dtd_delete_buffer(DTD_BUFFER_STATE buffer);
 int dtdwrap(void);
+void dtdrestart(FILE *fichier);
 
 #endif

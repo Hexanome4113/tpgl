@@ -23,13 +23,13 @@ pair<XMLNode *, string *> *XMLParser::loadFromFile(string xmlFile)
 
 		int err = xmlparse(&dtd, &xml);
 
+		xmlrestart(xmlin);
 		fclose(xmlin);
 
 		if (err > 0) {
 			return NULL;
 		} else {
 			string *s = new string(dtd);
-			free(dtd);
 			return new pair<XMLNode *, string *>(xml, s);
 		}
 	}
@@ -48,7 +48,6 @@ pair<XMLNode *, string *> *XMLParser::loadFromString(string xmlString)
 		return NULL;
 	} else {
 		string *s = new string(dtd);
-		free(dtd);
 		return new pair<XMLNode *, string *>(xml, s);
 	}
 }

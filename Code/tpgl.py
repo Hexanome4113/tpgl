@@ -146,7 +146,6 @@ def parsedtd(opt, args):
     restore = option_or_nooption("restore", opt.restore)
 
     command = path_of_exe(EXE_NAME) + ' ' + scname + ' ' + dtdfile + ' ' + restore
-    print command
     cmd = call(command)
 
     if output is not None:
@@ -220,7 +219,7 @@ def validate(opt, args):
         print '  ', '\n  '.join((l.strip() for l in cmd['err']))
     else:  # tout va bien
         if cmd['out'] not in ([], ['']):
-            #print '\n'.join(cmd['out'])
+            print '\n'.join(cmd['out'])
         else:
             print "Validation réussie !"
     # print repr(cmd)

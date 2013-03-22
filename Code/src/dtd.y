@@ -58,7 +58,7 @@ dtd_list_opt
         // $4->affiche();
         delete $4;
     }
-| dtd_list_opt ATTLIST NOM att_definition_opt SUP { cout << "attlist found" << endl; }
+| dtd_list_opt ATTLIST NOM att_definition_opt SUP { }
     {
         (*dtdroot)->addAttlist($3, $4);
         // cout << "ajout d'un !attlist " << $3 << "/" << $4 << " a root" << endl;
