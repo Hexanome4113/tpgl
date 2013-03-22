@@ -3,6 +3,7 @@
 #include "XMLNode.h"
 #include "XMLParser.h"
 #include "applyxslt.h"
+#include "regex.h"
 
 using namespace std;
 
@@ -72,7 +73,19 @@ void applyxslt(string xmlfile, string xsltfile) {
 		exit(102);
     }
 
-	
+	XMLNode* xmlTransfo(applyXSLT(pXml->first, pXslt->first));
+
+	bool result = !(xmlTransfo);
+	if (result) {
+		xmlTransfo->Affiche();
+	}
+
+	XMLParser::destroy(pXml);
+	XMLParser::destroy(pXslt);
+
+	if (!result) {
+		exit(104);
+	}
 }
 
 int main(int argc, char *argv[])

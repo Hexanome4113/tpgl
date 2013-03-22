@@ -17,7 +17,7 @@ DTD_OBJS=dtd.lex.cpp dtd.tab.cpp dtd.tab.h dtd.lex.o dtd.tab.o regex.o DTDDefini
 XML_OBJS=xml.lex.cpp xml.tab.cpp xml.tab.h xml.lex.o xml.tab.o XMLNode.o XMLParser.o
 
 TARGET=tpgl
-OBJECTS=tpgl.o
+OBJECTS=tpgl.o applyxslt.o
 HEADERS=
 
 all: $(addprefix $(BIN_DIR), $(TARGET))
