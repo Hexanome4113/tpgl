@@ -4,7 +4,6 @@
   <auteur>
     <prenom> Nino </prenom>
     <nom> Silverio </nom>
-    <age>45</age>
   </auteur>
   <resume> Ceci est extrait du livre "Réaliser un compilateur : 
 	les outils Lex et Yacc" de Nino Silverio. </resume>

@@ -1,6 +1,5 @@
 #include "XMLNode.h"
 
-
 XMLNode::XMLNode(string nodeNamespace, string nodeName, map<string, string> attributeList)
 :elementNamespace(nodeNamespace),
 elementName(nodeName),
@@ -28,7 +27,7 @@ lonely(false)
 }
 
 
-string XMLNode::regexSerialize() const
+const string XMLNode::regexSerialize() const
 {
 	string returned;
 	
@@ -42,6 +41,7 @@ string XMLNode::regexSerialize() const
 		
 		returned += " ";
 	}
+	return returned;
 }
 
 string XMLNode::indent(string strToIndent) const
@@ -118,7 +118,7 @@ string XMLNode::getNameSpace() const
 	return elementNamespace;
 }
 
-string XMLNode::getNodeName() const
+const string XMLNode::getNodeName() const
 {
 	return elementName;
 }

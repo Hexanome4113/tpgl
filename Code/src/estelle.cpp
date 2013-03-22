@@ -24,9 +24,7 @@ int main(int argc, char **argv) {
 
 	XMLNode *xmlRoot;
 	xmlin = fopen(argv[1], "r");
-	printf("%x", xmlin);
 	err = xmlparse(&dtd, &xmlRoot);
-	printf("Coucou !");
 	fclose(xmlin);
 	if (err != 0)
 		printf("XML parse ended with %d error(s)\n", err);
@@ -39,7 +37,7 @@ int main(int argc, char **argv) {
 	if (err != 0) printf("DTD parse ended with %d error(s)\n", err);
 	else printf("DTD parse ended with success\n", err);
 	
-	cout << xmlRoot->Affiche() << endl;
+	//cout << xmlRoot->Affiche() << endl;
 	bool match = match_xml_dtd (xmlRoot, dtdroot);
 	cout << boolalpha << match << endl;
 	delete dtdroot;

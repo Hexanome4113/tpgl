@@ -1,14 +1,18 @@
 #include <iostream>
 #include <string>
 #include <pcre.h>
+#include <map>
+#include <list>
+#include <string>
 #include "regex.h"
 
 using namespace std;
 
 bool regex_match(const string str, const string regex)
 {
-cout << "xml : " << str << endl;
-cout << "dtd : " << regex << endl; 
+//cout << "+++ debut regex_match" << endl;
+//cout << "+++ xml : " << str << endl;
+//cout << "+++ dtd : " << regex << endl; 
     // pcre_compile :
     const char *err;
     int errOffset;
@@ -22,84 +26,90 @@ cout << "dtd : " << regex << endl;
     // pcre_exec :
     int ovector[100];
     unsigned int len = str.length();
-cout << "bouh" << endl;
     int match_ok = pcre_exec(re, 0, str.c_str(), len, 0, 0, ovector, 100);
-cout << "fin regexmatch" << endl;
+//cout << "+++ fin regex_match" << endl;
     return (match_ok == 1);
 }
 
 bool test_regex (const XMLNode *xmlNode, const DTDRoot *dtdRoot)
 {
+//cout << "++ debut test_regex " << xmlNode->getNodeName() << endl;
 	const DTDElement *goodWay;
 	goodWay = dtdRoot->getElement(xmlNode->getNodeName());
-cout << goodWay->getNom() << " goodWay name" << endl;
 	if ( goodWay )
 	{
 		if (!(regex_match(xmlNode->regexSerialize(), goodWay->toRegex())))
 		{
-cout << "faux regex" << endl;
+//cout << "++ faux regex" << endl;
+//cout << "++ fin test_regex " << xmlNode->getNodeName() << endl;
 			return false;
 		}
 	}
 	else
 	{
-cout << "goodWay null" << endl;
+//cout << "++ goodWay null" << endl;
+//cout << "++ fin test_regex " << xmlNode->getNodeName() << endl;
 		return false;
 	}
-cout << "test regex ok" << endl;
+//cout << "++ test regex ok" << endl;
+//cout << "++ fin test_regex " << xmlNode->getNodeName() << endl;
 	return true;
-
-/*
-				//attributs du noeud xml
-				if ( (xmlNode->getAttributes()).size() != 0 )
-				{
-					for(xmlNode->getAttributes()::iterator it=xmlNode->getAttributes().begin() ; it!=xmlNode->getAttributes().end() ; ++it)
-					{
-						bool findAtt = false;
-						for (std::list<string>::iterator itList = dtdRoot->getAttlist(xmlNode->getNodeName())->list.begin(); itList != dtdRoot->getAttlist(xmlNode->getNodeName())->list.end(); itList++)
-						{
-							if (*itList.compare(it->first) == 0)
-							{
-								findAtt = true;
-							}
-						}
-						if (!findAtt)
-						{
-							match = false;
-						}
-					}
-				}
-				*/
-
 }
+
 
 bool match_xml_dtd (const XMLNode *xmlNode, const DTDRoot *dtdRoot)
 {
+//cout << "+ debut match_xml_dtd " << xmlNode->getNodeName() << endl;
 	if (!(test_regex (xmlNode, dtdRoot)))
 	{
-cout << "test himself" << endl;
+//cout << "+ test himself" << endl;
+//cout << "+ fin match_xml_dtd " << xmlNode->getNodeName() << endl;
 		return false;
 	}
+	
+	/*
+	//attributs du noeud xml
+	if ( (xmlNode->getAttributes()).size() != 0 )
+	{
+cout << "there are attributes" << endl;
+		for(std::map<string, string>::iterator it=xmlNode->getAttributes().begin() ; 
+						it!=xmlNode->getAttributes().end() ;
+						++it)
+		{
+			bool findAtt = false;
+			for (std::list<string>::iterator itList = (dtdRoot->getAttList(xmlNode->getNodeName())).list.begin(); 
+						itList!=(dtdRoot->getAttList(xmlNode->getNodeName())).list.end(); 
+						++itList)
+			{
+				if (itList->compare(it->first) == 0)
+				{
+cout << "find attribute" << endl;
+					findAtt = true;
+				}
+			}
+			if (!findAtt)
+			{
+cout << "not find attribute" << endl;
+				return false;
+			}
+		}
+	}	
+	*/
+	
 	int nbChildren = (xmlNode->getChildren()).size();
-cout << (xmlNode->getChildren()).size() << endl;
+//cout << "+ nombre de fils de " << xmlNode->getNodeName() << ": " << (xmlNode->getChildren()).size() << endl;
 	for (int i = 0; i < nbChildren; i++)
 	{
-		if ( (((xmlNode->getChildren()).at(i))->getChildren()).size() == 0)
+		if (!((xmlNode->getChildren()).at(i)->isTextNode()))
 		{
 			if(!(match_xml_dtd((xmlNode->getChildren()).at(i), dtdRoot)))
 			{
-cout << "test child of child" << endl;
-				return false;
-			}
-		}
-		else
-		{
-			if (!(test_regex ((xmlNode->getChildren()).at(i), dtdRoot)))
-			{
-cout << "test child" << endl;
-				return false;
+//cout << "+ test child " << i << endl;
+//cout << "+ fin match_xml_dtd " << xmlNode->getNodeName() << endl;
+			return false;
 			}
 		}
 	}
+//cout << "+ fin match_xml_dtd JUSTE : " << xmlNode->getNodeName() << endl;
 	return true;
 }
