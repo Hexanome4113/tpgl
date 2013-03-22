@@ -221,6 +221,8 @@ def validate(opt, args):
     else:  # tout va bien
         if cmd['out'] not in ([], ['']):
             print '\n'.join(cmd['out'])
+        else:
+            print "Validation réussie !"
     # print repr(cmd)
 
 
