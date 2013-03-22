@@ -117,6 +117,9 @@ int main(){
    /* # Si c'est un noeud non-textuel, on répète les étapes précédentes
    /**/
 
+   
+   
+   
 map<string, string> mapvide, mapattr;
 		mapattr.insert(make_pair<string, string>("match","papa"));
 		
@@ -143,5 +146,10 @@ map<string, string> mapvide, mapattr;
 		XMLNode xslRoot("","doc",mapvide, filsdoc);
 		cout << xslRoot.Affiche() << endl;
 
+   
+    map<string, string> mapvide, mapattr;
+    
+   
+   
 }
 
