@@ -26,6 +26,7 @@ void parsexml(string xmlfile, bool restore) {
 }
 
 void validate(string xmlfile) {
+	
 //	bool match = match_xml_dtd(xmlRoot, dtdroot);
 }
 
