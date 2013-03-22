@@ -1,4 +1,4 @@
-.PHONY: all clean $(PARSEDTD_TARGET)
+.PHONY: all clean $(TARGET)
 .SUFFIXES: .lex.cpp .lex.o .tab.cpp .tab.h .tab.o
 
 BISON?=bison
@@ -13,26 +13,26 @@ BUILD_DIR=build/
 INCLUDE_DIR=include/
 LIB_DIR=lib/
 
-DTD_OBJS=dtd.lex.cpp dtd.tab.cpp dtd.tab.h dtd.lex.o dtd.tab.o regex.o DTDDefinition.o DTDElement.o DTDRoot.o DTDParser.o XMLNode.o
+DTD_OBJS=dtd.lex.cpp dtd.tab.cpp dtd.tab.h dtd.lex.o dtd.tab.o regex.o DTDDefinition.o DTDElement.o DTDRoot.o DTDParser.o
 XML_OBJS=xml.lex.cpp xml.tab.cpp xml.tab.h xml.lex.o xml.tab.o XMLNode.o XMLParser.o
 
-PARSEDTD_TARGET=parsedtd
-PARSEDTD_OBJECTS=parsedtd.o
-PARSEDTD_HEADERS=
+TARGET=tpgl
+OBJECTS=tpgl.o
+HEADERS=
 
-all: $(addprefix $(BIN_DIR), $(PARSEDTD_TARGET))
+all: $(addprefix $(BIN_DIR), $(TARGET))
 
 clean:
-	-rm -f $(addprefix $(BUILD_DIR), $(DTD_OBJS) $(XML_OBJS) $(PARSEDTD_OBJECTS)) $(addprefix $(BIN_DIR), $(PARSEDTD_TARGET)) $(addprefix $(BUILD_DIR), $(addsuffix .d, $(basename $(filter %.o, $(DTD_OBJS) $(XML_OBJS) $(PARSEDTD_OBJECTS)))))
+	-rm -f $(addprefix $(BUILD_DIR), $(DTD_OBJS) $(XML_OBJS) $(OBJECTS)) $(addprefix $(BIN_DIR), $(TARGET)) $(addprefix $(BUILD_DIR), $(addsuffix .d, $(basename $(filter %.o, $(DTD_OBJS) $(XML_OBJS) $(OBJECTS)))))
 
-$(PARSEDTD_TARGET): $(BIN_DIR)$(PARSEDTD_TARGET)
+$(TARGET): $(BIN_DIR)$(TARGET)
 
-$(BIN_DIR)$(PARSEDTD_TARGET): $(addprefix $(SRC_DIR), $(PARSEDTD_HEADERS)) $(addprefix $(BUILD_DIR), $(DTD_OBJS) $(PARSEDTD_OBJECTS))
-	$(CXX) $(LDFLAGS) $(addprefix $(BUILD_DIR), $(filter %.o, $(DTD_OBJS) $(PARSEDTD_OBJECTS))) $(LOADLIBES) $(LDLIBS) -lpcre -o $(BIN_DIR)$(PARSEDTD_TARGET)
+$(BIN_DIR)$(TARGET): $(addprefix $(SRC_DIR), $(HEADERS)) $(addprefix $(BUILD_DIR), $(DTD_OBJS) $(XML_OBJS) $(OBJECTS))
+	$(CXX) $(LDFLAGS) $(addprefix $(BUILD_DIR), $(filter %.o, $(DTD_OBJS) $(XML_OBJS) $(OBJECTS))) $(LOADLIBES) $(LDLIBS) -lpcre -o $(BIN_DIR)$(TARGET)
 
 ifneq ($(MAKECMDGOALS), clean)
 $(shell mkdir -p $(BIN_DIR) $(BUILD_DIR))
--include $(addprefix $(BUILD_DIR), $(addsuffix .d, $(basename $(filter %.o, $(DTD_OBJS) $(XML_OBJS) $(PARSEDTD_OBJECTS)))))
+-include $(addprefix $(BUILD_DIR), $(addsuffix .d, $(basename $(filter %.o, $(DTD_OBJS) $(XML_OBJS) $(OBJECTS)))))
 endif
 
 $(BUILD_DIR)%.lex.d: $(BUILD_DIR)%.lex.cpp
