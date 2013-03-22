@@ -12,7 +12,7 @@ vector<XMLNode*> applyTemplate(XMLNode *xmlNode, XMLNode *xslTemplate, XMLNode *
         if ((*itXsl)->isTextNode() )
             // si c'est un texte on l'ajoute dans le vecteur resultat
         {
-            childrenVect.push_back(*itXsl);
+            childrenVect.push_back( new XMLNode((*itXsl)->getText()) );
         }
         else if ((*itXsl)->getFullName() == "xsl:apply-templates")
             // si c'est un apply on fait un match sur le xml (donc sur ses fils)
@@ -39,7 +39,7 @@ XMLNode* matchTemplates(XMLNode *xmlNode, XMLNode *xslRoot)
     {       
         if ((*itXml)->isTextNode())
         {
-            childVect.push_back(*itXml);
+            childVect.push_back( new XMLNode((*itXml)->getText()) );
         }
         else
         {

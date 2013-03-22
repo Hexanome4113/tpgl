@@ -133,3 +133,4 @@ supspecial "?>"{nl}?
 
 \n          { ++xmllineno; }
 .           { fprintf(stderr, "lexical xml %d %c\n", xmllineno, *yytext); exit(101); /* 101 == ERR_ANALYSE_LEXICALE */}
+<<EOF>> {YY_NEW_FILE; yyterminate();}

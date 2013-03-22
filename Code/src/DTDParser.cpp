@@ -47,5 +47,5 @@ DTDRoot *DTDParser::loadFromString(string dtdString)
 }
 
 void DTDParser::destroy(DTDRoot *dtd) {
-	delete dtd;
+	if (dtd) delete dtd;
 }

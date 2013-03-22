@@ -116,7 +116,7 @@ public:
 	/**
 	 * \return vecteur des noeuds fils.
 	 */
-	vector<XMLNode*>& getChildren();
+	const vector<XMLNode*>& getChildren() const;
 	
 
 protected:
