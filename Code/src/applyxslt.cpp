@@ -9,12 +9,12 @@ vector<XMLNode*> applyTemplate(XMLNode *xmlNode, XMLNode *xslTemplate, XMLNode *
 {
     vector<XMLNode*> childrenVect;
     for (vector<XMLNode *>::iterator itXsl = xslTemplate->getChildren().begin() ; itXsl != xslTemplate->getChildren().end() ; itXsl++ )
-        //pour tous les fils du template xsl trouvé
+         //pour tous les fils du template xsl trouvé
     {
         if ((*itXsl)->isTextNode() )
             // si c'est un texte on l'ajoute dans le vecteur resultat
         {
-            childrenVect.push_back(*itXsl);
+            childrenVect.push_back( new XMLNode((*itXsl)->getText()) );
         }
         else if ((*itXsl)->getFullName() == "xsl:apply-templates")
             // si c'est un apply on fait un match sur le xml (donc sur ses fils)
@@ -34,19 +34,19 @@ vector<XMLNode*> applyTemplate(XMLNode *xmlNode, XMLNode *xslTemplate, XMLNode *
 
 
 XMLNode* matchTemplates(XMLNode *xmlNode, XMLNode *xslRoot)
-{       
+{
     vector<XMLNode*> childVect;
     
     for (vector<XMLNode *>::iterator itXml = xmlNode->getChildren().begin() ; itXml != xmlNode->getChildren().end(); itXml++ )
-    {       
+    {
         if ((*itXml)->isTextNode())
         {
-            childVect.push_back(*itXml);
+            childVect.push_back( new XMLNode((*itXml)->getText()) );
         }
         else
         {
             bool matchTemplate = false;
-            for(    vector<XMLNode *>::iterator itXsl = xslRoot->getChildren().begin() ; itXsl != xslRoot->getChildren().end() ; itXsl++ )
+            for( vector<XMLNode *>::iterator itXsl = xslRoot->getChildren().begin() ; itXsl != xslRoot->getChildren().end() ; itXsl++ )
             {
                 if ( (*itXsl)->getFullName() == "xsl:template" && (*itXsl)->getAttributes().find("match")->second == (*itXml)->getNodeName())
                     //est ce que un xml et un xsl matchent
@@ -60,7 +60,7 @@ XMLNode* matchTemplates(XMLNode *xmlNode, XMLNode *xslRoot)
             }
             // END pour tous les templates du xsl
             
-            if (matchTemplate == false) 
+            if (matchTemplate == false)
                 // Si le noeud xml ne match avec aucun xsl template on le recopie sans modif
             {
                 childVect.push_back( matchTemplates(*itXml, xslRoot) );
@@ -70,7 +70,7 @@ XMLNode* matchTemplates(XMLNode *xmlNode, XMLNode *xslRoot)
     
     return new XMLNode(xmlNode->getNameSpace(),xmlNode->getNodeName(), xmlNode->getAttributes(), childVect);
     
-    // END pour tous les fils du noeud xml          
+    // END pour tous les fils du noeud xml
 }
 
 
