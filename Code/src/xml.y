@@ -63,15 +63,15 @@ declaration
 
 element
 : ouvre attributs_opt vide_ou_contenu	{
-											if ($3 == NULL)
-											{
-												$$ = new XMLNode($1->first, $1->second, *$2);
-											} else
-											{
-												$$ = new XMLNode($1->first, $1->second, *$2, *$3);
-											}
-											//cout << "AFFICHE" << endl << $$->Affiche();
-										}
+						if ($3 == NULL)
+						{
+							$$ = new XMLNode($1->first, $1->second, *$2);
+						} else
+						{
+							$$ = new XMLNode($1->first, $1->second, *$2, *$3);
+						}
+						//cout << "AFFICHE" << endl << $$->Affiche();
+					}
 ;
 
 ouvre
