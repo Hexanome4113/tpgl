@@ -4,16 +4,6 @@
 XMLNode* matchTemplates(XMLNode *xmlNode, XMLNode *xslRoot);
 
 
-/* NECESSAIRE????? 
-XMLNode* applyXSLT(XMLNode* xmlDocument, XMLNode* xsltStylesheet)
-{
-    map<string,string> mapvide;
-    vector<XMLNode*> docVect;
-    XMLNode container("","",mapvide, docVect);
-    
-    matchTemplates(container, xsltStylesheet);
-    return
-}*/
 
 vector<XMLNode*> applyTemplate(XMLNode *xmlNode, XMLNode *xslTemplate, XMLNode *xslRoot)
 {
