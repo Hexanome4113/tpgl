@@ -57,8 +57,8 @@ void XMLParser::destroy(pair<XMLNode *, string *> *p)
 {
 	if (p)
 	{
-		delete p->first;
-		delete p->second;
+		if (p->first) delete p->first;
+		if (p->second) delete p->second;
 		delete p;
 	}
 }

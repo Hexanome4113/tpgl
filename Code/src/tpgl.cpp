@@ -1,8 +1,10 @@
 #include "DTDRoot.h"
 #include "DTDParser.h"
+#include "XMLNode.h"
+#include "XMLParser.h"
 
 void parsedtd(string xmlfile, bool restore) {
-	DTDRoot *dtd = DTDParser::loadFromFile(xmlfile);
+	DTDRoot *dtd(DTDParser::loadFromFile(xmlfile));
 
 	if (dtd) {
 		if (restore) {
@@ -12,13 +14,22 @@ void parsedtd(string xmlfile, bool restore) {
 	}
 }
 
+void parsexml(string xmlfile, bool restore) {
+	pair<XMLNode *, string*> *p(XMLParser::loadFromFile(xmlfile));
+
+	if (p) {
+		if (p->first && restore) {
+			p->first->Affiche();
+		}
+		XMLParser::destroy(p);
+	}
+}
+
 void validate(string xmlfile) {
+//	bool match = match_xml_dtd(xmlRoot, dtdroot);
 }
 
 void applyxslt(string xmlfile, string xsltfile) {
-}
-
-void parsexml(string xmlfile, bool restore) {
 }
 
 int main(int argc, char *argv[])
