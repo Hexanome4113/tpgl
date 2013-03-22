@@ -170,7 +170,7 @@ bool XMLNode::hasMixedContent() const
 }
 
 
-vector<XMLNode*> XMLNode::getChildren() const
+vector<XMLNode*>& XMLNode::getChildren()
 {
     return children;
 }

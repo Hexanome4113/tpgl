@@ -20,6 +20,9 @@ class XMLNode
 //METHODS
 public:
 	
+        XMLNode();                       //interdit
+        XMLNode(const XMLNode&);        //interdit
+
 	
 	/**
 	 * \brief constructeur pour feuille contenant des données #PCDATA.
@@ -33,7 +36,7 @@ public:
 	 * \param nodeName nom de la balise.
 	 * \param attributeList liste des attributs. Peut être vide.
 	 */
-    XMLNode(string nodeNamespace, string nodeName, map<string, string> attributeList);
+        XMLNode(string nodeNamespace, string nodeName, map<string, string> attributeList);
 	
 	/**
 	 * \brief constructeur pour balises standard.
@@ -113,7 +116,7 @@ public:
 	/**
 	 * \return vecteur des noeuds fils.
 	 */
-	vector<XMLNode*> getChildren() const;
+	vector<XMLNode*>& getChildren();
 	
 
 protected:
