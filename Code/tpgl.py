@@ -123,7 +123,10 @@ def parsexml(opt, args):
         print "Détail :"
         print '  ', '\n  '.join((l.strip() for l in cmd['err']))
     else:  # tout va bien
-        print ''.join(cmd['out'])
+        if cmd['out'] not in ([], ['']):
+            print '\n'.join(cmd['out'])
+        if not opt.restore and not opt.validate and not xsltfile:
+            print "Parsage réussi !"
     # print repr(cmd)
     
 
@@ -168,7 +171,9 @@ def parsedtd(opt, args):
             print "  - Fichier %s (format %s) : %s" % (args[0], ext, msg)
     else:  # tout va bien
         if cmd['out'] not in ([], ['']):
-            print ''.join(cmd['out'])
+            print '\n'.join(cmd['out'])
+        if not opt.restore:
+            print "Parsage réussi !"
     # print repr(cmd)
 
 
@@ -214,7 +219,8 @@ def validate(opt, args):
         print "Détail :"
         print '  ', '\n  '.join((l.strip() for l in cmd['err']))
     else:  # tout va bien
-        print ''.join(cmd['out'])
+        if cmd['out'] not in ([], ['']):
+            print '\n'.join(cmd['out'])
     # print repr(cmd)
 
 
@@ -265,7 +271,8 @@ def applyxslt(opt, args):
         print "Détail :"
         print '  ', '\n  '.join((l.strip() for l in cmd['err']))
     else:  # tout va bien
-        print ''.join(cmd['out'])
+        if cmd['out'] not in ([], ['']):
+            print '\n'.join(cmd['out'])
     # print repr(cmd)
 
 

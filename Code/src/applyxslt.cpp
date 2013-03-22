@@ -3,7 +3,15 @@
 
 XMLNode* matchTemplates(XMLNode *xmlNode, XMLNode *xslRoot);
 
-
+XMLNode* applyXSLT(XMLNode *xmlDocumentRoot, XMLNode *xslStylesheetRoot)
+{
+    vector<XMLNode*> content;
+    content.push_back(xmlDocumentRoot);
+    map<string,string> mapvide;
+    XMLNode container("","", mapvide, content);
+    XMLNode* result = matchTemplates(container, xslStylesheetRoot);
+    return (*(result->getChildren().begin()))
+}
 
 vector<XMLNode*> applyTemplate(XMLNode *xmlNode, XMLNode *xslTemplate, XMLNode *xslRoot)
 {
