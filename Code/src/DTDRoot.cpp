@@ -95,23 +95,6 @@ string DTDRoot::attlistAffiche(DTDAttlist attlist) const
 	return result;
 }
 
-void DTDRoot::enbref() const
-{
-	cout << "==== ELEMENTS ====" << endl;
-	for (int i = 0; i < elements.size(); i++) {
-		cout << ELEMENT_OBALISE << SPACE
-			<< elements[i].getNom() << SPACE
-			<< elements[i].toRegex()
-			<< CBALISE << endl;
-	}
-
-	cout << "==== ATTLISTS ====" << endl;
-	for (int i = 0; i < attlists.size(); i++) {
-		cout << attlistAffiche(attlists[i]) << endl;
-	}
-
-}
-
 const DTDElement* DTDRoot::getElement(const string elementNom) const
 {
 	for (int i = 0; i < getElements().size(); i++)

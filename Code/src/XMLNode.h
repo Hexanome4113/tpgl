@@ -50,9 +50,16 @@ public:
 	
     virtual ~XMLNode();
 	
-	
+   /**
+	* \brief Récupérer l'expression régulière de ce noeud XML
+	* \return string contenant l'expression régulière de ce noeud XML
+	*/ 
 	const string regexSerialize() const;
-	
+
+   /**
+	* \brief Reconstitution du noeud XML
+	* \return string contenant le noeud XML tel qu'il serait dans un fichier XML
+	*/ 
 	string Affiche() const;
 	
 	/**

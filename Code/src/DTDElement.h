@@ -66,10 +66,22 @@ class DTDElement {
          */
         void setNom(std::string n);
         
+       /**
+		* \brief Reconstitution de cet element
+		* \return string contenant la règle telle qu'elle serait dans un fichier DTD
+		*/
         std::string affiche() const;
-        
+      
+       /**
+		* \brief Récupérer l'expression régulière de cet élément
+		* \return string contenant l'expression régulière de cet élément
+		*/  
         std::string toRegex() const;
         
+       /**
+		* \brief Reconstitution de la définition de cet élément
+		* \return string contenant la définition de la règle telle qu'elle serait dans un fichier DTD
+		*/
         std::string afficheElement() const;
 
 
