@@ -10,7 +10,7 @@
  */
 XMLNode* applyXSLT(XMLNode *xmlDocumentRoot, XMLNode *xslStylesheetRoot);
 
-
+XMLNode* valueof(XMLNode *xmlNode, String select);
 XMLNode* matchTemplates(XMLNode *xmlNode, XMLNode *xslRoot);
 vector<XMLNode*> applyTemplate(XMLNode *xmlNode, XMLNode *xslTemplate, XMLNode *xslRoot);
 

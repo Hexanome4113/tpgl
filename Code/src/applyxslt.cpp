@@ -1,9 +1,9 @@
 #include <iostream>
 #include "XMLNode.h"
 #include "applyxslt.h"
+#include <string>
 
 
-//Wrapper a appeller pour lancer l'algorithme récursif
 XMLNode* applyXSLT(XMLNode *xmlDocumentRoot, XMLNode *xslStylesheetRoot)
 {
     vector<XMLNode*> content;
@@ -18,7 +18,7 @@ vector<XMLNode*> applyTemplate(XMLNode *xmlNode, XMLNode *xslTemplate, XMLNode *
 {
     vector<XMLNode*> childrenVect;
     for (vector<XMLNode *>::const_iterator itXsl = xslTemplate->getChildren().begin() ; itXsl != xslTemplate->getChildren().end() ; itXsl++ )
-         //pour tous les fils du template xsl trouvé
+        //pour tous les fils du template xsl trouvé
     {
         if ((*itXsl)->isTextNode() )
             // si c'est un texte on l'ajoute dans le vecteur resultat
@@ -30,6 +30,16 @@ vector<XMLNode*> applyTemplate(XMLNode *xmlNode, XMLNode *xslTemplate, XMLNode *
         {
             childrenVect.push_back(matchTemplates(xmlNode, xslRoot));
         }
+        else if ((*itXsl)->getFullName() == "xsl:value-of")
+            //si c'est un value-of
+        {
+            XMLNode* textNode = valueof(xmlNode, xmlNode->getAttributes().find("select")->second);
+            if (textNode)
+                childrenVect.push_back(textNode);
+        }
+        else if ((*itXsl)->getNameSpace() == "xsl")
+            //échappement des balises XSLT non gerées
+        {}
         else
             // sinon, c'est une balise
             {
@@ -82,4 +92,22 @@ XMLNode* matchTemplates(XMLNode *xmlNode, XMLNode *xslRoot)
     // END pour tous les fils du noeud xml
 }
 
-
+XMLNode* valueof(XMLNode *xmlNode, string select)
+{
+    string returned;
+    for (vector<XMLNode *>::const_iterator itXml = xmlNode->getChildren().begin() ; itXml != xmlNode->getChildren().end(); itXml++ )
+    {
+        if ((*itXml)->isTextNode())
+        {
+            returned += (*itXml)->getTextContent();
+        }
+    }
+    if (returned.empty())
+    {
+        return NULL;
+    }
+    else
+    {
+        return new XMLNode(returned);
+    }
+}

@@ -1,24 +1,49 @@
 #include <iostream>
 #include "../Code/src/XMLNode.h"
+#include <string>
 
+XMLNode* valueof(XMLNode *xmlNode, string select);
 XMLNode* matchTemplates(XMLNode *xmlNode, XMLNode *xslRoot);
+vector<XMLNode*> applyTemplate(XMLNode *xmlNode, XMLNode *xslTemplate, XMLNode *xslRoot);
+
+
+//Wrapper a appeller pour lancer l'algorithme récursif
+XMLNode* applyXSLT(XMLNode *xmlDocumentRoot, XMLNode *xslStylesheetRoot)
+{
+    vector<XMLNode*> content;
+    content.push_back(xmlDocumentRoot);
+    map<string,string> mapvide;
+    XMLNode container("","", mapvide, content);
+    XMLNode* result = matchTemplates(&container, xslStylesheetRoot);
+    return (*(result->getChildren().begin()));
+}
 
 vector<XMLNode*> applyTemplate(XMLNode *xmlNode, XMLNode *xslTemplate, XMLNode *xslRoot)
 {
     vector<XMLNode*> childrenVect;
-    for (vector<XMLNode *>::iterator itXsl = xslTemplate->getChildren().begin() ; itXsl != xslTemplate->getChildren().end() ; itXsl++ )
-         //pour tous les fils du template xsl trouvé
+    for (vector<XMLNode *>::const_iterator itXsl = xslTemplate->getChildren().begin() ; itXsl != xslTemplate->getChildren().end() ; itXsl++ )
+        //pour tous les fils du template xsl trouvé
     {
         if ((*itXsl)->isTextNode() )
             // si c'est un texte on l'ajoute dans le vecteur resultat
         {
-            childrenVect.push_back( new XMLNode((*itXsl)->getText()) );
+            childrenVect.push_back( new XMLNode((*itXsl)->getTextContent()) );
         }
         else if ((*itXsl)->getFullName() == "xsl:apply-templates")
             // si c'est un apply on fait un match sur le xml (donc sur ses fils)
         {
             childrenVect.push_back(matchTemplates(xmlNode, xslRoot));
         }
+        else if ((*itXsl)->getFullName() == "xsl:value-of")
+            //si c'est un value-of
+        {
+            XMLNode* textNode = valueof(xmlNode, xmlNode->getAttributes().find("select")->second);
+            if (textNode)
+                childrenVect.push_back(textNode);
+        }
+        else if ((*itXsl)->getNameSpace() == "xsl")
+            //échappement des balises XSLT non gerées
+        {}
         else
             // sinon, c'est une balise
             {
@@ -32,19 +57,19 @@ vector<XMLNode*> applyTemplate(XMLNode *xmlNode, XMLNode *xslTemplate, XMLNode *
 
 
 XMLNode* matchTemplates(XMLNode *xmlNode, XMLNode *xslRoot)
-{       
+{
     vector<XMLNode*> childVect;
     
-    for (vector<XMLNode *>::iterator itXml = xmlNode->getChildren().begin() ; itXml != xmlNode->getChildren().end(); itXml++ )
-    {       
+    for (vector<XMLNode *>::const_iterator itXml = xmlNode->getChildren().begin() ; itXml != xmlNode->getChildren().end(); itXml++ )
+    {
         if ((*itXml)->isTextNode())
         {
-            childVect.push_back( new XMLNode((*itXml)->getText()) );
+            childVect.push_back( new XMLNode((*itXml)->getTextContent()) );
         }
         else
         {
             bool matchTemplate = false;
-            for(    vector<XMLNode *>::iterator itXsl = xslRoot->getChildren().begin() ; itXsl != xslRoot->getChildren().end() ; itXsl++ )
+            for( vector<XMLNode *>::const_iterator itXsl = xslRoot->getChildren().begin() ; itXsl != xslRoot->getChildren().end() ; itXsl++ )
             {
                 if ( (*itXsl)->getFullName() == "xsl:template" && (*itXsl)->getAttributes().find("match")->second == (*itXml)->getNodeName())
                     //est ce que un xml et un xsl matchent
@@ -58,7 +83,7 @@ XMLNode* matchTemplates(XMLNode *xmlNode, XMLNode *xslRoot)
             }
             // END pour tous les templates du xsl
             
-            if (matchTemplate == false) 
+            if (matchTemplate == false)
                 // Si le noeud xml ne match avec aucun xsl template on le recopie sans modif
             {
                 childVect.push_back( matchTemplates(*itXml, xslRoot) );
@@ -68,8 +93,29 @@ XMLNode* matchTemplates(XMLNode *xmlNode, XMLNode *xslRoot)
     
     return new XMLNode(xmlNode->getNameSpace(),xmlNode->getNodeName(), xmlNode->getAttributes(), childVect);
     
-    // END pour tous les fils du noeud xml          
+    // END pour tous les fils du noeud xml
 }
+
+XMLNode* valueof(XMLNode *xmlNode, string select)
+{
+    string returned;
+    for (vector<XMLNode *>::const_iterator itXml = xmlNode->getChildren().begin() ; itXml != xmlNode->getChildren().end(); itXml++ )
+    {
+        if ((*itXml)->isTextNode())
+        {
+            returned += (*itXml)->getTextContent();
+        }
+    }
+    if (returned.empty())
+    {
+        return NULL;
+    }
+    else
+    {
+        return new XMLNode(returned);
+    }
+}
+
 
 
 
