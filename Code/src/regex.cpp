@@ -35,6 +35,7 @@ bool test_regex (const XMLNode *xmlNode, const DTDRoot *dtdRoot)
 	{
 		if (!(regex_match(xmlNode->regexSerialize(), goodWay->toRegex())))
 		{
+			cout << "file XML doesn't match his DTD : " << "the element "<< xmlNode->getNodeName() << "doesn't match his DTD rule" << endl;
 			return false;
 		}
 		//attributs du noeud xml
@@ -61,11 +62,13 @@ bool test_regex (const XMLNode *xmlNode, const DTDRoot *dtdRoot)
 					}
 					if (!findAtt)
 					{
+						cout << "file XML doesn't match his DTD : " << "the element "<< xmlNode->getNodeName() << " doesn't have a DTD rule for the attribute " << it->first << endl;
 						return false;
 					}	
 				}
 				else
 				{
+					cout << "file XML doesn't match his DTD : " << "the element "<< xmlNode->getNodeName() << " doesn't have any attribute in his DTD rule" << endl;
 					return false;
 				}
 			}
@@ -73,6 +76,7 @@ bool test_regex (const XMLNode *xmlNode, const DTDRoot *dtdRoot)
 	}
 	else
 	{
+		cout << "file XML doesn't match his DTD : " << "the element "<< xmlNode->getNodeName() << " doesn't have a DTD rule" << endl;
 		return false;
 	}
 	return true;

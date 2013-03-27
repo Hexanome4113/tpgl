@@ -37,9 +37,10 @@ int main(int argc, char **argv) {
 	if (err != 0) printf("DTD parse ended with %d error(s)\n", err);
 	else printf("DTD parse ended with success\n", err);
 	
-	//cout << xmlRoot->Affiche() << endl;
 	bool match = match_xml_dtd (xmlRoot, dtdroot);
-	cout << boolalpha << match << endl;
+	if (match)
+		cout << "file XML matches his DTD" << endl;
+	else cout << "file XML doesn't match his DTD" << endl;
 	delete dtdroot;
 	return 0;
 }
