@@ -37,6 +37,39 @@ bool test_regex (const XMLNode *xmlNode, const DTDRoot *dtdRoot)
 		{
 			return false;
 		}
+		//attributs du noeud xml
+		if ( (xmlNode->getAttributes()).size() != 0 )
+		{
+			std::map<string, string> mapAtt = xmlNode->getAttributes();
+
+			for(map<string, string>::iterator it=mapAtt.begin(); 
+							it!=mapAtt.end();
+							++it)
+			{
+				bool findAtt = false;
+				if (dtdRoot->getAttList(xmlNode->getNodeName()))
+				{
+					vector<string> dtdListAtt = (dtdRoot->getAttList(xmlNode->getNodeName()))->list;
+					for (vector<string>::iterator itList = dtdListAtt.begin(); 
+								itList!=dtdListAtt.end(); 
+								++itList)
+					{
+						if (itList->compare(it->first) == 0)
+						{
+							findAtt = true;
+						}
+					}
+					if (!findAtt)
+					{
+						return false;
+					}	
+				}
+				else
+				{
+					return false;
+				}
+			}
+		}
 	}
 	else
 	{
@@ -52,35 +85,7 @@ bool match_xml_dtd (const XMLNode *xmlNode, const DTDRoot *dtdRoot)
 	{
 		return false;
 	}
-	/*
-	//attributs du noeud xml
-	if ( (xmlNode->getAttributes()).size() != 0 )
-	{
-cout << "there are attributes" << endl;
-		for(map<string, string>::iterator it=xmlNode->getAttributes().begin() ; 
-						it!=xmlNode->getAttributes().end() ;
-						++it)
-		{
-			bool findAtt = false;
-			for (list<string>::iterator itList = ((dtdRoot->getAttList(xmlNode->getNodeName()))->list).begin(); 
-						itList!=((dtdRoot->getAttList(xmlNode->getNodeName()))->list).end(); 
-						++itList)
-			{
-				if (itList->compare(it->first) == 0)
-				{
-cout << "find attribute" << endl;
-					findAtt = true;
-				}
-			}
-			if (!findAtt)
-			{
-cout << "not find attribute" << endl;
-				return false;
-			}
-		}
-	}
-	*/
-	
+		
 	int nbChildren = (xmlNode->getChildren()).size();
 	for (int i = 0; i < nbChildren; i++)
 	{
