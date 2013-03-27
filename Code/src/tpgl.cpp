@@ -7,6 +7,8 @@
 
 using namespace std;
 
+#include <cstdlib> // pour exit();
+
 #include <iostream>
 #include <string>
 
