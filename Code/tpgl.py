@@ -229,7 +229,6 @@ def applyxslt(opt, args):
     scname = 'applyxslt'
     if len(args) < 2:
         printusage(scname, 'nom du fichier xml ou xslt manquant')
-    print 'applying template'
     
     xmlfile = file_abspath_or_none(args[0])
     if xmlfile is None:

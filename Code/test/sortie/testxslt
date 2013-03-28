@@ -1,0 +1,22 @@
+<doc>
+	<root>
+		rajoute du texte ici
+		
+		<papa>
+			<root>
+				rajoute du texte ici
+				
+				<papa>
+					<demi-fils>
+						<fils>
+						</fils>
+					</demi-fils>
+					un peu de texte
+					
+				</papa>
+			</root>
+			ici aussi
+			
+		</papa>
+	</root>
+</doc>
