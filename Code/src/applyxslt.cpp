@@ -4,6 +4,7 @@
 #include <string>
 
 
+//Wrapper a appeller pour lancer l'algorithme récursif
 XMLNode* applyXSLT(XMLNode *xmlDocumentRoot, XMLNode *xslStylesheetRoot)
 {
     vector<XMLNode*> content;
@@ -33,7 +34,7 @@ vector<XMLNode*> applyTemplate(XMLNode *xmlNode, XMLNode *xslTemplate, XMLNode *
         else if ((*itXsl)->getFullName() == "xsl:value-of")
             //si c'est un value-of
         {
-            XMLNode* textNode = valueof(xmlNode, xmlNode->getAttributes().find("select")->second);
+            XMLNode* textNode = valueof(xmlNode, (*itXsl)->getAttributes().find("select")->second);
             if (textNode)
                 childrenVect.push_back(textNode);
         }
@@ -95,11 +96,19 @@ XMLNode* matchTemplates(XMLNode *xmlNode, XMLNode *xslRoot)
 XMLNode* valueof(XMLNode *xmlNode, string select)
 {
     string returned;
+    //recherche des fils qui matchent le select
     for (vector<XMLNode *>::const_iterator itXml = xmlNode->getChildren().begin() ; itXml != xmlNode->getChildren().end(); itXml++ )
     {
-        if ((*itXml)->isTextNode())
+        if ((*itXml)->getNodeName() == select)
         {
-            returned += (*itXml)->getTextContent();
+            //recherche des noeuds texte, concaténation au résultat
+            for (vector<XMLNode *>::const_iterator itXmltext = (*itXml)->getChildren().begin() ; itXmltext != (*itXml)->getChildren().end(); itXmltext++ )
+            {
+                if ((*itXmltext)->isTextNode())
+                {
+                    returned += (*itXmltext)->getTextContent();
+                }
+            }
         }
     }
     if (returned.empty())

@@ -37,7 +37,7 @@ vector<XMLNode*> applyTemplate(XMLNode *xmlNode, XMLNode *xslTemplate, XMLNode *
         else if ((*itXsl)->getFullName() == "xsl:value-of")
             //si c'est un value-of
         {
-            XMLNode* textNode = valueof(xmlNode, xmlNode->getAttributes().find("select")->second);
+            XMLNode* textNode = valueof(xmlNode, (*itXsl)->getAttributes().find("select")->second);
             if (textNode)
                 childrenVect.push_back(textNode);
         }
@@ -99,11 +99,19 @@ XMLNode* matchTemplates(XMLNode *xmlNode, XMLNode *xslRoot)
 XMLNode* valueof(XMLNode *xmlNode, string select)
 {
     string returned;
+    //recherche des fils qui matchent le select
     for (vector<XMLNode *>::const_iterator itXml = xmlNode->getChildren().begin() ; itXml != xmlNode->getChildren().end(); itXml++ )
     {
-        if ((*itXml)->isTextNode())
+        if ((*itXml)->getNodeName() == select)
         {
-            returned += (*itXml)->getTextContent();
+            //recherche des noeuds texte, concaténation au résultat
+            for (vector<XMLNode *>::const_iterator itXmltext = (*itXml)->getChildren().begin() ; itXmltext != (*itXml)->getChildren().end(); itXmltext++ )
+            {
+                if ((*itXmltext)->isTextNode())
+                {
+                    returned += (*itXmltext)->getTextContent();
+                }
+            }
         }
     }
     if (returned.empty())
@@ -120,22 +128,7 @@ XMLNode* valueof(XMLNode *xmlNode, string select)
 
 
 int main(){
-    /* Algorithme :
-     *   /*
-     *   /* Partir de la racine de l'arbre XML
-     *   /* Pour chaque élément :
-     *   /* - Parcourir le XSLT à la recherche d'un template à utiliser
-     *   /* # Si on en trouve un :
-     *   /*   - Ecrire le texte se trouvant AVANT la balise <apply-templates/>
-     *   /*   - Faire la récursivité (voir ci-dessous)
-     *   /*   - Ecrire le texte se trouvant APRES la balise <apply-templates/>
-     *   /* # Si on en trouve pas :
-     *   /*   - Faire seulement la récursivité
-     *   /*
-     *   /* Pour la récursivité, on parcourt le noeud. Pour chaque enfant :
-     *   /* # Si c'est un texte, on l'écrit
-     *   /* # Si c'est un noeud non-textuel, on répète les étapes précédentes
-     *   /**/
+
      
      
      
@@ -173,11 +166,14 @@ int main(){
       * XML a transformer
       * <doc>
       *        <papa>
-      *                 <papa2>
+      *                 <textcontent>
+      *                 VALUEOF RECOPIE
+      *                 </textcontent>
+      *                 <papadeux>
       *                        <fils/>
       *                         un peu de texte
       * 
-      *                </papa2>
+      *                </papadeux>
       *                 ici aussi
       * 
       *        </papa>
@@ -185,15 +181,19 @@ int main(){
       */
      
      map<string, string> mapvide;
-     XMLNode unpeudetexte("un peu de texte"), iciaussi("iciaussi"), fils("","fils",mapvide);
+     XMLNode unpeudetexte("un peu de texte"), iciaussi("iciaussi"), VALUEOFRECOPIE("VALUEOF RECOPIE"), fils("","fils",mapvide);
      
      vector<XMLNode*> filspapa2;
      filspapa2.push_back(&fils);
      filspapa2.push_back(&unpeudetexte);
      
-     XMLNode papa2("","papa2",mapvide, filspapa2);
+     XMLNode papa2("","papadeux",mapvide, filspapa2);
+     vector<XMLNode*> filstextcontent;
+     filstextcontent.push_back(&VALUEOFRECOPIE);
+     XMLNode textcontent("","textcontent",mapvide,filstextcontent);
      
      vector<XMLNode*> filspapa;
+     filspapa.push_back(&textcontent);
      filspapa.push_back(&papa2);
      filspapa.push_back(&iciaussi);
      
@@ -209,6 +209,7 @@ int main(){
      /* xslt simplifié
       * <xsl:stylesheet>
       *       <xsl:template match="papa">
+      *               <xsl:value-of select="textcontent"/> 
       *               < root>
       *               rajoute du texte ici
       *               <xsl:apply-templates/>
@@ -233,9 +234,14 @@ int main(){
      
      XMLNode root("","root", mapvide,filsroot);
      
+     map<string, string> attrvalueof;
+     attrvalueof.insert(make_pair<string,string>("select","textcontent"));
+     XMLNode valueof("xsl","value-of",attrvalueof);
+     
      map<string, string> attrtemplate1;
      attrtemplate1.insert(make_pair<string,string>("match","papa"));
      vector<XMLNode*> filstemplate1;
+     filstemplate1.push_back(&valueof);
      filstemplate1.push_back(&root);
      
      XMLNode template_papa("xsl","template", attrtemplate1,filstemplate1);

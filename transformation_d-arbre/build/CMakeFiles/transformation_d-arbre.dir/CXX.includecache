@@ -6,18 +6,6 @@
 
 #IncludeRegexTransform: 
 
-/home/yann/projects/tpgl/Code/src/XMLNode.cpp
-XMLNode.h
-/home/yann/projects/tpgl/Code/src/XMLNode.h
-
-/home/yann/projects/tpgl/Code/src/XMLNode.h
-vector
--
-string
--
-map
--
-
 /home/yann/projects/tpgl/transformation_d-arbre/../Code/src/XMLNode.h
 vector
 -
@@ -31,4 +19,6 @@ iostream
 -
 ../Code/src/XMLNode.h
 /home/yann/projects/tpgl/transformation_d-arbre/../Code/src/XMLNode.h
+string
+-
 
