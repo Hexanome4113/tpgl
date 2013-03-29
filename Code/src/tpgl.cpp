@@ -12,78 +12,47 @@ using namespace std;
 #include <iostream>
 #include <string>
 
-void parsedtd(string dtdfile, bool restore) {
+DTDRoot *parsedtd(string dtdfile, bool restore) {
 	DTDRoot *dtd(DTDParser::loadFromFile(dtdfile));
 
 	if (dtd) {
 		if (restore) {
-			cout << dtd->affiche() << endl;
+			cout << dtd->affiche();
 		}
-		DTDParser::destroy(dtd);
+		return dtd;
     } else {
         exit(102);
     }
 }
 
-void parsexml(string xmlfile, bool restore) {
+pair<XMLNode *, string*> *parsexml(string xmlfile, bool restore) {
 	pair<XMLNode *, string*> *p(XMLParser::loadFromFile(xmlfile));
 
 	if (p) {
 		if (p->first && restore) {
-			cout << p->first->Affiche() << endl;
+			cout << p->first->Affiche();
 		}
-		XMLParser::destroy(p);
+		return p;
     } else {
         exit(102);
     }
 }
 
-void validate(string xmlfile) {
-	pair<XMLNode *, string*> *p(XMLParser::loadFromFile(xmlfile));
-
-	if (!p) {
-		exit(102);
-    }
-
-	DTDRoot *dtd(DTDParser::loadFromFile(*(p->second)));
-
-	if (!dtd) {
-		XMLParser::destroy(p);
-		exit(102);
-    }
-
-	bool match(match_xml_dtd(p->first, dtd));
-
-	XMLParser::destroy(p);
-	DTDParser::destroy(dtd);
+void validate(pair<XMLNode *, string*> *pXml, DTDRoot *dtd) {
+	bool match(match_xml_dtd(pXml->first, dtd));
 
 	if (!match) {
 		exit(103);
 	}
 }
 
-void applyxslt(string xmlfile, string xsltfile) {
-	pair<XMLNode *, string*> *pXml(XMLParser::loadFromFile(xmlfile));
-
-	if (!pXml) {
-		exit(102);
-    }
-
-	pair<XMLNode *, string*> *pXslt(XMLParser::loadFromFile(xsltfile));
-	if (!pXml) {
-		XMLParser::destroy(pXml);
-		exit(102);
-    }
-
+void applyxslt(pair<XMLNode *, string*> *pXml, pair<XMLNode *, string*> *pXslt) {
 	XMLNode* xmlTransfo(applyXSLT(pXml->first, pXslt->first));
 
 	bool result = (xmlTransfo != NULL);
 	if (result) {
-		cout << xmlTransfo->Affiche() << endl;
+		cout << xmlTransfo->Affiche();
 	}
-
-	XMLParser::destroy(pXml);
-	XMLParser::destroy(pXslt);
 
 	if (!result) {
 		exit(104);
@@ -104,11 +73,16 @@ int main(int argc, char *argv[])
 			return 1;
 		}
 		bool restore = (string("restore").compare(string(argv[3])) == 0);
-		parsedtd(string(argv[2]), restore);
+		DTDRoot *dtd(parsedtd(string(argv[2]), restore));
+		DTDParser::destroy(dtd);
 	}
 	else if (string("validate").compare(string(argv[1])) == 0)
 	{
-		validate(string(argv[2]));
+		pair<XMLNode *, string*> *pXml(parsexml(string(argv[2]), false));
+		DTDRoot *dtd(parsedtd(*(pXml->second), false));
+		validate(pXml, dtd);
+		XMLParser::destroy(pXml);
+		DTDParser::destroy(dtd);
 	}
 	else if (string("applyxslt").compare(string(argv[1])) == 0)
 	{
@@ -116,7 +90,11 @@ int main(int argc, char *argv[])
 		{
 			return 1;
 		}
-		applyxslt(string(argv[2]), string(argv[3]));
+		pair<XMLNode *, string*> *pXml(parsexml(string(argv[2]), false));
+		pair<XMLNode *, string*> *pXslt(parsexml(string(argv[3]), false));
+		applyxslt(pXml, pXslt);
+		XMLParser::destroy(pXml);
+		XMLParser::destroy(pXslt);		
 	}
 	else if (string("parsexml").compare(string(argv[1])) == 0)
 	{
@@ -124,7 +102,6 @@ int main(int argc, char *argv[])
 		{
 			return 1;
 		}
-		cout << argv[1] << endl << argv[2] << endl << argv[3] << endl << argv[4] << endl << argv[5] << endl;
 		bool restore = (string("restore").compare(string(argv[3])) == 0);
 		bool validateBool = (string("validate").compare(string(argv[4])) == 0);
 		string xslt;
@@ -136,14 +113,18 @@ int main(int argc, char *argv[])
 			xslt.assign(argv[5]);
 		}
 
-		parsexml(string(argv[2]), restore);
+		pair<XMLNode *, string*> *pXml(parsexml(string(argv[2]), restore));
 		if (validateBool) {
-			validate(string(argv[2]));
+			DTDRoot *dtd(parsedtd(*(pXml->second), false));
+			validate(pXml, dtd);
+			DTDParser::destroy(dtd);
 		}
 		if (!xslt.empty()) {
-			cout << xslt << endl;
-			applyxslt(string(argv[2]), xslt);
+			pair<XMLNode *, string*> *pXslt(parsexml(xslt, false));
+			applyxslt(pXml, pXslt);
+			XMLParser::destroy(pXslt);		
 		}
+		XMLParser::destroy(pXml);
 	}
 	else
 	{

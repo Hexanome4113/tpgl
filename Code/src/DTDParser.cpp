@@ -20,7 +20,6 @@ DTDRoot *DTDParser::loadFromFile(string dtdFile)
         string s;
 		int err = dtdparse(&dtd, &s);
 
-		dtdrestart(dtdin);
 		fclose(dtdin);
 
 		if (err > 0) {

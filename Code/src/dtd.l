@@ -91,4 +91,3 @@ any         "ANY"
 {comment}		              { /* les commentaires sont ignorés */ }
 \n          { ++dtdlineno; }
 .			{ fprintf(stderr, "lexical dtd %d %c\n", dtdlineno, *yytext); exit(101); /* 101 == ERR_ANALYSE_LEXICALE */}
-<<EOF>> {YY_NEW_FILE; yyterminate();}

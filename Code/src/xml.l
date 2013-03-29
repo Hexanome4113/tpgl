@@ -128,9 +128,6 @@ supspecial "?>"{nl}?
 {inf}"/"{nom}		{BEGIN(INITIAL); char * tmp = mot(YYTEXT); YYLVAL.en = new ElementName("",tmp); free(tmp); return FBALISE;}
 {inf}"/"{ennom}		{BEGIN(INITIAL); char *tmp1 = espaceDeNom(YYTEXT); char * tmp2 = separeNom(YYTEXT); YYLVAL.en = new ElementName(tmp1,tmp2); free(tmp1); free(tmp2); return FBALISEEN;}
 {comment}		{YYLVAL.s = strdup(YYTEXT); return COMMENT;}
-
 <CONTENU>{esp}?{pcdata}		{YYLVAL.s = strdup(supprimeEspaces(YYTEXT)); return DONNEES;}
-
 \n          { ++xmllineno; }
 .           { fprintf(stderr, "lexical xml %d %c\n", xmllineno, *yytext); exit(101); /* 101 == ERR_ANALYSE_LEXICALE */}
-<<EOF>> {YY_NEW_FILE; yyterminate();}

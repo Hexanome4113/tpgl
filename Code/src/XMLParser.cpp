@@ -23,7 +23,6 @@ pair<XMLNode *, string *> *XMLParser::loadFromFile(string xmlFile)
 
 		int err = xmlparse(&dtd, &xml);
 
-		xmlrestart(xmlin);
 		fclose(xmlin);
 
 		if (err > 0) {
