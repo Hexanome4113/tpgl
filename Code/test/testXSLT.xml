@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<!DOCTYPE rapport SYSTEM "testXSLT.dtd">
+<racine>
+	<paragraph>
+		Test de paragraphe basique
+	</paragraph>
+</racine>
