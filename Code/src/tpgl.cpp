@@ -92,13 +92,17 @@ void applyxslt(string xmlfile, string xsltfile) {
 
 int main(int argc, char *argv[])
 {
-	if (argc < 4)
+	if (argc < 3)
 	{
 		return 1;
 	}
 
 	if (string("parsedtd").compare(string(argv[1])) == 0)
 	{
+		if (argc < 4)
+		{
+			return 1;
+		}
 		bool restore = (string("restore").compare(string(argv[3])) == 0);
 		parsedtd(string(argv[2]), restore);
 	}
@@ -108,6 +112,10 @@ int main(int argc, char *argv[])
 	}
 	else if (string("applyxslt").compare(string(argv[1])) == 0)
 	{
+		if (argc < 4)
+		{
+			return 1;
+		}
 		applyxslt(string(argv[2]), string(argv[3]));
 	}
 	else if (string("parsexml").compare(string(argv[1])) == 0)
@@ -116,6 +124,7 @@ int main(int argc, char *argv[])
 		{
 			return 1;
 		}
+		cout << argv[1] << endl << argv[2] << endl << argv[3] << endl << argv[4] << endl << argv[5] << endl;
 		bool restore = (string("restore").compare(string(argv[3])) == 0);
 		bool validateBool = (string("validate").compare(string(argv[4])) == 0);
 		string xslt;
@@ -132,6 +141,7 @@ int main(int argc, char *argv[])
 			validate(string(argv[2]));
 		}
 		if (!xslt.empty()) {
+			cout << xslt << endl;
 			applyxslt(string(argv[2]), xslt);
 		}
 	}
