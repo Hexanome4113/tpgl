@@ -5,14 +5,14 @@ all: refman.pdf
 pdf: refman.pdf
 
 refman.pdf: *.tex *.sty
-	pdflatex refman
-	makeindex refman.tex
-	pdflatex refman
+	-pdflatex --interaction=nonstopmode refman
+	-makeindex refman.tex
+	-pdflatex --interaction=nonstopmode refman
 	latex_count=5 ; \
 	while egrep -s 'Rerun (LaTeX|to get cross-references right)' refman.log && [ $$latex_count -gt 0 ] ;\
 	    do \
 	      echo "Rerunning latex...." ;\
-	      pdflatex refman ;\
+	      -pdflatex --interaction=nonstopmode refman ;\
 	      latex_count=`expr $$latex_count - 1` ;\
 	    done
 
