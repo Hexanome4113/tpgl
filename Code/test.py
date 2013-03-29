@@ -19,6 +19,7 @@ tests = [
     ("testvalidateXML-attributsOK", "../tpgl.py validate testValidOKattribut.xml"),
     ("testvalidateXML-attributsKO", "../tpgl.py validate testValidKOattribut.xml"),
     ("testxslt", "../tpgl.py applyxslt xml_pour_test_xslt.xml xslt_pour_test_xslt.xslt"),
+    ("testXSLT-html", "../tpgl.py applyxslt testXSLT.xml testXSLT.xslt"),
 ]
 
 # ne pas modifier en dessous !
