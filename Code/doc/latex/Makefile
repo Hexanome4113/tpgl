@@ -1,8 +1,10 @@
+.PHONY: all clean pdf
+
 all: refman.pdf
 
 pdf: refman.pdf
 
-refman.pdf: clean refman.tex
+refman.pdf: *.tex *.sty
 	pdflatex refman
 	makeindex refman.tex
 	pdflatex refman
@@ -13,7 +15,6 @@ refman.pdf: clean refman.tex
 	      pdflatex refman ;\
 	      latex_count=`expr $$latex_count - 1` ;\
 	    done
-
 
 clean:
 	rm -f *.ps *.dvi *.aux *.toc *.idx *.ind *.ilg *.log *.out *.brf *.blg *.bbl refman.pdf

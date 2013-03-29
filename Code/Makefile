@@ -1,4 +1,4 @@
-.PHONY: all clean test $(TARGET)
+.PHONY: all clean doc doc-clean test $(TARGET)
 .SUFFIXES: .lex.cpp .lex.o .tab.cpp .tab.h .tab.o
 
 BISON?=bison
@@ -13,6 +13,7 @@ BIN_DIR=bin/
 BUILD_DIR=build/
 INCLUDE_DIR=include/
 LIB_DIR=lib/
+LATEX_DIR=doc/latex/
 
 DTD_OBJS=dtd.lex.cpp dtd.tab.cpp dtd.tab.h dtd.lex.o dtd.tab.o regex.o DTDDefinition.o DTDElement.o DTDRoot.o DTDParser.o
 XML_OBJS=xml.lex.cpp xml.tab.cpp xml.tab.h xml.lex.o xml.tab.o XMLNode.o XMLParser.o
@@ -27,7 +28,13 @@ all: $(addprefix $(BIN_DIR), $(TARGET))
 clean:
 	-rm -f $(addprefix $(BUILD_DIR), $(DTD_OBJS) $(XML_OBJS) $(OBJECTS)) $(addprefix $(BIN_DIR), $(TARGET)) $(addprefix $(BUILD_DIR), $(addsuffix .d, $(basename $(filter %.o, $(DTD_OBJS) $(XML_OBJS) $(OBJECTS)))))
 
-test:
+doc:
+	$(MAKE) -C $(LATEX_DIR)
+
+doc-clean:
+	$(MAKE) clean -C $(LATEX_DIR)
+
+test: all
 	@$(PYTHON) $(TEST_SCRIPT)
 
 $(TARGET): $(BIN_DIR)$(TARGET)
@@ -36,8 +43,10 @@ $(BIN_DIR)$(TARGET): $(addprefix $(SRC_DIR), $(HEADERS)) $(addprefix $(BUILD_DIR
 	$(CXX) $(LDFLAGS) $(addprefix $(BUILD_DIR), $(filter %.o, $(DTD_OBJS) $(XML_OBJS) $(OBJECTS))) $(LOADLIBES) $(LDLIBS) -lpcre -o $(BIN_DIR)$(TARGET)
 
 ifneq ($(MAKECMDGOALS), clean)
+ifneq ($(MAKECMDGOALS), doc-clean)
 $(shell mkdir -p $(BIN_DIR) $(BUILD_DIR))
 -include $(addprefix $(BUILD_DIR), $(addsuffix .d, $(basename $(filter %.o, $(DTD_OBJS) $(XML_OBJS) $(OBJECTS)))))
+endif
 endif
 
 $(BUILD_DIR)%.lex.d: $(BUILD_DIR)%.lex.cpp

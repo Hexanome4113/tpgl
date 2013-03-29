@@ -1,0 +1,88 @@
+TP Grammaire et langages
+========================
+
+Hexanôme H4113
+
+
+Sommaire
+--------
+
+    - Instructions de compilation
+    - Comment utiliser `tpgl' ?
+    - Comment lancer les tests de l'exécutable `tpgl' ?
+	- Y a-t-il une documentation de ce projet ?
+
+
+Instructions de compilation
+---------------------------
+
+Pour compiler le projet, lancez simplement la commande `make' dans le dossier
+tpgl-h4113/ (dossier racine de l'archive).
+
+Le makefile accèpte les cibles suivantes :
+
+    - all: identique à la commande `make' invoquée sans cible ; construit
+           l'exécutable `tpgl' dans le dossier bin/.
+    - tpgl: identique à all.
+    - clean: supprime tous les fichiers créés dand build/, au cours de la
+             construction de l'exécutable `tpgl', et l'exécutable lui-même.
+    - test: lance le jeu de tests de l'exécutable `tpgl' (et le construit si
+            besoin).
+    - doc: génère la documentation développeur (refman.pdf) à partir des
+           sources Tex du dossier doc/latex/.
+    - doc-clean: supprime tous les fichiers créés dans doc/latex/ au cours de
+                 la génération de la documentation développeur.
+
+
+Comment utiliser `tpgl' ?
+-------------------------
+
+Note: l'exécutable `tpgl' n'est pas fait pour être appelé directement.
+
+    1) Assurez-vous d'avoir compilé le projet (voir Instructions de
+       compilation). La génération de la documentation développeur, ainsi que
+       l'exécution de la suite de tests ne sont pas nécessaires pour pouvoir
+       utiliser `tpgl'.
+
+    2) `tpgl' doit être lancé par l'intermédiaire du script Python (`tpgl.py'),
+       fourni dans le dossier racine de l'archive (tpgl-h4113/). Ce script fait
+       usage de nombreux paramètres et options en ligne de commande.
+
+À titre d'exemple, la commande `./tpgl.py parsexml -r <fichier_xml>' permet de
+parser le fichier XML dont le chemin est donné par l'argument <fichier_xml> et
+d'en afficher le contenu sur la sortie standard.
+
+`tpgl.py' est découpé en sous-commandes. Dans l'exemple ci-dessus, c'est la
+sous-commande "parsexml" qui est utilisée. Les sous-commandes disponibles
+sont :
+
+    - parsexml: parse un fichier XML, et optionnellement, l'affiche sur la
+                sortie standard, le valide (en fonction de sa DTD) et le
+                transforme selon le fichier XSLT fourni (le cas échéant).
+    - parsedtd: parse une DTD, et optionnellement, l'affiche sur la sortie
+                standard.
+    - validate: valide un fichier XML en fonction de sa DTD.
+    - applyxslt: transforme un fichier XML selon le fichier XSLT fourni.
+
+Le fichier `tpgl.py' possède une aide détaillant son utilisation d'une façon
+générale (lancez la commande `./tpgl.py -h'). Une aide est également disponible
+pour chaque sous-commande de `tpgl.py' (lancez la commande
+`./tpgl.py <sous_commande> -h'). Dans les deux cas, la syntaxe complète de la
+commande est affichée sur la sortie standard, ainsi que toutes les options
+disponibles et leur signification.
+
+
+Comment lancer les tests de l'exécutable `tpgl' ?
+-------------------------------------------------
+
+Grâce à la commane `make test' dans la racine de l'archive, c'est-à-dire
+tpgl-h4113/ (voir Instructions de compilation).
+
+
+Y a-t-il une documentation de ce projet ?
+-----------------------------------------
+
+Oui, dans le dossier doc/, vous pouvez trouver une documentation développeur
+concernant certaines classes du projet. Un fichier PDF peut-être généré (voir
+Instructions de compilation). Dans tous les cas, la documentation au format
+HTML est présente dans le dossier doc/html/.
