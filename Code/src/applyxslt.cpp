@@ -71,15 +71,9 @@ XMLNode* matchTemplates(XMLNode *xmlNode, XMLNode *xslRoot)
                 if ( (*itXsl)->getFullName() == "xsl:template" && (*itXsl)->getAttributes().find("match")->second == (*itXml)->getNodeName())
                     //est ce que un xml et un xsl matchent
                 {
-                    matchTemplate = true;
-                    
-					//on lance applytempate sur les fils du noeud qui matche
-					for (vector<XMLNode *>::const_iterator childXml = (*itXml)->getChildren().begin() ; childXml != (*itXml)->getChildren().end(); childXml++ )
-					{
-						vector<XMLNode*> returnedVect = applyTemplate(*childXml,*itXsl,xslRoot);
-						childVect.insert( childVect.end(), returnedVect.begin(), returnedVect.end() );
-					}
-                    
+                    matchTemplate = true;                 
+					vector<XMLNode*> returnedVect = applyTemplate(*itXsl,*itXsl,xslRoot);
+					childVect.insert( childVect.end(), returnedVect.begin(), returnedVect.end() );                    
                 }
             }
             // END pour tous les templates du xsl
