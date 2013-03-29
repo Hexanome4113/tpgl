@@ -10,10 +10,15 @@ lonely(true)
 }
 
 XMLNode::XMLNode(string textContent)
-:textContent(textContent+"\n"),
-nodeType(TEXT_NODE),
+:nodeType(TEXT_NODE),
 lonely(false)
 {
+    //ajout d'un \n si non présent
+    if (!textContent.empty() && textContent[textContent.size()-1] != '\n')
+    {
+        textContent += "\n";   
+    }
+    this->textContent = textContent;
 }
 
 XMLNode::XMLNode(string nodeNamespace, string nodeName, map<string, string> attributeList, vector<XMLNode*> childrenList)
