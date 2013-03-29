@@ -1,8 +1,9 @@
-.PHONY: all clean $(TARGET)
+.PHONY: all clean test $(TARGET)
 .SUFFIXES: .lex.cpp .lex.o .tab.cpp .tab.h .tab.o
 
 BISON?=bison
 FLEX?=flex
+PYTHON?=python
 
 CPPFLAGS=-I$(INCLUDE_DIR)
 LDFLAGS=-L$(LIB_DIR)
@@ -19,11 +20,15 @@ XML_OBJS=xml.lex.cpp xml.tab.cpp xml.tab.h xml.lex.o xml.tab.o XMLNode.o XMLPars
 TARGET=tpgl
 OBJECTS=tpgl.o applyxslt.o
 HEADERS=
+TEST_SCRIPT=test.py
 
 all: $(addprefix $(BIN_DIR), $(TARGET))
 
 clean:
 	-rm -f $(addprefix $(BUILD_DIR), $(DTD_OBJS) $(XML_OBJS) $(OBJECTS)) $(addprefix $(BIN_DIR), $(TARGET)) $(addprefix $(BUILD_DIR), $(addsuffix .d, $(basename $(filter %.o, $(DTD_OBJS) $(XML_OBJS) $(OBJECTS)))))
+
+test:
+	@$(PYTHON) $(TEST_SCRIPT)
 
 $(TARGET): $(BIN_DIR)$(TARGET)
 
