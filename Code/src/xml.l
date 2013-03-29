@@ -48,8 +48,8 @@ static char* mot(char *s)
 {
   char *buf;
   int i, k;
-  for (k = 0; !isalpha(s[k]); k++) ;
-  for (i = k; isalpha(s[i])||s[i]=='-'; i++) ;
+  for (k = 0; !isalnum(s[k]); k++) ;
+  for (i = k; isalnum(s[i])||s[i]=='-'; i++) ;
   buf = (char *) malloc((i - k + 1) * sizeof(char));
   strncpy(buf, &s[k], i - k);
   buf[i - k] = '\0';
