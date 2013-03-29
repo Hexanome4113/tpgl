@@ -7,12 +7,8 @@
 		</meta>
 	</head>
 	<body>
-		<racine>
-			<p>
-				<paragraph>
-					Test de paragraphe basique
-				</paragraph>
-			</p>
-		</racine>
+		<p>
+			Test de paragraphe basique
+		</p>
 	</body>
 </html>
