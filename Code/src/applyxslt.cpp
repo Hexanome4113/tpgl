@@ -11,9 +11,13 @@ XMLNode* applyXSLT(XMLNode *xmlDocumentRoot, XMLNode *xslStylesheetRoot)
     content.push_back(xmlDocumentRoot);
     map<string,string> mapvide;
     XMLNode container("","", mapvide, content);
-    XMLNode* result = matchTemplates(&container, xslStylesheetRoot);
-    return (*(result->getChildren().begin()));
+    return (*(matchTemplates(&container, xslStylesheetRoot).begin()));
 }
+
+//HA
+
+//HAAAA
+//HAAAA
 
 vector<XMLNode*> applyTemplate(XMLNode *xmlNode, XMLNode *xslTemplate, XMLNode *xslRoot)
 {
@@ -29,7 +33,8 @@ vector<XMLNode*> applyTemplate(XMLNode *xmlNode, XMLNode *xslTemplate, XMLNode *
         else if ((*itXsl)->getFullName() == "xsl:apply-templates")
             // si c'est un apply on fait un match sur le xml (donc sur ses fils)
         {
-            childrenVect.push_back(matchTemplates(xmlNode, xslRoot));
+            vector<XMLNode*> returnedvect = matchTemplates(xmlNode, xslRoot);
+            childrenVect.insert(childrenVect.end(),returnedvect.begin(), returnedvect.end());
         }
         else if ((*itXsl)->getFullName() == "xsl:value-of")
             //si c'est un value-of
@@ -53,7 +58,7 @@ vector<XMLNode*> applyTemplate(XMLNode *xmlNode, XMLNode *xslTemplate, XMLNode *
 }
 
 
-XMLNode* matchTemplates(XMLNode *xmlNode, XMLNode *xslRoot)
+vector<XMLNode*> matchTemplates(XMLNode *xmlNode, XMLNode *xslRoot)
 {
     vector<XMLNode*> childVect;
     
@@ -83,12 +88,13 @@ XMLNode* matchTemplates(XMLNode *xmlNode, XMLNode *xslRoot)
             if (matchTemplate == false)
                 // Si le noeud xml ne match avec aucun xsl template on le recopie sans modif
             {
-                childVect.push_back( matchTemplates(*itXml, xslRoot) );
+                vector<XMLNode*> returnedvect = matchTemplates(*itXml, xslRoot);
+				childVect.insert( childVect.end(), returnedvect.begin(), returnedvect.end() );
             }
         }
     }
-    
-    return new XMLNode(xmlNode->getNameSpace(),xmlNode->getNodeName(), xmlNode->getAttributes(), childVect);
+    return childVect;
+    //return new XMLNode(xmlNode->getNameSpace(),xmlNode->getNodeName(), xmlNode->getAttributes(), childVect);
     
     // END pour tous les fils du noeud xml
 }

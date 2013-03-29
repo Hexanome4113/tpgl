@@ -12,7 +12,7 @@
 XMLNode* applyXSLT(XMLNode *xmlDocumentRoot, XMLNode *xslStylesheetRoot);
 
 XMLNode* valueof(XMLNode *xmlNode, std::string select);
-XMLNode* matchTemplates(XMLNode *xmlNode, XMLNode *xslRoot);
+vector<XMLNode*> matchTemplates(XMLNode *xmlNode, XMLNode *xslRoot);
 vector<XMLNode*> applyTemplate(XMLNode *xmlNode, XMLNode *xslTemplate, XMLNode *xslRoot);
 
 #endif // APPLYXSLT_H
