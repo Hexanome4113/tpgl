@@ -79,10 +79,16 @@ class DTDDefinition {
          */
         void setNom(std::string n);
         
+        /**
+         * \brief Récupérer l'expression régulière de cette définition
+         * \return string contenant l'expression régulière de cette définition
+         */
         std::string toRegex();
-
-        void affiche(std::string indent="");
         
+        /**
+         * \brief Reconstitution de la définition
+         * \return string contenant la définition telle qu'elle serait dans un document DTD
+         */
         std::string afficheDefinition();
         
     protected:

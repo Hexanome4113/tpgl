@@ -20,6 +20,9 @@ class XMLNode
 //METHODS
 public:
 	
+        XMLNode();                       //interdit
+        XMLNode(const XMLNode&);        //interdit
+
 	
 	/**
 	 * \brief constructeur pour feuille contenant des données #PCDATA.
@@ -33,7 +36,7 @@ public:
 	 * \param nodeName nom de la balise.
 	 * \param attributeList liste des attributs. Peut être vide.
 	 */
-    XMLNode(string nodeNamespace, string nodeName, map<string, string> attributeList);
+        XMLNode(string nodeNamespace, string nodeName, map<string, string> attributeList);
 	
 	/**
 	 * \brief constructeur pour balises standard.
@@ -47,78 +50,85 @@ public:
 	
     virtual ~XMLNode();
 	
-	
-	string regexSerialize();
-	
-	string Affiche();
+   /**
+	* \brief Récupérer l'expression régulière de ce noeud XML
+	* \return string contenant l'expression régulière de ce noeud XML
+	*/ 
+	const string regexSerialize() const;
+
+   /**
+	* \brief Reconstitution du noeud XML
+	* \return string contenant le noeud XML tel qu'il serait dans un fichier XML
+	*/ 
+	string Affiche() const;
 	
 	/**
 	 * \return namespace du noeud. vide si TEXT_NODE ou pas de namespace.
 	 */
-	string getNameSpace();
+	string getNameSpace() const;
 
 	/**
 	 * \return nom du noeud. vide si TEXT_NODE.
 	 */
-	string getNodeName();
+	const string getNodeName() const;
 	
 	/**
 	 * \return renvoie nom et namespace au format "namespace:nom". vide si TEXT_NODE.
 	 */
-	string getFullName();
+	string getFullName() const;
 	
 	/**
 	 * \return vrai si le noeud contient un attribut de nom name.
 	 * \param name nom de l'attribut recherché.
 	 */
-	bool hasAttribute(string name);
+	bool hasAttribute(string name) const;
 	
 	/**
 	 * \return vrai si nodeType == TEXT_NODE.
 	 */
-	bool isTextNode();
+	bool isTextNode() const;
 	
 	/**
 	 * \return vrai si nodeType == ELEMENT_NODE.
 	 */
-	bool isElementNode();
+	bool isElementNode() const;
 	
 	//string getAttribute(string name);
 	
 	/**
 	 * \return référence constante sur une map<nom, valeur> des attributs du noeud.
 	 */
-	const map<string, string>& getAttributes();
+	const map<string, string>& getAttributes() const;
 	
 	/**
 	 * \return vrai si contient des fils de type TEXT_NODE (donc du #PCDATA).
 	 */
-	bool hasMixedContent();
+	bool hasMixedContent() const;
 	
 	/**
 	 * \return node racine du document XML représenté.
 	 */
-	XMLNode* getDocumentRoot();
+	XMLNode* getDocumentRoot() const;
 	
 	/**
 	 * \return contenu texte d'un TEXT_NODE. vide si ELEMENT_NODE.
 	 */
-	string getTextContent();
+	string getTextContent() const;
 	
 	/**
 	 * \return parent du noeud.
 	 */
-	XMLNode* getParent();
+	XMLNode* getParent() const;
 	
 	/**
 	 * \return vecteur des noeuds fils.
 	 */
-	vector<XMLNode*> getChildren();
+	const vector<XMLNode*>& getChildren() const;
 	
 
 protected:
 	
-	string indent(string strToIndent);
+	string indent(string strToIndent) const;
 
 	
 //ATRIBUTES

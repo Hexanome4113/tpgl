@@ -1,5 +1,6 @@
 %option 8bit nodefault
 %option noyywrap
+%option yylineno
 
 %{
 #include <stdio.h>
@@ -47,8 +48,8 @@ static char* mot(char *s)
 {
   char *buf;
   int i, k;
-  for (k = 0; !isalpha(s[k]); k++) ;
-  for (i = k; isalpha(s[i])||s[i]=='-'; i++) ;
+  for (k = 0; !isalnum(s[k]); k++) ;
+  for (i = k; isalnum(s[i])||s[i]=='-'; i++) ;
   buf = (char *) malloc((i - k + 1) * sizeof(char));
   strncpy(buf, &s[k], i - k);
   buf[i - k] = '\0';
@@ -130,4 +131,6 @@ supspecial "?>"{nl}?
 
 <CONTENU>{esp}?{pcdata}		{YYLVAL.s = strdup(supprimeEspaces(YYTEXT)); return DONNEES;}
 
-.			{fprintf(stderr, "!ERROR(%c)\n", *YYTEXT);}
+\n          { ++xmllineno; }
+.           { fprintf(stderr, "lexical xml %d %c\n", xmllineno, *yytext); exit(101); /* 101 == ERR_ANALYSE_LEXICALE */}
+<<EOF>> {YY_NEW_FILE; yyterminate();}

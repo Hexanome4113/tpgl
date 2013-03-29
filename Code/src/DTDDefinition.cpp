@@ -70,19 +70,6 @@ std::string DTDDefinition::toRegex()
     }
 }
 
-void DTDDefinition::affiche(string indent)
-{
-    cout << indent << "====>> Affichage d'une DTDDefinition" << endl;
-    cout << indent << "  Type : " << type << endl;
-    cout << indent << "  Taille de la sous-definition : " << children.size() << endl;
-    cout << indent << "  Sous-definition : " << endl;
-    for (int i=0 ; i<children.size() ; i++)
-        children[i].affiche(indent + "  ");
-    cout << indent << "  Nom : " << nom << endl;
-    cout << indent << "  Quantifieur : " << quantifier << endl;
-    cout << indent << "<<==== Affichage d'une DTDDefinition" << endl;
-}
-
 std::string DTDDefinition::afficheDefinition()
 {
 	if (getType() == BALISE)

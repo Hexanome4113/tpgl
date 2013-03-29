@@ -1,0 +1,37 @@
+
+ListeRetour applyTemplates(NoeudXML, template)
+{
+    foreach fils de template
+    {
+        si (fils est un noeud texte)
+        {
+            ListeRetour += noeud texte
+        }
+        sinon si (fils est un "apply-templates")
+        {
+            ListeRetour += matchTemplates(NoeudXML)
+        }
+        sinon si (fils est un noeud)
+        {
+            ListeRetour += applyTemplate(NoeudXML, fils)   //récursion dans le template
+        }
+    }
+    renvoyer ListeRetour
+}
+
+NoeudRetour matchTemplates(NoeudXML)
+{
+    créer NoeudRetour
+    foreach fils de NoeudXML
+    {
+        si un template matche fils:
+        {
+            NoeudRetour.fils += applyTemplate(fils, template)
+        }
+        sinon
+        {
+            NoeudRetour.fils += matchTemplates(fils)
+        }
+    }
+    renvoyer NoeudRetour
+}

@@ -1,0 +1,24 @@
+#IncludeRegexLine: ^[ 	]*#[ 	]*(include|import)[ 	]*[<"]([^">]+)([">])
+
+#IncludeRegexScan: ^.*$
+
+#IncludeRegexComplain: ^$
+
+#IncludeRegexTransform: 
+
+/home/yann/projects/tpgl/transformation_d-arbre/../Code/src/XMLNode.h
+vector
+-
+string
+-
+map
+-
+
+/home/yann/projects/tpgl/transformation_d-arbre/main.cpp
+iostream
+-
+../Code/src/XMLNode.h
+/home/yann/projects/tpgl/transformation_d-arbre/../Code/src/XMLNode.h
+string
+-
+

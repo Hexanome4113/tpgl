@@ -39,7 +39,7 @@ class DTDElement {
         /**
          * \return ContentSpec de l'élément
          */
-        ContentSpec getContentSpec();
+        ContentSpec getContentSpec() const;
 
         /**
          * \param cs nouveau contentspec
@@ -49,7 +49,7 @@ class DTDElement {
         /**
          * \return Définition DTD de l'élément
          */
-        DTDDefinition getDefinition();
+        DTDDefinition getDefinition() const;
 
         /**
          * \param def nouvelle definition
@@ -59,18 +59,30 @@ class DTDElement {
         /**
          * \return nom de l'élement
          */
-        std::string getNom();
+        std::string getNom() const;
 
         /**
          * \param n nouveau nom
          */
         void setNom(std::string n);
         
-        std::string affiche();
+       /**
+		* \brief Reconstitution de cet element
+		* \return string contenant la règle telle qu'elle serait dans un fichier DTD
+		*/
+        std::string affiche() const;
+      
+       /**
+		* \brief Récupérer l'expression régulière de cet élément
+		* \return string contenant l'expression régulière de cet élément
+		*/  
+        std::string toRegex() const;
         
-        std::string toRegex();
-        
-        std::string afficheElement();
+       /**
+		* \brief Reconstitution de la définition de cet élément
+		* \return string contenant la définition de la règle telle qu'elle serait dans un fichier DTD
+		*/
+        std::string afficheElement() const;
 
 
     protected:

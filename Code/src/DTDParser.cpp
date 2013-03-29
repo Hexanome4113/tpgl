@@ -3,6 +3,8 @@
 
 #include "commun.h"
 
+#include <cstdio>
+
 using namespace std;
 
 
@@ -15,8 +17,10 @@ DTDRoot *DTDParser::loadFromFile(string dtdFile)
 	} else
 	{
 		DTDRoot *dtd;
-		int err = dtdparse(&dtd);
+        string s;
+		int err = dtdparse(&dtd, &s);
 
+		dtdrestart(dtdin);
 		fclose(dtdin);
 
 		if (err > 0) {
@@ -31,7 +35,8 @@ DTDRoot *DTDParser::loadFromString(string dtdString)
 {
 	DTD_BUFFER_STATE dtdbuf(dtd_scan_string(dtdString.c_str()));
 	DTDRoot *dtd;
-	int err = dtdparse(&dtd);
+    string s;
+	int err = dtdparse(&dtd, &s);
 
 	dtd_delete_buffer(dtdbuf);
 
@@ -43,5 +48,5 @@ DTDRoot *DTDParser::loadFromString(string dtdString)
 }
 
 void DTDParser::destroy(DTDRoot *dtd) {
-	delete dtd;
+	if (dtd) delete dtd;
 }
