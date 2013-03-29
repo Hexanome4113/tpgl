@@ -1,1 +1,3 @@
-Validation réussie !
+Erreur lors de l'analyse lexicale.
+Détail :
+  - Fichier au format xml, ligne 1, caractère rencontré : <
