@@ -1,0 +1,278 @@
+\hypertarget{class_x_m_l_node}{\section{\-X\-M\-L\-Node \-Class \-Reference}
+\label{class_x_m_l_node}\index{\-X\-M\-L\-Node@{\-X\-M\-L\-Node}}
+}
+\subsection*{\-Public \-Member \-Functions}
+\begin{DoxyCompactItemize}
+\item 
+\hyperlink{class_x_m_l_node_a15451e72788af9e387b7c37e36ae5904}{\-X\-M\-L\-Node} (string text\-Content)
+\begin{DoxyCompactList}\small\item\em constructeur pour feuille contenant des données \#\-P\-C\-D\-A\-T\-A. \end{DoxyCompactList}\item 
+\hyperlink{class_x_m_l_node_af149f2fbac6fc753db2b5bd19ab581b5}{\-X\-M\-L\-Node} (string node\-Namespace, string node\-Name, map$<$ string, string $>$ attribute\-List)
+\begin{DoxyCompactList}\small\item\em constructeur pour balises uniques (type \char`\"{}$<$balise/$>$\char`\"{}). $\ast$ \end{DoxyCompactList}\item 
+\hyperlink{class_x_m_l_node_a5c5b1ad7daca4f5944d5270e8db1618f}{\-X\-M\-L\-Node} (string node\-Namespace, string node\-Name, map$<$ string, string $>$ attribute\-List, vector$<$ \hyperlink{class_x_m_l_node}{\-X\-M\-L\-Node} $\ast$ $>$ children\-List)
+\begin{DoxyCompactList}\small\item\em constructeur pour balises standard. \end{DoxyCompactList}\item 
+\hypertarget{class_x_m_l_node_acb075e6a6bf141ef2d328d677dd77965}{string {\bfseries regex\-Serialize} ()}\label{class_x_m_l_node_acb075e6a6bf141ef2d328d677dd77965}
+
+\item 
+\hypertarget{class_x_m_l_node_a63d82e2b63f434f3afb350022359bf23}{string {\bfseries \-Affiche} ()}\label{class_x_m_l_node_a63d82e2b63f434f3afb350022359bf23}
+
+\item 
+string \hyperlink{class_x_m_l_node_af5d4018320b4fd202409546e3e2d3347}{get\-Name\-Space} ()
+\item 
+string \hyperlink{class_x_m_l_node_ab83c7475e30e92fca4813592fe00e353}{get\-Node\-Name} ()
+\item 
+string \hyperlink{class_x_m_l_node_ae19a3896b76d3c9f2df6038a7c64bf27}{get\-Full\-Name} ()
+\item 
+bool \hyperlink{class_x_m_l_node_a9064f0388a5386f4b0ab5fbba4114f3e}{has\-Attribute} (string name)
+\item 
+bool \hyperlink{class_x_m_l_node_aca2a516ac15814517653cc161d57a300}{is\-Text\-Node} ()
+\item 
+bool \hyperlink{class_x_m_l_node_a8b228feaecb6906791035f6a003167f7}{is\-Element\-Node} ()
+\item 
+const map$<$ string, string $>$ \& \hyperlink{class_x_m_l_node_a80ae04b136774fa6cd9075fa92148965}{get\-Attributes} ()
+\item 
+bool \hyperlink{class_x_m_l_node_ac58a39b3a9eb5f67b781b760f2883e88}{has\-Mixed\-Content} ()
+\item 
+\hyperlink{class_x_m_l_node}{\-X\-M\-L\-Node} $\ast$ \hyperlink{class_x_m_l_node_aca5e607598ba590d941f5140dde1c089}{get\-Document\-Root} ()
+\item 
+string \hyperlink{class_x_m_l_node_a320fd7d6ef15b2274352abff2a592397}{get\-Text\-Content} ()
+\item 
+\hyperlink{class_x_m_l_node}{\-X\-M\-L\-Node} $\ast$ \hyperlink{class_x_m_l_node_ab53132738607b90b12146a8f850fbc9c}{get\-Parent} ()
+\item 
+vector$<$ \hyperlink{class_x_m_l_node}{\-X\-M\-L\-Node} $\ast$ $>$ \hyperlink{class_x_m_l_node_a1f4ea630819d007ddc5df02f331a1dcb}{get\-Children} ()
+\end{DoxyCompactItemize}
+\subsection*{\-Protected \-Member \-Functions}
+\begin{DoxyCompactItemize}
+\item 
+\hypertarget{class_x_m_l_node_a770b413a95ae2efc8a56fa4eed3e000e}{string {\bfseries indent} (string str\-To\-Indent)}\label{class_x_m_l_node_a770b413a95ae2efc8a56fa4eed3e000e}
+
+\end{DoxyCompactItemize}
+\subsection*{\-Protected \-Attributes}
+\begin{DoxyCompactItemize}
+\item 
+\hypertarget{class_x_m_l_node_a44fff7004774198f0e61399603ff024d}{string {\bfseries element\-Namespace}}\label{class_x_m_l_node_a44fff7004774198f0e61399603ff024d}
+
+\item 
+\hypertarget{class_x_m_l_node_a0b333d6a18592d40159d29e2fbf1a9e3}{string {\bfseries element\-Name}}\label{class_x_m_l_node_a0b333d6a18592d40159d29e2fbf1a9e3}
+
+\item 
+\hypertarget{class_x_m_l_node_aa51d05d5856833038c5db309fd026e4a}{string {\bfseries text\-Content}}\label{class_x_m_l_node_aa51d05d5856833038c5db309fd026e4a}
+
+\item 
+\hypertarget{class_x_m_l_node_a09b8efdbaaa244137a0abf4c41688868}{bool {\bfseries lonely}}\label{class_x_m_l_node_a09b8efdbaaa244137a0abf4c41688868}
+
+\item 
+\hypertarget{class_x_m_l_node_a979f56748474e4083aeb5ddab5eaa085}{map$<$ string, string $>$ {\bfseries attributes}}\label{class_x_m_l_node_a979f56748474e4083aeb5ddab5eaa085}
+
+\item 
+\hypertarget{class_x_m_l_node_aa0ad2624424551907d2600c0f1a977c5}{\-X\-M\-L\-Node\-Type {\bfseries node\-Type}}\label{class_x_m_l_node_aa0ad2624424551907d2600c0f1a977c5}
+
+\item 
+\hypertarget{class_x_m_l_node_a08e0fea13865ec41e7371054d0ca65b9}{\hyperlink{class_x_m_l_node}{\-X\-M\-L\-Node} $\ast$ {\bfseries document\-Root}}\label{class_x_m_l_node_a08e0fea13865ec41e7371054d0ca65b9}
+
+\item 
+\hypertarget{class_x_m_l_node_adf714ef8e4620e7c48f63a8741206bed}{\hyperlink{class_x_m_l_node}{\-X\-M\-L\-Node} $\ast$ {\bfseries parent}}\label{class_x_m_l_node_adf714ef8e4620e7c48f63a8741206bed}
+
+\item 
+\hypertarget{class_x_m_l_node_ac3f271eb738d8d756107894db61c8ca6}{vector$<$ \hyperlink{class_x_m_l_node}{\-X\-M\-L\-Node} $\ast$ $>$ {\bfseries children}}\label{class_x_m_l_node_ac3f271eb738d8d756107894db61c8ca6}
+
+\end{DoxyCompactItemize}
+
+
+\subsection{\-Constructor \& \-Destructor \-Documentation}
+\hypertarget{class_x_m_l_node_a15451e72788af9e387b7c37e36ae5904}{\index{\-X\-M\-L\-Node@{\-X\-M\-L\-Node}!\-X\-M\-L\-Node@{\-X\-M\-L\-Node}}
+\index{\-X\-M\-L\-Node@{\-X\-M\-L\-Node}!XMLNode@{\-X\-M\-L\-Node}}
+\subsubsection[{\-X\-M\-L\-Node}]{\setlength{\rightskip}{0pt plus 5cm}{\bf \-X\-M\-L\-Node\-::\-X\-M\-L\-Node} (
+\begin{DoxyParamCaption}
+\item[{string}]{text\-Content}
+\end{DoxyParamCaption}
+)}}\label{class_x_m_l_node_a15451e72788af9e387b7c37e36ae5904}
+
+
+constructeur pour feuille contenant des données \#\-P\-C\-D\-A\-T\-A. 
+
+
+\begin{DoxyParams}{\-Parameters}
+{\em text\-Content} & texte contenu. +$\backslash$n automatique. \\
+\hline
+\end{DoxyParams}
+\hypertarget{class_x_m_l_node_af149f2fbac6fc753db2b5bd19ab581b5}{\index{\-X\-M\-L\-Node@{\-X\-M\-L\-Node}!\-X\-M\-L\-Node@{\-X\-M\-L\-Node}}
+\index{\-X\-M\-L\-Node@{\-X\-M\-L\-Node}!XMLNode@{\-X\-M\-L\-Node}}
+\subsubsection[{\-X\-M\-L\-Node}]{\setlength{\rightskip}{0pt plus 5cm}{\bf \-X\-M\-L\-Node\-::\-X\-M\-L\-Node} (
+\begin{DoxyParamCaption}
+\item[{string}]{node\-Namespace, }
+\item[{string}]{node\-Name, }
+\item[{map$<$ string, string $>$}]{attribute\-List}
+\end{DoxyParamCaption}
+)}}\label{class_x_m_l_node_af149f2fbac6fc753db2b5bd19ab581b5}
+
+
+constructeur pour balises uniques (type \char`\"{}$<$balise/$>$\char`\"{}). $\ast$ 
+
+
+\begin{DoxyParams}{\-Parameters}
+{\em node\-Name} & namespace de la balise. \\
+\hline
+{\em node\-Name} & nom de la balise. \\
+\hline
+{\em attribute\-List} & liste des attributs. \-Peut être vide. \\
+\hline
+\end{DoxyParams}
+\hypertarget{class_x_m_l_node_a5c5b1ad7daca4f5944d5270e8db1618f}{\index{\-X\-M\-L\-Node@{\-X\-M\-L\-Node}!\-X\-M\-L\-Node@{\-X\-M\-L\-Node}}
+\index{\-X\-M\-L\-Node@{\-X\-M\-L\-Node}!XMLNode@{\-X\-M\-L\-Node}}
+\subsubsection[{\-X\-M\-L\-Node}]{\setlength{\rightskip}{0pt plus 5cm}{\bf \-X\-M\-L\-Node\-::\-X\-M\-L\-Node} (
+\begin{DoxyParamCaption}
+\item[{string}]{node\-Namespace, }
+\item[{string}]{node\-Name, }
+\item[{map$<$ string, string $>$}]{attribute\-List, }
+\item[{vector$<$ {\bf \-X\-M\-L\-Node} $\ast$ $>$}]{children\-List}
+\end{DoxyParamCaption}
+)}}\label{class_x_m_l_node_a5c5b1ad7daca4f5944d5270e8db1618f}
+
+
+constructeur pour balises standard. 
+
+
+\begin{DoxyParams}{\-Parameters}
+{\em node\-Name} & namespace de la balise. \\
+\hline
+{\em node\-Name} & nom de la balise. \\
+\hline
+{\em children\-List} & liste des noeuds fils. \-Si vide, les balises ouvrantes/fermantes seront quand même générées lors de l'appel à \-Affiche(). \-Voir le constructeur pour balises uniques. \\
+\hline
+{\em attribute\-List} & liste des attributs. \-Peut être vide. \\
+\hline
+\end{DoxyParams}
+
+
+\subsection{\-Member \-Function \-Documentation}
+\hypertarget{class_x_m_l_node_a80ae04b136774fa6cd9075fa92148965}{\index{\-X\-M\-L\-Node@{\-X\-M\-L\-Node}!get\-Attributes@{get\-Attributes}}
+\index{get\-Attributes@{get\-Attributes}!XMLNode@{\-X\-M\-L\-Node}}
+\subsubsection[{get\-Attributes}]{\setlength{\rightskip}{0pt plus 5cm}const map$<$ string, string $>$ \& {\bf \-X\-M\-L\-Node\-::get\-Attributes} (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}}\label{class_x_m_l_node_a80ae04b136774fa6cd9075fa92148965}
+\begin{DoxyReturn}{\-Returns}
+référence constante sur une map$<$nom, valeur$>$ des attributs du noeud. 
+\end{DoxyReturn}
+\hypertarget{class_x_m_l_node_a1f4ea630819d007ddc5df02f331a1dcb}{\index{\-X\-M\-L\-Node@{\-X\-M\-L\-Node}!get\-Children@{get\-Children}}
+\index{get\-Children@{get\-Children}!XMLNode@{\-X\-M\-L\-Node}}
+\subsubsection[{get\-Children}]{\setlength{\rightskip}{0pt plus 5cm}vector$<$ {\bf \-X\-M\-L\-Node} $\ast$ $>$ {\bf \-X\-M\-L\-Node\-::get\-Children} (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}}\label{class_x_m_l_node_a1f4ea630819d007ddc5df02f331a1dcb}
+\begin{DoxyReturn}{\-Returns}
+vecteur des noeuds fils. 
+\end{DoxyReturn}
+\hypertarget{class_x_m_l_node_aca5e607598ba590d941f5140dde1c089}{\index{\-X\-M\-L\-Node@{\-X\-M\-L\-Node}!get\-Document\-Root@{get\-Document\-Root}}
+\index{get\-Document\-Root@{get\-Document\-Root}!XMLNode@{\-X\-M\-L\-Node}}
+\subsubsection[{get\-Document\-Root}]{\setlength{\rightskip}{0pt plus 5cm}{\bf \-X\-M\-L\-Node} $\ast$ {\bf \-X\-M\-L\-Node\-::get\-Document\-Root} (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}}\label{class_x_m_l_node_aca5e607598ba590d941f5140dde1c089}
+\begin{DoxyReturn}{\-Returns}
+node racine du document \-X\-M\-L représenté. 
+\end{DoxyReturn}
+\hypertarget{class_x_m_l_node_ae19a3896b76d3c9f2df6038a7c64bf27}{\index{\-X\-M\-L\-Node@{\-X\-M\-L\-Node}!get\-Full\-Name@{get\-Full\-Name}}
+\index{get\-Full\-Name@{get\-Full\-Name}!XMLNode@{\-X\-M\-L\-Node}}
+\subsubsection[{get\-Full\-Name}]{\setlength{\rightskip}{0pt plus 5cm}string {\bf \-X\-M\-L\-Node\-::get\-Full\-Name} (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}}\label{class_x_m_l_node_ae19a3896b76d3c9f2df6038a7c64bf27}
+\begin{DoxyReturn}{\-Returns}
+renvoie nom et namespace au format \char`\"{}namespace\-:nom\char`\"{}. vide si \-T\-E\-X\-T\-\_\-\-N\-O\-D\-E. 
+\end{DoxyReturn}
+\hypertarget{class_x_m_l_node_af5d4018320b4fd202409546e3e2d3347}{\index{\-X\-M\-L\-Node@{\-X\-M\-L\-Node}!get\-Name\-Space@{get\-Name\-Space}}
+\index{get\-Name\-Space@{get\-Name\-Space}!XMLNode@{\-X\-M\-L\-Node}}
+\subsubsection[{get\-Name\-Space}]{\setlength{\rightskip}{0pt plus 5cm}string {\bf \-X\-M\-L\-Node\-::get\-Name\-Space} (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}}\label{class_x_m_l_node_af5d4018320b4fd202409546e3e2d3347}
+\begin{DoxyReturn}{\-Returns}
+namespace du noeud. vide si \-T\-E\-X\-T\-\_\-\-N\-O\-D\-E ou pas de namespace. 
+\end{DoxyReturn}
+\hypertarget{class_x_m_l_node_ab83c7475e30e92fca4813592fe00e353}{\index{\-X\-M\-L\-Node@{\-X\-M\-L\-Node}!get\-Node\-Name@{get\-Node\-Name}}
+\index{get\-Node\-Name@{get\-Node\-Name}!XMLNode@{\-X\-M\-L\-Node}}
+\subsubsection[{get\-Node\-Name}]{\setlength{\rightskip}{0pt plus 5cm}string {\bf \-X\-M\-L\-Node\-::get\-Node\-Name} (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}}\label{class_x_m_l_node_ab83c7475e30e92fca4813592fe00e353}
+\begin{DoxyReturn}{\-Returns}
+nom du noeud. vide si \-T\-E\-X\-T\-\_\-\-N\-O\-D\-E. 
+\end{DoxyReturn}
+\hypertarget{class_x_m_l_node_ab53132738607b90b12146a8f850fbc9c}{\index{\-X\-M\-L\-Node@{\-X\-M\-L\-Node}!get\-Parent@{get\-Parent}}
+\index{get\-Parent@{get\-Parent}!XMLNode@{\-X\-M\-L\-Node}}
+\subsubsection[{get\-Parent}]{\setlength{\rightskip}{0pt plus 5cm}{\bf \-X\-M\-L\-Node} $\ast$ {\bf \-X\-M\-L\-Node\-::get\-Parent} (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}}\label{class_x_m_l_node_ab53132738607b90b12146a8f850fbc9c}
+\begin{DoxyReturn}{\-Returns}
+parent du noeud. 
+\end{DoxyReturn}
+\hypertarget{class_x_m_l_node_a320fd7d6ef15b2274352abff2a592397}{\index{\-X\-M\-L\-Node@{\-X\-M\-L\-Node}!get\-Text\-Content@{get\-Text\-Content}}
+\index{get\-Text\-Content@{get\-Text\-Content}!XMLNode@{\-X\-M\-L\-Node}}
+\subsubsection[{get\-Text\-Content}]{\setlength{\rightskip}{0pt plus 5cm}string {\bf \-X\-M\-L\-Node\-::get\-Text\-Content} (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}}\label{class_x_m_l_node_a320fd7d6ef15b2274352abff2a592397}
+\begin{DoxyReturn}{\-Returns}
+contenu texte d'un \-T\-E\-X\-T\-\_\-\-N\-O\-D\-E. vide si \-E\-L\-E\-M\-E\-N\-T\-\_\-\-N\-O\-D\-E. 
+\end{DoxyReturn}
+\hypertarget{class_x_m_l_node_a9064f0388a5386f4b0ab5fbba4114f3e}{\index{\-X\-M\-L\-Node@{\-X\-M\-L\-Node}!has\-Attribute@{has\-Attribute}}
+\index{has\-Attribute@{has\-Attribute}!XMLNode@{\-X\-M\-L\-Node}}
+\subsubsection[{has\-Attribute}]{\setlength{\rightskip}{0pt plus 5cm}bool {\bf \-X\-M\-L\-Node\-::has\-Attribute} (
+\begin{DoxyParamCaption}
+\item[{string}]{name}
+\end{DoxyParamCaption}
+)}}\label{class_x_m_l_node_a9064f0388a5386f4b0ab5fbba4114f3e}
+\begin{DoxyReturn}{\-Returns}
+vrai si le noeud contient un attribut de nom name. 
+\end{DoxyReturn}
+
+\begin{DoxyParams}{\-Parameters}
+{\em name} & nom de l'attribut recherché. \\
+\hline
+\end{DoxyParams}
+\hypertarget{class_x_m_l_node_ac58a39b3a9eb5f67b781b760f2883e88}{\index{\-X\-M\-L\-Node@{\-X\-M\-L\-Node}!has\-Mixed\-Content@{has\-Mixed\-Content}}
+\index{has\-Mixed\-Content@{has\-Mixed\-Content}!XMLNode@{\-X\-M\-L\-Node}}
+\subsubsection[{has\-Mixed\-Content}]{\setlength{\rightskip}{0pt plus 5cm}bool {\bf \-X\-M\-L\-Node\-::has\-Mixed\-Content} (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}}\label{class_x_m_l_node_ac58a39b3a9eb5f67b781b760f2883e88}
+\begin{DoxyReturn}{\-Returns}
+vrai si contient des fils de type \-T\-E\-X\-T\-\_\-\-N\-O\-D\-E (donc du \#\-P\-C\-D\-A\-T\-A). 
+\end{DoxyReturn}
+\hypertarget{class_x_m_l_node_a8b228feaecb6906791035f6a003167f7}{\index{\-X\-M\-L\-Node@{\-X\-M\-L\-Node}!is\-Element\-Node@{is\-Element\-Node}}
+\index{is\-Element\-Node@{is\-Element\-Node}!XMLNode@{\-X\-M\-L\-Node}}
+\subsubsection[{is\-Element\-Node}]{\setlength{\rightskip}{0pt plus 5cm}bool {\bf \-X\-M\-L\-Node\-::is\-Element\-Node} (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}}\label{class_x_m_l_node_a8b228feaecb6906791035f6a003167f7}
+\begin{DoxyReturn}{\-Returns}
+vrai si node\-Type == \-E\-L\-E\-M\-E\-N\-T\-\_\-\-N\-O\-D\-E. 
+\end{DoxyReturn}
+\hypertarget{class_x_m_l_node_aca2a516ac15814517653cc161d57a300}{\index{\-X\-M\-L\-Node@{\-X\-M\-L\-Node}!is\-Text\-Node@{is\-Text\-Node}}
+\index{is\-Text\-Node@{is\-Text\-Node}!XMLNode@{\-X\-M\-L\-Node}}
+\subsubsection[{is\-Text\-Node}]{\setlength{\rightskip}{0pt plus 5cm}bool {\bf \-X\-M\-L\-Node\-::is\-Text\-Node} (
+\begin{DoxyParamCaption}
+{}
+\end{DoxyParamCaption}
+)}}\label{class_x_m_l_node_aca2a516ac15814517653cc161d57a300}
+\begin{DoxyReturn}{\-Returns}
+vrai si node\-Type == \-T\-E\-X\-T\-\_\-\-N\-O\-D\-E. 
+\end{DoxyReturn}
+
+
+\-The documentation for this class was generated from the following files\-:\begin{DoxyCompactItemize}
+\item 
+src/\-X\-M\-L\-Node.\-h\item 
+src/\-X\-M\-L\-Node.\-cpp\end{DoxyCompactItemize}
