@@ -1,0 +1,18 @@
+<html>
+	<head>
+		<title>
+			Test de fichier HTML
+		</title>
+		<meta content="text/html; charset=ISO-8859-1" http-equiv="Content-Type">
+		</meta>
+	</head>
+	<body>
+		<racine>
+			<p>
+				<paragraph>
+					Test de paragraphe basique
+				</paragraph>
+			</p>
+		</racine>
+	</body>
+</html>
