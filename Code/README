@@ -30,6 +30,8 @@ Le makefile accèpte les cibles suivantes :
             besoin).
     - doc: génère la documentation développeur (refman.pdf) à partir des
            sources Tex du dossier doc/latex/.
+           N.B.: Le programme `pdflatex' est requis pour pouvoir construire
+                 cette cible.
     - doc-clean: supprime tous les fichiers créés dans doc/latex/ au cours de
                  la génération de la documentation développeur.
 
