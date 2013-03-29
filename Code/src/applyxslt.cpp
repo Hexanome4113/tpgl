@@ -14,40 +14,47 @@ XMLNode* applyXSLT(XMLNode *xmlDocumentRoot, XMLNode *xslStylesheetRoot)
     XMLNode* result = matchTemplates(&container, xslStylesheetRoot);
     return (*(result->getChildren().begin()));
 }
+//LLA
+
+//LAA
+//LAAA
 
 vector<XMLNode*> applyTemplate(XMLNode *xmlNode, XMLNode *xslTemplate, XMLNode *xslRoot)
 {
     vector<XMLNode*> childrenVect;
-    for (vector<XMLNode *>::const_iterator itXsl = xslTemplate->getChildren().begin() ; itXsl != xslTemplate->getChildren().end() ; itXsl++ )
-        //pour tous les fils du template xsl trouvé
-    {
-        if ((*itXsl)->isTextNode() )
-            // si c'est un texte on l'ajoute dans le vecteur resultat
-        {
-            childrenVect.push_back( new XMLNode((*itXsl)->getTextContent()) );
-        }
-        else if ((*itXsl)->getFullName() == "xsl:apply-templates")
-            // si c'est un apply on fait un match sur le xml (donc sur ses fils)
-        {
-            childrenVect.push_back(matchTemplates(xmlNode, xslRoot));
-        }
-        else if ((*itXsl)->getFullName() == "xsl:value-of")
-            //si c'est un value-of
-        {
-            XMLNode* textNode = valueof(xmlNode, (*itXsl)->getAttributes().find("select")->second);
-            if (textNode)
-                childrenVect.push_back(textNode);
-        }
-        else if ((*itXsl)->getNameSpace() == "xsl")
-            //échappement des balises XSLT non gerées
-        {}
-        else
-            // sinon, c'est une balise
-            {
-                
-                childrenVect.push_back( new XMLNode((*itXsl)->getNameSpace(), (*itXsl)->getNodeName(), (*itXsl)->getAttributes(), applyTemplate(xmlNode, *itXsl, xslRoot)) );
-            }
-    }
+	for (vector<XMLNode *>::const_iterator itXml = xmlNode->getChildren().begin() ; itXml != xmlNode->getChildren().end(); itXml++ )
+	{
+		for (vector<XMLNode *>::const_iterator itXsl = xslTemplate->getChildren().begin() ; itXsl != xslTemplate->getChildren().end() ; itXsl++ )
+			//pour tous les fils du template xsl trouvé
+		{
+			if ((*itXsl)->isTextNode() )
+				// si c'est un texte on l'ajoute dans le vecteur resultat
+			{
+				childrenVect.push_back( new XMLNode((*itXsl)->getTextContent()) );
+			}
+			else if ((*itXsl)->getFullName() == "xsl:apply-templates")
+				// si c'est un apply on fait un match sur le xml (donc sur ses fils)
+			{
+				childrenVect.push_back(matchTemplates(*itXml, xslRoot));
+			}
+			else if ((*itXsl)->getFullName() == "xsl:value-of")
+				//si c'est un value-of
+			{
+				XMLNode* textNode = valueof(*itXml, (*itXsl)->getAttributes().find("select")->second);
+				if (textNode)
+					childrenVect.push_back(textNode);
+			}
+			else if ((*itXsl)->getNameSpace() == "xsl")
+				//échappement des balises XSLT non gerées
+			{}
+			else
+				// sinon, c'est une balise
+				{
+					
+					childrenVect.push_back( new XMLNode((*itXsl)->getNameSpace(), (*itXsl)->getNodeName(), (*itXsl)->getAttributes(), applyTemplate(xmlNode, *itXsl, xslRoot)) );
+				}
+		}
+	}
     // END pour tous les fils du template xsl trouvé
     return childrenVect;
 }
