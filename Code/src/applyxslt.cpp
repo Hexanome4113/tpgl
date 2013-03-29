@@ -73,8 +73,12 @@ XMLNode* matchTemplates(XMLNode *xmlNode, XMLNode *xslRoot)
                 {
                     matchTemplate = true;
                     
-                    vector<XMLNode*> returnedVect = applyTemplate(*itXml,*itXsl,xslRoot);
-                    childVect.insert( childVect.end(), returnedVect.begin(), returnedVect.end() );
+					//on lance applytempate sur les fils du noeud qui matche
+					for (vector<XMLNode *>::const_iterator childXml = (*itXml)->getChildren().begin() ; childXml != (*itXml)->getChildren().end(); childXml++ )
+					{
+						vector<XMLNode*> returnedVect = applyTemplate(*childXml,*itXsl,xslRoot);
+						childVect.insert( childVect.end(), returnedVect.begin(), returnedVect.end() );
+					}
                     
                 }
             }
