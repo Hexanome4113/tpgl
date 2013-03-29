@@ -10,6 +10,10 @@ tests = [
     ("testun", "./tpgl.py parsedtd test/rap1.dtd"),
     ("testdeux", "./tpgl.py parsedtd test/rap2.dtd"),
     ("testvalidaterap1", "./tpgl.py validate test/rap1.dtd"),
+    ("testvalidateXML-noeudsOK", "./tpgl.py validate test/testValidOK.xml"),
+    ("testvalidateXML-noeudsKO", "./tpgl.py validate test/testValidKOnoeud.xml"),
+    ("testvalidateXML-attributsOK", "./tpgl.py validate test/testValidOKattribut.xml"),
+    ("testvalidateXML-attributsKO", "./tpgl.py validate test/testValidKOattribut.xml"),
     ("testxslt", "./tpgl.py applyxslt test/xml_pour_test_xslt.xml test/xslt_pour_test_xslt.xslt"),
 ]
 
